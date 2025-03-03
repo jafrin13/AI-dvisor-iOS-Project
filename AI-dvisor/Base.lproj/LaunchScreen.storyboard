@@ -16,13 +16,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AI-dvisor" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfB-4k-Y1V">
-                                <rect key="frame" x="64.666666666666657" y="189" width="263.66666666666674" height="82"/>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="63"/>
-                                <color key="textColor" red="0.58575628221649478" green="0.3656605249046358" blue="0.48867738048673048" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <rect key="frame" x="75" y="189" width="243" height="75.666666666666686"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="58"/>
+                                <color key="textColor" red="0.50574100378787878" green="0.38770399562742353" blue="0.43677182811227783" alpha="0.80316121688741726" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turtle.png" translatesAutoresizingMaskIntoConstraints="NO" id="Vx3-GA-tz3">
-                                <rect key="frame" x="46.666666666666657" y="311" width="300" height="250"/>
+                                <rect key="frame" x="46.666666666666657" y="304.66666666666669" width="300" height="250.00000000000006"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="250" id="3zK-AA-lGj"/>
                                     <constraint firstAttribute="width" constant="300" id="WAI-R3-Ep0"/>

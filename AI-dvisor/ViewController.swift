@@ -13,9 +13,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        //hey
-        print("hello world")
-        print("i should be on my branch")
+        
     }
 
 
