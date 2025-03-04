@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <device id="retina6_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,22 +12,20 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AI-dvisor" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfB-4k-Y1V">
-                                <rect key="frame" x="75" y="189" width="243" height="75.666666666666686"/>
+                                <rect key="frame" x="98.666666666666686" y="192" width="243" height="75.666666666666686"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="58"/>
                                 <color key="textColor" red="0.50574100378787878" green="0.38770399562742353" blue="0.43677182811227783" alpha="0.80316121688741726" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turtle.png" translatesAutoresizingMaskIntoConstraints="NO" id="Vx3-GA-tz3">
-                                <rect key="frame" x="46.666666666666657" y="304.66666666666669" width="300" height="250.00000000000006"/>
+                                <rect key="frame" x="70" y="307.66666666666669" width="300" height="250.00000000000006"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="250" id="3zK-AA-lGj"/>
                                     <constraint firstAttribute="width" constant="300" id="WAI-R3-Ep0"/>
                                     <constraint firstAttribute="height" constant="250" id="hAI-ne-y8x"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="pUT-GO-L09"/>
                                 </constraints>
                             </imageView>
                         </subviews>
