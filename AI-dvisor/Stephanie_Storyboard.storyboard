@@ -18,7 +18,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UP8-gG-OFw">
                                 <rect key="frame" x="49" y="97" width="295" height="66"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="54"/>
+                                <fontDescription key="fontDescription" name="BakbakOne-Regular" family="Bakbak One" pointSize="54"/>
                                 <color key="textColor" red="0.58039218189999997" green="0.50980395079999996" blue="0.53333336109999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -29,7 +29,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="NOTIFICATIONS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPZ-w3-E4D">
                                 <rect key="frame" x="110" y="356" width="173" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="BakbakOne-Regular" family="Bakbak One" pointSize="17"/>
                                 <color key="textColor" red="0.58039218189999997" green="0.50980395079999996" blue="0.53333336109999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -47,7 +47,7 @@
                                     <attributedString key="attributedTitle">
                                         <fragment content="ON">
                                             <attributes>
-                                                <font key="NSFont" size="18" name="Helvetica"/>
+                                                <font key="NSFont" size="18" name="BakbakOne-Regular"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
@@ -62,7 +62,12 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" cornerStyle="capsule">
                                     <attributedString key="attributedTitle">
-                                        <fragment content="OFF"/>
+                                        <fragment content="OFF">
+                                            <attributes>
+                                                <font key="NSFont" size="16" name="BakbakOne-Regular"/>
+                                                <font key="NSOriginalFont" size="12" name="Helvetica"/>
+                                            </attributes>
+                                        </fragment>
                                     </attributedString>
                                     <color key="baseForegroundColor" red="0.58039218189999997" green="0.50980395079999996" blue="0.53333336109999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <color key="baseBackgroundColor" red="0.85098040100000005" green="0.85098040100000005" blue="0.85098040100000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -81,22 +86,93 @@
                                     <segment title="" image="Rectangle"/>
                                     <segment title="" image="Rectangle 1"/>
                                 </segments>
-                                <color key="selectedSegmentTintColor" red="0.45098042490000001" green="0.42745098469999998" blue="0.42352938649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="selectedSegmentTintColor" red="0.45098042490000001" green="0.42352938649999999" blue="0.42352938649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHs-9l-Rar">
+                                <rect key="frame" x="149" y="566" width="94" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <size key="titleShadowOffset" width="3" height="3"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" cornerStyle="capsule">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="LOG OFF">
+                                            <attributes>
+                                                <font key="NSFont" size="16" name="BakbakOne-Regular"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <color key="baseForegroundColor" red="0.45098042490000001" green="0.42352938649999999" blue="0.42352938649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="baseBackgroundColor" red="0.70980393890000004" green="0.74901962280000001" blue="0.72156864399999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.shadowOpacity">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="layer.shadowOffset">
+                                        <size key="value" width="3" height="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.shadowRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" red="0.98431372640000003" green="0.90196079019999997" blue="0.85882353779999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                     <connections>
-                        <outlet property="myLabel" destination="UP8-gG-OFw" id="Ypp-6f-zt6"/>
+                        <outlet property="logOffButton" destination="OHs-9l-Rar" id="93c-hd-Ank"/>
                         <outlet property="notifications" destination="wPZ-w3-E4D" id="Slm-Kh-Utn"/>
                         <outlet property="offButton" destination="fDi-bV-KRd" id="7d0-92-ZhE"/>
                         <outlet property="onButton" destination="JVy-FB-IWj" id="2Z8-v1-3eV"/>
+                        <outlet property="settings" destination="UP8-gG-OFw" id="rqF-fV-UaI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="32.824427480916029" y="-27.464788732394368"/>
+        </scene>
+        <!--Open Notebook View Controller-->
+        <scene sceneID="RKJ-39-ujC">
+            <objects>
+                <viewController id="teV-oR-zXb" customClass="OpenNotebookViewController" customModule="AI_dvisor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9Je-Nj-Hkd">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y9n-gS-w3e">
+                                <rect key="frame" x="0.0" y="-17" width="393" height="85"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.96078431610000004" green="0.90196079019999997" blue="0.86274516580000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bx7-zV-R1A">
+                                <rect key="frame" x="16" y="94" width="121" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="BagelFatOne-Regular" family="Bagel Fat One" pointSize="34"/>
+                                <color key="textColor" red="0.60000002379999995" green="0.50980395079999996" blue="0.53725492949999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vu5-Kn-mKe">
+                                <rect key="frame" x="327" y="768" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Button"/>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="khj-xt-qjG"/>
+                        <color key="backgroundColor" red="0.70980393890000004" green="0.74901962280000001" blue="0.72156864399999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gF9-ZX-dB3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="783.96946564885491" y="-20.422535211267608"/>
         </scene>
     </scenes>
     <resources>
