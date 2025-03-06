@@ -160,10 +160,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vu5-Kn-mKe">
-                                <rect key="frame" x="327" y="768" width="50" height="50"/>
+                                <rect key="frame" x="317" y="758" width="60" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.054937750420000001" green="0.26343025129999997" blue="0.095322043440000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="tinted" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" image="plus" catalog="system" cornerStyle="capsule"/>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="khj-xt-qjG"/>
@@ -179,5 +180,6 @@
         <image name="Group 5" width="188" height="209"/>
         <image name="Rectangle" width="52" height="64"/>
         <image name="Rectangle 1" width="200" height="200"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
     </resources>
 </document>
