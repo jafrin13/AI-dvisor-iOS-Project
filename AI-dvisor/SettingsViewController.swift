@@ -9,12 +9,32 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
+
+   
+    @IBOutlet weak var notifications: UILabel!
     @IBOutlet weak var myLabel: UILabel!
+    
+    @IBOutlet weak var onButton: UIButton!
+    @IBOutlet weak var offButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        myLabel.font = UIFont(name: "BakbakOne-Regular", size: 18)
+        myLabel.font = UIFont(name: "BakbakOne-Regular", size: myLabel.font.pointSize)
+        notifications.font = UIFont(name: "BakbakOne-Regular", size: notifications.font.pointSize)
+        
+        
+        onButton.titleLabel?.font = UIFont(name: "BakbakOne-Regular", size: 18)
+        offButton.titleLabel?.font = UIFont(name: "BakbakOne-Regular", size: 18)
+
+
+        
+
         // Do any additional setup after loading the view.
     }
+    
+    
+    
+
     
 
    
