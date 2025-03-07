@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
@@ -47,7 +47,7 @@
                                     <attributedString key="attributedTitle">
                                         <fragment content="ON">
                                             <attributes>
-                                                <font key="NSFont" size="18" name="BakbakOne-Regular"/>
+                                                <font key="NSFont" metaFont="system" size="18"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
@@ -64,7 +64,7 @@
                                     <attributedString key="attributedTitle">
                                         <fragment content="OFF">
                                             <attributes>
-                                                <font key="NSFont" size="16" name="BakbakOne-Regular"/>
+                                                <font key="NSFont" metaFont="system" size="16"/>
                                                 <font key="NSOriginalFont" size="12" name="Helvetica"/>
                                             </attributes>
                                         </fragment>
@@ -99,7 +99,7 @@
                                     <attributedString key="attributedTitle">
                                         <fragment content="LOG OFF">
                                             <attributes>
-                                                <font key="NSFont" size="16" name="BakbakOne-Regular"/>
+                                                <font key="NSFont" metaFont="system" size="16"/>
                                             </attributes>
                                         </fragment>
                                     </attributedString>
