@@ -13,6 +13,7 @@ extension HomeScreenViewController: NewJournalDelegate {
         journalCollectionView.reloadData()
     }
 }
+var journals: [Journal] = []
 
 class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIColorPickerViewControllerDelegate {
     
@@ -21,7 +22,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var settingsImage: UIImageView!
     @IBOutlet weak var addFriend: UIImageView!
     
-    var journals: [Journal] = []
+    
     var selectedColor: UIColor = .orange
     
     override func viewDidLoad() {
@@ -44,6 +45,12 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     
     @objc func settingsImageTapped(_ sender: UITapGestureRecognizer) {
         print("Go to Setting Page")
+        let storyboard = UIStoryboard(name: "Stephanie_Storyboard", bundle: nil)
+        if let settingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsPage") as? SettingsViewController {
+            settingsVC.modalTransitionStyle = .crossDissolve
+            settingsVC.modalPresentationStyle = .fullScreen
+            self.present(settingsVC, animated: true, completion: nil)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -68,6 +75,12 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             return
         } else {
             print("Opening \(journals[indexPath.row - 1].title)")
+            let storyboard = UIStoryboard(name: "Stephanie_Storyboard", bundle: nil)
+            if let openNoteVC = storyboard.instantiateViewController(withIdentifier: "OpenNoteScreen") as? OpenNotebookViewController {
+                openNoteVC.modalTransitionStyle = .partialCurl
+                openNoteVC.modalPresentationStyle = .fullScreen
+                self.present(openNoteVC, animated: true, completion: nil)
+            }
         }
     }
     
