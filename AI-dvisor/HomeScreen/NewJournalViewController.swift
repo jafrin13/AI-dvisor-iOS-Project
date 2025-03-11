@@ -15,6 +15,9 @@ class NewJournalViewController: UIViewController{
     
     @IBOutlet weak var journalNameTextFeild: UITextField!
     
+    @IBOutlet weak var importancePreview: UILabel!
+    @IBOutlet weak var colorPreview: UIView!
+    
     weak var delegate: NewJournalDelegate?
     
     var selectedColor: UIColor = .blue // Default Color
@@ -26,13 +29,15 @@ class NewJournalViewController: UIViewController{
         // Style for rounded corners
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
+        importancePreview.text = ""
     }
     
     
     @IBAction func colorSelectorPressed(_ sender: Any) {
         let colorPicker = UIColorPickerViewController()
         colorPicker.delegate = self
-        present(colorPicker, animated: true)    }
+        present(colorPicker, animated: true)
+    }
     
     @IBAction func importanceSelectorPressed(_ sender: Any) {
         let importanceController = UIAlertController(
@@ -43,15 +48,20 @@ class NewJournalViewController: UIViewController{
         importanceController.addAction(UIAlertAction(
             title: "! - Meh",
             style: .default)
-                                       {action in self.importanceLevel = "!"})
+                                       {action in self.importanceLevel = "!"
+            self.importancePreview.text = importanceController.actions[0].title})
+        
         importanceController.addAction(UIAlertAction(
             title: "!! - Kinda Serious",
             style: .default)
-                                       {action in self.importanceLevel = "!!"})
+                                       {action in self.importanceLevel = "!!"
+            self.importancePreview.text = importanceController.actions[1].title})
+        
         importanceController.addAction(UIAlertAction(
             title: "!!! - My Grade Is On The Line",
             style: .default)
-                                       {action in self.importanceLevel = "!!!"})
+                                       {action in self.importanceLevel = "!!!"
+            self.importancePreview.text = importanceController.actions[2].title})
         
         present(importanceController, animated: true)    }
     
@@ -73,5 +83,6 @@ class NewJournalViewController: UIViewController{
     extension NewJournalViewController: UIColorPickerViewControllerDelegate {
         func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
             selectedColor = viewController.selectedColor
+            colorPreview.backgroundColor = viewController.selectedColor
         }
 }
