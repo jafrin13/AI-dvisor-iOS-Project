@@ -11,6 +11,14 @@ protocol NewJournalDelegate: AnyObject {
     func didCreateJournal(_ journal: Journal)
 }
 
+
+extension NewJournalViewController: UIColorPickerViewControllerDelegate {
+    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
+        selectedColor = viewController.selectedColor
+        colorPreview.backgroundColor = viewController.selectedColor
+    }
+}
+
 class NewJournalViewController: UIViewController{
     
     @IBOutlet weak var journalNameTextFeild: UITextField!
@@ -79,10 +87,4 @@ class NewJournalViewController: UIViewController{
         dismiss(animated: true)
     }
 }
-    
-    extension NewJournalViewController: UIColorPickerViewControllerDelegate {
-        func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
-            selectedColor = viewController.selectedColor
-            colorPreview.backgroundColor = viewController.selectedColor
-        }
-}
+

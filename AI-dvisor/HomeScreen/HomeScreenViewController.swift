@@ -7,11 +7,16 @@
 
 import UIKit
 
+extension HomeScreenViewController: NewJournalDelegate {
+    func didCreateJournal(_ journal: Journal) {
+        journals.append(journal)
+        journalCollectionView.reloadData()
+    }
+}
+
 class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIColorPickerViewControllerDelegate {
     
     @IBOutlet weak var journalCollectionView: UICollectionView!
-    
-    //    @IBOutlet weak var journalView: UIView!
     
     @IBOutlet weak var settingsImage: UIImageView!
     @IBOutlet weak var addFriend: UIImageView!
@@ -67,46 +72,6 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     @IBAction func createNewJournal(_ sender: Any) {
-        //        let alert = UIAlertController(title: "New Journal", message: "Customize your journal", preferredStyle: .alert)
-        //
-        //            // Add Text Field for Journal Name
-        //            alert.addTextField { textField in
-        //                textField.placeholder = "Enter journal name"
-        //            }
-        //
-        //            // Importance Selection (Segmented Control Alternative)
-        //            let importanceOptions = ["!", "!!", "!!!"]
-        //            let importancePicker = UISegmentedControl(items: importanceOptions)
-        //            importancePicker.selectedSegmentIndex = 1 // Default to "!!"
-        //
-        //            // Color Picker Button (Opens System Color Picker)
-        //            let colorPickerAction = UIAlertAction(title: "Choose Color", style: .default) { _ in
-        //                let colorPicker = UIColorPickerViewController()
-        //                colorPicker.delegate = self
-        //                self.present(colorPicker, animated: true)
-        //            }
-        //
-        ////             Save Button
-        //            let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
-        //                let journalTitle = alert.textFields?.first?.text ?? "New Journal"
-        //                let selectedImportance = importanceOptions[importancePicker.selectedSegmentIndex]
-        //
-        //                let newJournal = Journal(title: journalTitle, importance: selectedImportance, bgColor: self.selectedColor)
-        //                self.journals.append(newJournal)
-        //                self.journalCollectionView.reloadData()
-        //            }
-        //
-        //            // Cancel Button
-        //            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        //
-        //            // Add Actions
-        //            alert.addAction(colorPickerAction)
-        //            alert.addAction(saveAction)
-        //            alert.addAction(cancelAction)
-        //
-        //            // Present Action Sheet
-        //            present(alert, animated: true)
-        
         let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
         if let newJournalVC = storyboard.instantiateViewController(withIdentifier: "NewJournalViewController") as? NewJournalViewController {
             newJournalVC.modalPresentationStyle = .pageSheet
@@ -124,12 +89,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         selectedColor = viewController.selectedColor
     }
 }
-    extension HomeScreenViewController: NewJournalDelegate {
-        func didCreateJournal(_ journal: Journal) {
-            journals.append(journal)
-            journalCollectionView.reloadData()
-        }
-    }
+
     
 
 
