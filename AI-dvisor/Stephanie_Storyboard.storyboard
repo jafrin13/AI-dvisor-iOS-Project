@@ -177,14 +177,17 @@
                                     <action selector="onUploadButtonPressed:" destination="teV-oR-zXb" eventType="touchUpInside" id="ue6-e6-HaO"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q5c-82-GOC">
-                                <rect key="frame" x="17" y="180" width="138" height="179"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U9f-Xy-3md">
+                                <rect key="frame" x="16" y="152" width="162" height="179"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="khj-xt-qjG"/>
                         <color key="backgroundColor" red="0.70980393890000004" green="0.74901962280000001" blue="0.72156864399999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
+                    <connections>
+                        <outlet property="pdfPreview" destination="U9f-Xy-3md" id="nbL-U3-51D"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gF9-ZX-dB3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
