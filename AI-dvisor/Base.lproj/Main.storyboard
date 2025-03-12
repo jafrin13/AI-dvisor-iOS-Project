@@ -3,6 +3,7 @@
     <device id="retina6_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -80,7 +81,7 @@
         <!--Login View Controller-->
         <scene sceneID="S3E-CZ-isv">
             <objects>
-                <viewController id="Nlc-NS-z3L" customClass="LoginViewController" customModule="AI_dvisor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginScreen" id="Nlc-NS-z3L" customClass="LoginViewController" customModule="AI_dvisor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nIE-MG-pv1">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -327,18 +328,6 @@
                                 <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yxQ-Ge-CUn">
-                                <rect key="frame" x="26" y="66" width="96" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" red="0.79215681550000006" green="0.81960785390000002" blue="0.7019608021" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="&lt; Back">
-                                    <fontDescription key="titleFontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="27"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="backButtonPressed:" destination="ga7-4B-dGY" eventType="touchUpInside" id="Xi8-uM-UU0"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OFC-8o-ISZ">
                                 <rect key="frame" x="45" y="436.33333333333331" width="350" height="0.0"/>
                                 <constraints>
@@ -348,6 +337,20 @@
                                 <color key="textColor" systemColor="systemRedColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yxQ-Ge-CUn">
+                                <rect key="frame" x="19" y="66" width="43" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.79215681550000006" green="0.81960785390000002" blue="0.7019608021" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <imageReference key="image" image="chevron.backward" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" weight="black"/>
+                                    <color key="baseForegroundColor" red="0.8078432083" green="0.83137255909999996" blue="0.7254902124" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="backButtonPressed:" destination="ga7-4B-dGY" eventType="touchUpInside" id="Xi8-uM-UU0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="pvu-3a-oxz"/>
                         <color key="backgroundColor" red="0.98431372640000003" green="0.90196079019999997" blue="0.85882353779999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -431,10 +434,11 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="2sp-DB-rD5"/>
+        <segue reference="ogj-5u-uf4"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="blueBox.png" width="106" height="35"/>
+        <image name="chevron.backward" catalog="system" width="97" height="128"/>
         <image name="loadingBarTurtle.png" width="617.14288330078125" height="617.14288330078125"/>
         <image name="turtle.png" width="455" height="349.5"/>
         <image name="turtleRock.png" width="237" height="216"/>
