@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		71EE8EBF2D8168D700B06BAA /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 71EE8EBE2D8168D700B06BAA /* FirebaseFirestore */; };
 		8073CE3A2D8097F40056CFE7 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8073CE392D8097F40056CFE7 /* MessageKit */; };
+		80A4AACB2D8213F600F1625A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 80A4AACA2D8213F600F1625A /* FirebaseStorage */; };
 		87A9243A2D7A8C1B00488142 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 87A924392D7A8C1B00488142 /* FirebaseAuth */; };
 		87A9243C2D7A8C1B00488142 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 87A9243B2D7A8C1B00488142 /* FirebaseAuthCombine-Community */; };
 		87A9243E2D7A8C1B00488142 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 87A9243D2D7A8C1B00488142 /* FirebaseCore */; };
@@ -49,6 +50,7 @@
 				87A9243C2D7A8C1B00488142 /* FirebaseAuthCombine-Community in Frameworks */,
 				71EE8EBF2D8168D700B06BAA /* FirebaseFirestore in Frameworks */,
 				8073CE3A2D8097F40056CFE7 /* MessageKit in Frameworks */,
+				80A4AACB2D8213F600F1625A /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +98,7 @@
 				87A9243D2D7A8C1B00488142 /* FirebaseCore */,
 				8073CE392D8097F40056CFE7 /* MessageKit */,
 				71EE8EBE2D8168D700B06BAA /* FirebaseFirestore */,
+				80A4AACA2D8213F600F1625A /* FirebaseStorage */,
 			);
 			productName = "AI-dvisor";
 			productReference = 87A922932D72517F00488142 /* AI-dvisor.app */;
@@ -387,6 +390,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8073CE382D8097F40056CFE7 /* XCRemoteSwiftPackageReference "MessageKit" */;
 			productName = MessageKit;
+		};
+		80A4AACA2D8213F600F1625A /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87A924382D7A8C1A00488142 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 		87A924392D7A8C1B00488142 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -115,6 +115,7 @@ extension ChatbotViewController: UITextViewDelegate {
 
 extension ChatbotViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+        
         // Create a new message when the send button is pressed
         let newMessage = Message(
             sender: currentSender,
