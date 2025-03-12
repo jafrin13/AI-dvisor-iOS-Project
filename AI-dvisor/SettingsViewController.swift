@@ -24,24 +24,28 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-        
-        // Do any additional setup after loading the view.
     }
     
-    
+    // This function loads in the HomeScreenStoryboard when pressed
     @IBAction func backButtonPressed(_ sender: Any) {
         let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
+        
+        // This statement is to set this variable to a storyboard to allow for the transition to happen
         if let homeVC = storyboard.instantiateViewController(withIdentifier: "HomeScreen") as? HomeScreenViewController {
+            // This is the style of how the transition looks
             homeVC.modalTransitionStyle = .crossDissolve
             homeVC.modalPresentationStyle = .fullScreen
             self.present(homeVC, animated: true, completion: nil)
         }
     }
+    
+    // This function loads in the LoginandSignupStoryboard when pressed
     @IBAction func logoutButtonPressed(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        // This statement is to set this variable to a storyboard to allow for the transition to happen
         if let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginScreen") as? LoginViewController {
+            // This is the style of how the transition looks
             loginVC.modalTransitionStyle = .crossDissolve
             loginVC.modalPresentationStyle = .fullScreen
             self.present(loginVC, animated: true, completion: nil)

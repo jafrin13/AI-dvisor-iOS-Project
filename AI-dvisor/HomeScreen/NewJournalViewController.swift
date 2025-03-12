@@ -11,7 +11,8 @@ protocol NewJournalDelegate: AnyObject {
     func didCreateJournal(_ journal: Journal)
 }
 
-
+// This extension makes the NewJournalViewController conform to
+// UIColorPickerViewControllerDelegate without having the required methods
 extension NewJournalViewController: UIColorPickerViewControllerDelegate {
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
         selectedColor = viewController.selectedColor
@@ -39,7 +40,6 @@ class NewJournalViewController: UIViewController{
         view.layer.masksToBounds = true
         importancePreview.text = ""
     }
-    
     
     @IBAction func colorSelectorPressed(_ sender: Any) {
         let colorPicker = UIColorPickerViewController()
@@ -71,7 +71,8 @@ class NewJournalViewController: UIViewController{
                                        {action in self.importanceLevel = "!!!"
             self.importancePreview.text = importanceController.actions[2].title})
         
-        present(importanceController, animated: true)    }
+        present(importanceController, animated: true)
+    }
     
     @IBAction func saveButtonPressed(_ sender: Any) {
         let journalTitle = journalNameTextFeild.text ?? "New Journal"
