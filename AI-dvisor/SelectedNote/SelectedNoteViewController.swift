@@ -7,8 +7,8 @@
 
 import UIKit
 import PDFKit
-//import FirebaseStorage
-//import FirebaseFirestore
+import FirebaseStorage
+import FirebaseFirestore
 
 class SelectedNoteViewController: UIViewController {
 
@@ -37,36 +37,36 @@ class SelectedNoteViewController: UIViewController {
         optionsView.layer.cornerRadius = 10
         
         // locally download the file and fill UIView with the selected note
-        //downloadFileFromFirebase(filePath: noteFilePath)
+        downloadFileFromFirebase(filePath: noteFilePath)
     }
     
-//    func downloadFileFromFirebase(filePath: String) {
-//        let storageRef = Storage.storage().reference()
-//        let fileRef = storageRef.child(filePath)
-//        let localURL = FileManager.default.temporaryDirectory.tempDirectoryURL.appendingPathComponent(passedNoteTitle)
-//
-//        fileRef.write(toFile: localURL) { url, error in
-//            if let error = error {
-//                print("Error downloading file: \(error.localizedDescription)")
-//            } else {
-//                self.localFileURL = localURL
-//                self.displayDocument()
-//            }
-//        }
-//    }
-//    
-//    func displayDocument() {
-//        guard let localFileURL = localFileURL else { return }
-//        
-//        // Initialize PDFView and set up the document
-//        let pdfView = PDFView(frame: noteView.bounds)
-//        pdfView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        pdf.autoScales = true
-//        pdfView.document = PDFDocument(url: localFileURL)
-//        
-//        // Add the PDF view as a subview to noteView
-//        noteView.addSubview(pdfView)
-//    }
+    func downloadFileFromFirebase(filePath: String) {
+        let storageRef = Storage.storage().reference()
+        let fileRef = storageRef.child(filePath)
+        let localURL = FileManager.default.temporaryDirectory.tempDirectoryURL.appendingPathComponent(passedNoteTitle)
+
+        fileRef.write(toFile: localURL) { url, error in
+            if let error = error {
+                print("Error downloading file: \(error.localizedDescription)")
+            } else {
+                self.localFileURL = localURL
+                self.displayDocument()
+            }
+        }
+    }
+    
+    func displayDocument() {
+        guard let localFileURL = localFileURL else { return }
+        
+        // Initialize PDFView and set up the document
+        let pdfView = PDFView(frame: noteView.bounds)
+        pdfView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        pdf.autoScales = true
+        pdfView.document = PDFDocument(url: localFileURL)
+        
+        // Add the PDF view as a subview to noteView
+        noteView.addSubview(pdfView)
+    }
     
     @IBAction func pressedGenerateButton(_ sender: Any) {
         // make options view pop up
@@ -110,9 +110,9 @@ class SelectedNoteViewController: UIViewController {
                 chatbotVC.studyMaterialType = materialType
             }
             
-//            else {
-//                chatbotVC.studyMaterialType = nil
-//            }
+            else {
+                chatbotVC.studyMaterialType = nil
+            }
         }
     }
 }

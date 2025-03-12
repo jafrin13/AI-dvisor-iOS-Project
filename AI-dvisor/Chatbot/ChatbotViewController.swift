@@ -24,16 +24,62 @@ class ChatbotViewController: MessagesViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupTopBar()
         // save room for the top of the VC (can change value if too much or too little)
-       // messagesCollectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 0, right: 0)
-        
+        messagesCollectionView.contentInset = UIEdgeInsets(top: 163, left: 0, bottom: 0, right: 0)
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         messageInputBar.inputTextView.delegate = self
         messageInputBar.inputTextView.text = defaultMessage
         messageInputBar.inputTextView.textColor = .lightGray
+    }
+    
+    private func setupTopBar() {
+        // Create Background View for the Top Bar
+        let topBarView = UIView()
+        topBarView.backgroundColor = UIColor(red: 255/255.0, green: 229/255.0, blue: 217/255.0, alpha: 1.0)
+        topBarView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(topBarView)
+
+        // Create Back Button
+        let backButton = UIButton(type: .system)
+        backButton.setTitle("< Back", for: .normal)
+        backButton.setTitleColor(UIColor(red: 206/255.0, green: 212/255.0, blue: 179/255.0, alpha: 1.0), for: .normal)
+        backButton.titleLabel?.font = UIFont(name: "Marker Felt", size: 32)
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(backButton)
+
+        // Create Title Label
+        let titleLabel = UILabel()
+        titleLabel.text = "Chat"
+        titleLabel.textColor = UIColor(red: 157/255.0, green: 129/255.0, blue: 137/255.0, alpha: 1.0)
+        titleLabel.font = UIFont(name: "Marker Felt", size: 32)
+        titleLabel.textAlignment = .center
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(titleLabel)
+
+        // Constraints
+        NSLayoutConstraint.activate([
+            // Top Bar View Constraints
+            topBarView.topAnchor.constraint(equalTo: view.topAnchor),
+            topBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            topBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            topBarView.heightAnchor.constraint(equalToConstant: 163), // Adjust height to fit title & button
+
+            // Back Button Constraints
+            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+
+            // Title Label Constraints
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16), // Align to left with padding
+            titleLabel.topAnchor.constraint(equalTo: topBarView.bottomAnchor, constant: -40) // Moves it down
+        ])
+    }
+        
+    @objc private func backButtonPressed() {
+        dismiss(animated: true, completion: nil) // Dismiss the current view controller
     }
 }
 
@@ -88,37 +134,6 @@ extension ChatbotViewController: InputBarAccessoryViewDelegate {
         
         // Scroll to the last item (latest message)
         messagesCollectionView.scrollToLastItem()
-    }
-}
-
-extension ChatbotViewController {
-    func receiveBotResponse(to userMessage: String) {
-        let botReplyText = generateBotResponse(for: userMessage)
-        let botMessage = Message(
-            sender: chatbot,
-            messageId: UUID().uuidString,
-            sentDate: Date(),
-            kind: .text(botReplyText)
-        )
-
-        // Simulate a delay for bot response
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.messages.append(botMessage)
-            self.messagesCollectionView.reloadData()
-            self.messagesCollectionView.scrollToLastItem()
-        }
-    }
-    
-    func generateBotResponse(for message: String) -> String {
-        let lowercasedMessage = message.lowercased()
-        
-        if lowercasedMessage.contains("hello") {
-            return "Hello! How can I assist you today? 😊"
-        } else if lowercasedMessage.contains("what is a viewcontroller") {
-            return "A ViewController (VC) is responsible for managing a screen in your iOS app!"
-        } else {
-            return "I'm still learning! Try asking me something else. 🤖"
-        }
     }
 }
 

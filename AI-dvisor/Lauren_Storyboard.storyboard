@@ -47,7 +47,7 @@
                                         <color key="tintColor" red="0.84517008069999999" green="0.87458735700000001" blue="0.84896212820000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Create Flashcards">
-                                            <fontDescription key="titleFontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="32"/>
+                                            <fontDescription key="titleFontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="32"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="pressedFlashcardsButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="oTq-gC-Y4F"/>
@@ -59,7 +59,7 @@
                                         <color key="tintColor" red="0.84517008069999999" green="0.87458735700000001" blue="0.84896212820000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Talk to Chatbot">
-                                            <fontDescription key="titleFontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="32"/>
+                                            <fontDescription key="titleFontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="32"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="pressedChatbotButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="tAT-Dv-Iqa"/>
@@ -84,7 +84,7 @@
                                         <color key="tintColor" red="0.84517008069999999" green="0.87458735700000001" blue="0.84896212820000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Create Practice Exam">
-                                            <fontDescription key="titleFontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="32"/>
+                                            <fontDescription key="titleFontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="32"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="pressedGenerateTestButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="cDH-TJ-wHs"/>
@@ -121,7 +121,7 @@
                                         <color key="tintColor" red="0.84517008069999999" green="0.87458735700000001" blue="0.84896212820000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Create Practice Quiz">
-                                            <fontDescription key="titleFontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="32"/>
+                                            <fontDescription key="titleFontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="32"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="pressedGenerateQuizButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Fds-QD-MMO"/>
@@ -149,10 +149,19 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="&lt;Insert Note Title Here&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cOo-el-Fta">
                                 <rect key="frame" x="20" y="95" width="400" height="60"/>
-                                <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="28"/>
-                                <color key="textColor" red="0.45206451419999999" green="0.39260292689999998" blue="0.41892959540000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="28"/>
+                                <color key="textColor" red="0.5878216624" green="0.50997132060000006" blue="0.53903526069999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zso-WC-yHL">
+                                <rect key="frame" x="10" y="56" width="103" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.80784313725490198" green="0.83137254901960778" blue="0.70196078431372544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="&lt; Back">
+                                    <fontDescription key="titleFontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="32"/>
+                                </buttonConfiguration>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" red="0.96951407190000005" green="0.90277594329999999" blue="0.84947317840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -202,22 +211,8 @@
                     <view key="view" contentMode="scaleToFill" id="I4H-gC-asB">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="946"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Chat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5HJ-16-shc">
-                                <rect key="frame" x="20" y="106" width="400" height="44"/>
-                                <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="28"/>
-                                <color key="textColor" red="0.45206451419999999" green="0.39260292689999998" blue="0.41892959540000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="9AY-pm-Q1n"/>
                         <color key="backgroundColor" red="0.96951407190000005" green="0.90277594329999999" blue="0.84947317840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="tintColor" red="0.96951407190000005" green="0.90277594329999999" blue="0.84947317840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="5HJ-16-shc" firstAttribute="top" secondItem="9AY-pm-Q1n" secondAttribute="top" id="4Ev-82-jIP"/>
-                            <constraint firstItem="9AY-pm-Q1n" firstAttribute="trailing" secondItem="5HJ-16-shc" secondAttribute="trailing" constant="20" id="6pD-EZ-08W"/>
-                            <constraint firstItem="5HJ-16-shc" firstAttribute="leading" secondItem="9AY-pm-Q1n" secondAttribute="leading" constant="20" id="Sqd-Lg-X03"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="QxF-Ms-ttH"/>
                 </viewController>
@@ -227,8 +222,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="circle.fill" catalog="system" width="128" height="123"/>
-        <image name="plus.circle" catalog="system" width="128" height="123"/>
+        <image name="circle.fill" catalog="system" width="32" height="32"/>
+        <image name="plus.circle" catalog="system" width="32" height="32"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
