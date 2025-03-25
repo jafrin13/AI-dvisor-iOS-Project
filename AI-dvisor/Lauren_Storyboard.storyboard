@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yV8-kF-50w">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
     <device id="retina6_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
@@ -17,29 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oav-0y-Oin">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oav-0y-Oin">
                                 <rect key="frame" x="0.0" y="163" width="440" height="722"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" misplaced="YES" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="nUt-g7-3VY">
-                                <rect key="frame" x="20" y="893" width="63" height="46"/>
+                                <rect key="frame" x="20" y="893" width="65" height="51"/>
                                 <color key="tintColor" red="0.5878216624" green="0.50997132060000006" blue="0.53903526069999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b12-k5-gLH">
-                                <rect key="frame" x="21" y="888" width="60" height="57"/>
-                                <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" cornerStyle="medium" buttonSize="large">
-                                    <imageReference key="image" image="plus.circle" catalog="system" symbolScale="large"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="32" weight="heavy"/>
-                                    <color key="baseForegroundColor" red="0.84517008069999999" green="0.87458735700000001" blue="0.84896212820000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="pressedGenerateButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="T8Y-r8-YJS"/>
-                                </connections>
-                            </button>
-                            <view clipsSubviews="YES" clearsContextBeforeDrawing="NO" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m6s-bu-upV">
+                            <view clipsSubviews="YES" clearsContextBeforeDrawing="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m6s-bu-upV">
                                 <rect key="frame" x="0.0" y="601" width="440" height="355"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r28-P3-0dt">
                                         <rect key="frame" x="14" y="184" width="413" height="46"/>
@@ -139,10 +127,6 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.5878216624" green="0.50997132060000006" blue="0.53903526069999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="355" id="0kf-iV-FPd"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="CC4-Qt-04S"/>
-                                </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="MpB-6g-WNK" appends="YES" id="DqL-iT-YZL"/>
                                 </connections>
@@ -162,18 +146,27 @@
                                     <fontDescription key="titleFontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="32"/>
                                 </buttonConfiguration>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b12-k5-gLH">
+                                <rect key="frame" x="22" y="890" width="60" height="57"/>
+                                <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" cornerStyle="medium" buttonSize="large">
+                                    <imageReference key="image" image="plus.circle" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="32" weight="heavy"/>
+                                    <color key="baseForegroundColor" red="0.84517008069999999" green="0.87458735700000001" blue="0.84896212820000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="pressedGenerateButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="T8Y-r8-YJS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" red="0.96951407190000005" green="0.90277594329999999" blue="0.84947317840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="m6s-bu-upV" firstAttribute="leading" secondItem="Oav-0y-Oin" secondAttribute="leading" id="4GT-iS-OrU"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="cOo-el-Fta" secondAttribute="trailing" constant="20" id="Byd-Gw-ZcL"/>
-                            <constraint firstAttribute="bottom" secondItem="m6s-bu-upV" secondAttribute="bottom" id="DO0-R8-0B7"/>
-                            <constraint firstItem="m6s-bu-upV" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="DPK-zx-mwo"/>
                             <constraint firstItem="b12-k5-gLH" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="21" id="Fux-iK-Y7T"/>
                             <constraint firstItem="b12-k5-gLH" firstAttribute="top" secondItem="Oav-0y-Oin" secondAttribute="bottom" constant="3" id="MjW-O8-hok"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="b12-k5-gLH" secondAttribute="trailing" constant="359" id="O50-M8-eIu"/>
-                            <constraint firstItem="m6s-bu-upV" firstAttribute="trailing" secondItem="Oav-0y-Oin" secondAttribute="trailing" id="UYY-e1-NeU"/>
                             <constraint firstItem="b12-k5-gLH" firstAttribute="centerY" secondItem="nUt-g7-3VY" secondAttribute="centerY" id="XdC-J4-Ax8"/>
                             <constraint firstItem="cOo-el-Fta" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="cFI-p8-D3b"/>
                             <constraint firstItem="cOo-el-Fta" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="4" id="gcS-h5-1te"/>
@@ -181,24 +174,21 @@
                             <constraint firstAttribute="bottomMargin" secondItem="b12-k5-gLH" secondAttribute="bottom" constant="-23" id="pmU-Df-0V5"/>
                             <constraint firstAttribute="bottom" secondItem="Oav-0y-Oin" secondAttribute="bottom" constant="71" id="sv6-jn-1Uk"/>
                             <constraint firstItem="Oav-0y-Oin" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="163" id="uSb-Na-ehU"/>
-                            <constraint firstItem="m6s-bu-upV" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="wgo-By-WKf"/>
                             <constraint firstItem="b12-k5-gLH" firstAttribute="centerX" secondItem="nUt-g7-3VY" secondAttribute="centerX" id="zQG-j1-hNj"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tIn-49-F5g"/>
                     <connections>
-                        <outlet property="dragViewDown" destination="m6s-bu-upV" id="Y08-qd-sSf"/>
                         <outlet property="noteTitle" destination="cOo-el-Fta" id="iTa-ob-Dlc"/>
                         <outlet property="noteView" destination="Oav-0y-Oin" id="xot-0h-IvV"/>
                         <outlet property="optionsView" destination="m6s-bu-upV" id="4MU-1j-Ugu"/>
-                        <outlet property="optionsViewHeightConstraint" destination="CC4-Qt-04S" id="hgf-9H-FCe"/>
                         <segue destination="yV8-kF-50w" kind="show" identifier="toChatbotSegue" id="k0e-Lf-pRI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="MpB-6g-WNK">
                     <connections>
-                        <action selector="dragViewDown:" destination="Y6W-OH-hqX" id="bjK-xf-4gg"/>
+                        <action selector="dragViewDown:" destination="Y6W-OH-hqX" id="FhG-SO-BMM"/>
                     </connections>
                 </panGestureRecognizer>
             </objects>
@@ -222,8 +212,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="circle.fill" catalog="system" width="32" height="32"/>
-        <image name="plus.circle" catalog="system" width="32" height="32"/>
+        <image name="circle.fill" catalog="system" width="128" height="123"/>
+        <image name="plus.circle" catalog="system" width="128" height="123"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
