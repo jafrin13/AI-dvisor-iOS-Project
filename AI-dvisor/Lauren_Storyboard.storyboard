@@ -63,7 +63,6 @@
                                             <fontDescription key="titleFontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="32"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="pressedChatbotButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="tAT-Dv-Iqa"/>
                                             <action selector="pressedTalkToChatButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="chY-K4-gY0"/>
                                         </connections>
                                     </button>
@@ -88,7 +87,6 @@
                                             <fontDescription key="titleFontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="32"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="pressedGenerateTestButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="cDH-TJ-wHs"/>
                                             <action selector="pressedTestButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="r58-KX-WSB"/>
                                         </connections>
                                     </button>
@@ -125,7 +123,6 @@
                                             <fontDescription key="titleFontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="32"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="pressedGenerateQuizButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Fds-QD-MMO"/>
                                             <action selector="pressedQuizButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="1J7-un-xTk"/>
                                         </connections>
                                     </button>

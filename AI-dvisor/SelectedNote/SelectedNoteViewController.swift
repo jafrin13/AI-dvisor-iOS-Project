@@ -137,10 +137,6 @@ class SelectedNoteViewController: UIViewController {
             if let materialType = sender as? String {
                 chatbotVC.studyMaterialType = materialType
             }
-            
-//            else {
-//                chatbotVC.studyMaterialType = nil
-//            }
         }
     }
 }
