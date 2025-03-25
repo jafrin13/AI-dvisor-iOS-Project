@@ -25,6 +25,19 @@
                                 <rect key="frame" x="20" y="893" width="65" height="51"/>
                                 <color key="tintColor" red="0.5878216624" green="0.50997132060000006" blue="0.53903526069999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b12-k5-gLH">
+                                <rect key="frame" x="22" y="890" width="60" height="57"/>
+                                <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" cornerStyle="medium" buttonSize="large">
+                                    <imageReference key="image" image="plus.circle" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="37" weight="heavy"/>
+                                    <color key="baseForegroundColor" red="0.84517008069999999" green="0.87458735700000001" blue="0.84896212820000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="pressedGenerateButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="T8Y-r8-YJS"/>
+                                </connections>
+                            </button>
                             <view clipsSubviews="YES" clearsContextBeforeDrawing="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m6s-bu-upV">
                                 <rect key="frame" x="0.0" y="601" width="440" height="355"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -146,19 +159,6 @@
                                     <fontDescription key="titleFontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="32"/>
                                 </buttonConfiguration>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b12-k5-gLH">
-                                <rect key="frame" x="22" y="890" width="60" height="57"/>
-                                <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" cornerStyle="medium" buttonSize="large">
-                                    <imageReference key="image" image="plus.circle" catalog="system" symbolScale="large"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="32" weight="heavy"/>
-                                    <color key="baseForegroundColor" red="0.84517008069999999" green="0.87458735700000001" blue="0.84896212820000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="pressedGenerateButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="T8Y-r8-YJS"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" red="0.96951407190000005" green="0.90277594329999999" blue="0.84947317840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -182,7 +182,7 @@
                         <outlet property="noteTitle" destination="cOo-el-Fta" id="iTa-ob-Dlc"/>
                         <outlet property="noteView" destination="Oav-0y-Oin" id="xot-0h-IvV"/>
                         <outlet property="optionsView" destination="m6s-bu-upV" id="4MU-1j-Ugu"/>
-                        <segue destination="yV8-kF-50w" kind="show" identifier="toChatbotSegue" id="k0e-Lf-pRI"/>
+                        <segue destination="yV8-kF-50w" kind="presentation" identifier="toChatbotSegue" modalPresentationStyle="fullScreen" id="k0e-Lf-pRI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -199,7 +199,7 @@
             <objects>
                 <viewController id="yV8-kF-50w" customClass="ChatbotViewController" customModule="AI_dvisor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="I4H-gC-asB">
-                        <rect key="frame" x="0.0" y="0.0" width="440" height="946"/>
+                        <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="9AY-pm-Q1n"/>
                         <color key="backgroundColor" red="0.96951407190000005" green="0.90277594329999999" blue="0.84947317840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

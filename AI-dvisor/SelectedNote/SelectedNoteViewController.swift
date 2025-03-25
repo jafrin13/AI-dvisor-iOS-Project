@@ -16,6 +16,7 @@ class SelectedNoteViewController: UIViewController {
     @IBOutlet weak var noteView: UIView! // view to display the actual document
     @IBOutlet weak var optionsView: UIView! // view for generative options
     
+    
     var passedNoteTitle: String = "" // title of the displayed note passed from segue
     var noteFilePath: String = "" // path to the doc we want to display in Firebase passed from segue
     var folderFilePath: String = "" // path to the folder we want to store any generated content to passed from segue
@@ -29,11 +30,13 @@ class SelectedNoteViewController: UIViewController {
         // update label to the name/title of the selected note
         noteTitle.text = passedNoteTitle
                 
-        // make the options view heigh 0 so it doesn't show
-        optionsView.frame.size.height = 0
+        // hide options view
+        let targetHeight: CGFloat = 0
+        optionsView.frame.size.height = targetHeight
+        optionsView.frame.origin.y = self.view.frame.height
         
         // make corners of the options view rounded
-        optionsView.layer.cornerRadius = 20
+        optionsView.layer.cornerRadius = 35
         
         // locally download the file and fill UIView with the selected note
         // downloadFileFromFirebase(filePath: noteFilePath)
@@ -69,10 +72,11 @@ class SelectedNoteViewController: UIViewController {
     
     @IBAction func pressedGenerateButton(_ sender: Any) {
         // make options view pop up
-        UIView.animate(withDuration: 0.6) {
-            self.optionsView.frame.size.height = 355
-            self.view.layoutIfNeeded()
-        }
+        let targetHeight: CGFloat = 355
+        UIView.animate(withDuration: 0.6, animations: {
+            self.optionsView.frame.origin.y = self.view.frame.height - targetHeight
+            self.optionsView.frame.size.height = targetHeight
+        })
     }
     
 
@@ -80,29 +84,29 @@ class SelectedNoteViewController: UIViewController {
         guard let piece = sender.view else {
             return
         }
-        
+            
         let maxHeight: CGFloat = 355
         let minHeight: CGFloat = 0
-        var initialHeight: CGFloat = 0
         let translation = sender.translation(in: piece.superview)
-        
-        if sender.state == .began {
-            initialHeight = piece.frame.origin.y
-        }
-        
+
         if sender.state == .changed {
-            let newHeight = initialHeight - translation.y
+            let newHeight = optionsView.frame.size.height - translation.y
             let boundedHeight = min(maxHeight, max(minHeight, newHeight))
-            piece.frame.origin.y = boundedHeight
+            
+            let delta = optionsView.frame.size.height - boundedHeight
+            optionsView.frame.origin.y += delta
+            optionsView.frame.size.height = boundedHeight
+            sender.setTranslation(.zero, in: piece.superview)
         }
         
         if sender.state == .ended {
-            let middleHeight: CGFloat = (maxHeight +
-                                         minHeight) / 2
-            let targetHeight = self.optionsView.frame.size.height > middleHeight ? maxHeight : minHeight
+            let middleHeight: CGFloat = (maxHeight + minHeight) / 2
+            let targetHeight = optionsView.frame.size.height > middleHeight ? maxHeight : minHeight
+            let delta = optionsView.frame.size.height - targetHeight
 
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {
-                piece.frame.origin.y = targetHeight
+                self.optionsView.frame.origin.y += delta
+                self.optionsView.frame.size.height = targetHeight
             })
         }
     }
