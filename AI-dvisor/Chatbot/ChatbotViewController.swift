@@ -18,7 +18,7 @@ class ChatbotViewController: MessagesViewController {
     var studyMaterialType: String = ""
     
     var messages: [Message] = [] // stores the messages in the chat
-    let currentUser = Sender(senderId: "self", displayName: "User") // could change display name to username
+    let currentUser = Sender(senderId: "self", displayName: "User")
     let chatbot = Sender(senderId: "bot", displayName: "AI-dvisor")
     let defaultMessage: String = "Type message here..."
 
@@ -30,6 +30,7 @@ class ChatbotViewController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+        messageInputBar.delegate = self
         messageInputBar.inputTextView.delegate = self
         messageInputBar.inputTextView.text = defaultMessage
         messageInputBar.inputTextView.textColor = .lightGray
@@ -140,10 +141,33 @@ extension ChatbotViewController: InputBarAccessoryViewDelegate {
 
 extension ChatbotViewController: MessagesLayoutDelegate, MessagesDisplayDelegate {
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? UIColor.systemPink.withAlphaComponent(0.7) : UIColor.systemPink.withAlphaComponent(1.0)
+        return isFromCurrentSender(message: message) ? UIColor(red: 255/255, green: 202/255, blue: 212/255, alpha: 1.0) : UIColor(red: 244/255, green: 172/255, blue: 183/255, alpha: 1.0)
     }
 
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
         return .bubble
+    }
+    
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        let sender = message.sender
+        
+        if sender.senderId == "self" {
+            let avatar = Avatar(image: UIImage(named: "User_Avatar"), initials: "")
+            avatarView.set(avatar: avatar)
+            avatarView.isHidden = isPreviousMessageSameSender(at: indexPath)
+        }
+        
+        else {
+            let avatar = Avatar(image: UIImage(named: "Chatbot_Avatar"), initials: "")
+            avatarView.set(avatar: avatar)
+            avatarView.isHidden = isPreviousMessageSameSender(at: indexPath)
+        }
+    }
+
+    func isPreviousMessageSameSender(at indexPath: IndexPath) -> Bool {
+        guard indexPath.section - 1 >= 0 else {
+            return false // No previous message exists
+        }
+        return messages[indexPath.section].sender.senderId == messages[indexPath.section - 1].sender.senderId
     }
 }

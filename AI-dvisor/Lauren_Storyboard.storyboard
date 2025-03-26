@@ -17,16 +17,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oav-0y-Oin">
-                                <rect key="frame" x="0.0" y="163" width="440" height="722"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" misplaced="YES" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="nUt-g7-3VY">
-                                <rect key="frame" x="20" y="893" width="65" height="51"/>
-                                <color key="tintColor" red="0.5878216624" green="0.50997132060000006" blue="0.53903526069999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b12-k5-gLH">
-                                <rect key="frame" x="22" y="890" width="60" height="57"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b12-k5-gLH">
+                                <rect key="frame" x="20" y="885" width="60" height="57"/>
+                                <color key="backgroundColor" red="0.57647061349999995" green="0.51372551919999998" blue="0.53725492949999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <rect key="contentStretch" x="1" y="0.0" width="1" height="1"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" cornerStyle="medium" buttonSize="large">
@@ -34,10 +27,19 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="37" weight="heavy"/>
                                     <color key="baseForegroundColor" red="0.84517008069999999" green="0.87458735700000001" blue="0.84896212820000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="51"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="pressedGenerateButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="T8Y-r8-YJS"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oav-0y-Oin">
+                                <rect key="frame" x="0.0" y="163" width="440" height="722"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                             <view clipsSubviews="YES" clearsContextBeforeDrawing="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m6s-bu-upV">
                                 <rect key="frame" x="0.0" y="601" width="440" height="355"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -161,17 +163,15 @@
                         <color key="backgroundColor" red="0.96951407190000005" green="0.90277594329999999" blue="0.84947317840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="cOo-el-Fta" secondAttribute="trailing" constant="20" id="Byd-Gw-ZcL"/>
-                            <constraint firstItem="b12-k5-gLH" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="21" id="Fux-iK-Y7T"/>
-                            <constraint firstItem="b12-k5-gLH" firstAttribute="top" secondItem="Oav-0y-Oin" secondAttribute="bottom" constant="3" id="MjW-O8-hok"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="b12-k5-gLH" secondAttribute="trailing" constant="359" id="O50-M8-eIu"/>
-                            <constraint firstItem="b12-k5-gLH" firstAttribute="centerY" secondItem="nUt-g7-3VY" secondAttribute="centerY" id="XdC-J4-Ax8"/>
+                            <constraint firstItem="b12-k5-gLH" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="Fux-iK-Y7T"/>
+                            <constraint firstItem="b12-k5-gLH" firstAttribute="top" secondItem="Oav-0y-Oin" secondAttribute="bottom" id="MjW-O8-hok"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="b12-k5-gLH" secondAttribute="trailing" constant="360" id="O50-M8-eIu"/>
                             <constraint firstItem="cOo-el-Fta" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="cFI-p8-D3b"/>
                             <constraint firstItem="cOo-el-Fta" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="4" id="gcS-h5-1te"/>
                             <constraint firstItem="Oav-0y-Oin" firstAttribute="top" secondItem="cOo-el-Fta" secondAttribute="bottom" constant="8" id="lPk-44-EU7"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="b12-k5-gLH" secondAttribute="bottom" constant="-23" id="pmU-Df-0V5"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="b12-k5-gLH" secondAttribute="bottom" constant="-20" id="pmU-Df-0V5"/>
                             <constraint firstAttribute="bottom" secondItem="Oav-0y-Oin" secondAttribute="bottom" constant="71" id="sv6-jn-1Uk"/>
                             <constraint firstItem="Oav-0y-Oin" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="163" id="uSb-Na-ehU"/>
-                            <constraint firstItem="b12-k5-gLH" firstAttribute="centerX" secondItem="nUt-g7-3VY" secondAttribute="centerX" id="zQG-j1-hNj"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tIn-49-F5g"/>
@@ -209,7 +209,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="circle.fill" catalog="system" width="128" height="123"/>
         <image name="plus.circle" catalog="system" width="128" height="123"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
