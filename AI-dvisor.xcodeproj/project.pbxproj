@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8008DCEC2D930D52000CE85B /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8008DCEB2D930D52000CE85B /* MessageKit */; };
+		807576752D95B65800B6E61C /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = 807576742D95B65800B6E61C /* OpenAISwift */; };
+		8075767A2D95BC3700B6E61C /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 807576792D95BC3700B6E61C /* OpenAI */; };
 		8190EF6D2D7FC91F0056AF40 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8190EF6C2D7FC91F0056AF40 /* FirebaseFirestore */; };
 		8190EF6F2D7FC91F0056AF40 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8190EF6E2D7FC91F0056AF40 /* FirebaseStorage */; };
 		87A9243A2D7A8C1B00488142 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 87A924392D7A8C1B00488142 /* FirebaseAuth */; };
@@ -47,10 +49,12 @@
 			files = (
 				87A9243A2D7A8C1B00488142 /* FirebaseAuth in Frameworks */,
 				8190EF6D2D7FC91F0056AF40 /* FirebaseFirestore in Frameworks */,
+				8075767A2D95BC3700B6E61C /* OpenAI in Frameworks */,
 				87A9243E2D7A8C1B00488142 /* FirebaseCore in Frameworks */,
 				8008DCEC2D930D52000CE85B /* MessageKit in Frameworks */,
 				8190EF6F2D7FC91F0056AF40 /* FirebaseStorage in Frameworks */,
 				87A9243C2D7A8C1B00488142 /* FirebaseAuthCombine-Community in Frameworks */,
+				807576752D95B65800B6E61C /* OpenAISwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +103,8 @@
 				8190EF6C2D7FC91F0056AF40 /* FirebaseFirestore */,
 				8190EF6E2D7FC91F0056AF40 /* FirebaseStorage */,
 				8008DCEB2D930D52000CE85B /* MessageKit */,
+				807576742D95B65800B6E61C /* OpenAISwift */,
+				807576792D95BC3700B6E61C /* OpenAI */,
 			);
 			productName = "AI-dvisor";
 			productReference = 87A922932D72517F00488142 /* AI-dvisor.app */;
@@ -131,6 +137,8 @@
 			packageReferences = (
 				87A924382D7A8C1A00488142 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8073CE382D8097F40056CFE7 /* XCRemoteSwiftPackageReference "MessageKit" */,
+				807576732D95B65800B6E61C /* XCRemoteSwiftPackageReference "OpenAISwift" */,
+				807576782D95BC3700B6E61C /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 87A922942D72517F00488142 /* Products */;
@@ -370,6 +378,22 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		807576732D95B65800B6E61C /* XCRemoteSwiftPackageReference "OpenAISwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/adamrushy/OpenAISwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.1;
+			};
+		};
+		807576782D95BC3700B6E61C /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.8;
+			};
+		};
 		87A924382D7A8C1A00488142 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -385,6 +409,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8073CE382D8097F40056CFE7 /* XCRemoteSwiftPackageReference "MessageKit" */;
 			productName = MessageKit;
+		};
+		807576742D95B65800B6E61C /* OpenAISwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 807576732D95B65800B6E61C /* XCRemoteSwiftPackageReference "OpenAISwift" */;
+			productName = OpenAISwift;
+		};
+		807576792D95BC3700B6E61C /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 807576782D95BC3700B6E61C /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
 		};
 		8190EF6C2D7FC91F0056AF40 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
