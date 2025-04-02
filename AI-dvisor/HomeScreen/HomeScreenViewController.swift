@@ -60,12 +60,27 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == 0 {
             let cell = journalCollectionView.dequeueReusableCell(withReuseIdentifier: "AddJournalCell", for: indexPath)
+            cell.layer.cornerRadius = 15
+            cell.layer.masksToBounds = true
+
             return cell
         } else {
             let cell = journalCollectionView.dequeueReusableCell(withReuseIdentifier: "JournalCell", for: indexPath) as! JournalCollectionViewCell
             cell.journalTitle.text = journals[indexPath.row - 1].title
             cell.importanceLabel.text = journals[indexPath.row - 1].importance
             cell.journalView.backgroundColor = journals[indexPath.row - 1].bgColor
+//            cell.layer.cornerRadius = 15
+//                    cell.layer.masksToBounds = true  // Allow shadows to be visible
+            
+            cell.contentView.layer.cornerRadius = 15
+                    cell.contentView.layer.masksToBounds = true
+
+                    // Apply shadow
+                    cell.layer.shadowColor = UIColor.black.cgColor
+                    cell.layer.shadowOpacity = 0.4
+                    cell.layer.shadowOffset = CGSize(width: 2, height: 2)
+            cell.layer.shadowRadius = 4
+            cell.layer.masksToBounds = false
             return cell
         }
     }
@@ -77,7 +92,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             print("Opening \(journals[indexPath.row - 1].title)")
             let storyboard = UIStoryboard(name: "Stephanie_Storyboard", bundle: nil)
             if let openNoteVC = storyboard.instantiateViewController(withIdentifier: "OpenNoteScreen") as? OpenNotebookViewController {
-                openNoteVC.modalTransitionStyle = .partialCurl
+                openNoteVC.modalTransitionStyle = .crossDissolve
                 openNoteVC.modalPresentationStyle = .fullScreen
                 self.present(openNoteVC, animated: true, completion: nil)
             }
