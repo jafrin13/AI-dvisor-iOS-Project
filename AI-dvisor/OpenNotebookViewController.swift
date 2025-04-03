@@ -13,20 +13,89 @@ import FirebaseStorage
 import PDFKit
 
 
+struct PDFItem {
+    let thumbnail: UIImage
+    let fileName: String
+}
 
-class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate {
+class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  UICollectionViewDataSource, UICollectionViewDelegate {
     
-    @IBOutlet weak var pdfPreview: UIImageView!
+
+    @IBOutlet weak var subjectLabel: UILabel!
+    var journalTitle: String?
+    
     @IBOutlet weak var homeBackButton: UIImageView!
-       
+
+    @IBOutlet weak var pdfCollectionView: UICollectionView!
+    
+    var pdfItems: [PDFItem] = []
+
+    
         override func viewDidLoad() {
             super.viewDidLoad()
-            pdfPreview.isHidden = true
+            loadUploadedPDFs()
+            pdfCollectionView.delegate = self
+            pdfCollectionView.dataSource = self
+            
+            subjectLabel.text = journalTitle
+
+           
             // Do any additional setup after loading the view.
             let homeScreenGesture = UITapGestureRecognizer(target: self, action: #selector(homeBackImageTapped(_:)))
             
             homeBackButton.addGestureRecognizer(homeScreenGesture)
         }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return pdfItems.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PDFCell", for: indexPath) as! PDFCollectionViewCell
+        let pdfItem = pdfItems[indexPath.row]
+        cell.pdfThumbnailImageView.image = pdfItem.thumbnail
+        cell.pdfName.text = pdfItem.fileName
+        return cell
+    }
+
+    
+    
+    func loadUploadedPDFs() {
+        let db = Firestore.firestore()
+        db.collection("uploads").getDocuments { snapshot, error in
+            if let error = error {
+                print("Error fetching PDFs: \(error.localizedDescription)")
+                return
+            }
+            
+            // Clear the array before loading new data
+            self.pdfItems.removeAll()
+            
+            guard let documents = snapshot?.documents else { return }
+            for doc in documents {
+                // Retrieve the file name (if not available, default to "Unknown.pdf")
+                let fileName = doc.data()["fileName"] as? String ?? "Unknown.pdf"
+                
+                if let thumbnailURLString = doc.data()["thumbnailURL"] as? String,
+                   let url = URL(string: thumbnailURLString) {
+                    URLSession.shared.dataTask(with: url) { data, response, error in
+                        if let data = data, let image = UIImage(data: data) {
+                            
+                            DispatchQueue.main.async {
+                                
+                                let pdfItem = PDFItem(thumbnail: image, fileName: fileName)
+                                self.pdfItems.append(pdfItem)
+                                self.pdfCollectionView.reloadData()
+                            }
+                        }
+                    }.resume()
+                }
+            }
+        }
+    }
+
+
+
         
         @IBAction func onUploadButtonPressed(_ sender: Any) {
             let documentSelector = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.pdf])
@@ -74,15 +143,17 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate {
                 // call our method to make a thumnail
                 if let thumbnail = generateThumbnail(from: tempFileURL) {
                     
+                    let fileName = selectedFile.lastPathComponent
+                    let pdfItem = PDFItem(thumbnail: thumbnail, fileName: fileName)
                     // I found this online, we want the visual updates to happen on the main thread
                     // so we can update the image here and now show the image, this is hard coded
                     // for now, just to show the image is uploaded to firebase. In the future I will
                     // do a collection view to dynamically present the pdfs.
-                     
                     DispatchQueue.main.async {
-                        self.pdfPreview.image = thumbnail
-                        self.pdfPreview.isHidden = false
+                        self.pdfItems.append(pdfItem)
+                        self.pdfCollectionView.reloadData()
                     }
+
                     
                     // Upload PDF and once finished, upload the thumbnail
                     uploadFileToFirebase(tempFileURL) { pdfURL in

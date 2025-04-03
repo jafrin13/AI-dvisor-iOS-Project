@@ -85,6 +85,8 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             
             // This statement is to set this variable to a storyboard to allow for the transition to happen
             if let openNoteVC = storyboard.instantiateViewController(withIdentifier: "OpenNoteScreen") as? OpenNotebookViewController {
+                let selectedJournal = journals[indexPath.row - 1]
+                openNoteVC.journalTitle = selectedJournal.title
                 // This is the style of how the transition looks
                 openNoteVC.modalTransitionStyle = .partialCurl // I useed this one because it represent a page turning
                 openNoteVC.modalPresentationStyle = .fullScreen
@@ -112,4 +114,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
         selectedColor = viewController.selectedColor
     }
+    
+   
+
 }
