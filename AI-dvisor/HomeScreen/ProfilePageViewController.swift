@@ -39,7 +39,7 @@ class ProfilePageViewController: UIViewController {
     
     // Fetch user from core and update UI
     func fetchUser(email: String) {
-        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()  // Ensure 'User' is your NSManagedObject subclass
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()  
         fetchRequest.predicate = NSPredicate(format: "email == %@", email)
         
         do {
