@@ -88,7 +88,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
                 let selectedJournal = journals[indexPath.row - 1]
                 openNoteVC.journalTitle = selectedJournal.title
                 // This is the style of how the transition looks
-                openNoteVC.modalTransitionStyle = .partialCurl // I useed this one because it represent a page turning
+                openNoteVC.modalTransitionStyle = .crossDissolve // I useed this one because it represent a page turning
                 openNoteVC.modalPresentationStyle = .fullScreen
                 self.present(openNoteVC, animated: true, completion: nil)
             }

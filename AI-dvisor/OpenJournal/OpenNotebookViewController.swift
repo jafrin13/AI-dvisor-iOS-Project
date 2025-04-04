@@ -16,6 +16,7 @@ import PDFKit
 struct PDFItem {
     let thumbnail: UIImage
     let fileName: String
+    let pdfURL: String
 }
 
 class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  UICollectionViewDataSource, UICollectionViewDelegate {
@@ -75,7 +76,8 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             for doc in documents {
                 // Retrieve the file name (if not available, default to "Unknown.pdf")
                 let fileName = doc.data()["fileName"] as? String ?? "Unknown.pdf"
-                
+                let pdfURL = doc.data()["pdfURL"] as? String ?? ""
+    
                 if let thumbnailURLString = doc.data()["thumbnailURL"] as? String,
                    let url = URL(string: thumbnailURLString) {
                     URLSession.shared.dataTask(with: url) { data, response, error in
@@ -83,7 +85,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                             
                             DispatchQueue.main.async {
                                 
-                                let pdfItem = PDFItem(thumbnail: image, fileName: fileName)
+                                let pdfItem = PDFItem(thumbnail: image, fileName: fileName, pdfURL:pdfURL)
                                 self.pdfItems.append(pdfItem)
                                 self.pdfCollectionView.reloadData()
                             }
@@ -120,51 +122,48 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         }
         
         
-        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            // make sure there is a selected file
-            guard let selectedFile = urls.first else { return }
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        // make sure there is a selected file
+        guard let selectedFile = urls.first else { return }
+        
+        // we have to make a copy because documentPickerViewController only has read permissions
+        // 1. get into a temporary directory to store our file
+        // 2. add our file url to that directory to create the path
+        let tempDirectory = FileManager.default.temporaryDirectory
+        let tempFileURL = tempDirectory.appendingPathComponent(selectedFile.lastPathComponent)
+        
+        // make sure theres no duplicate of the file name and now we can copy the item
+        // into the temp directory
+        do {
+            if FileManager.default.fileExists(atPath: tempFileURL.path) {
+                try FileManager.default.removeItem(at: tempFileURL)
+            }
+            try FileManager.default.copyItem(at: selectedFile, to: tempFileURL)
             
-            // we have to make a copy because documentPickerViewController only has read permissions
-            // 1. get into a temporary directory to store our file
-            // 2. add our file url to that directory to create the path
-            let tempDirectory = FileManager.default.temporaryDirectory
-            let tempFileURL = tempDirectory.appendingPathComponent(selectedFile.lastPathComponent)
-            
-            
-            // make sure theres no duplicate of the file name and now we can copy the item
-            // into the temp directory
-            
-            do {
-                if FileManager.default.fileExists(atPath: tempFileURL.path) {
-                    try FileManager.default.removeItem(at: tempFileURL)
-                }
-                try FileManager.default.copyItem(at: selectedFile, to: tempFileURL)
+            // call our method to make a thumnail
+            if let thumbnail = generateThumbnail(from: tempFileURL) {
+                let fileName = selectedFile.lastPathComponent
+                // I found this online, we want the visual updates to happen on the main thread
+                // so we can update the image here and now show the image, this is hard coded
+                // for now, just to show the image is uploaded to firebase. In the future I will
+                // do a collection view to dynamically present the pdfs.
                 
-                // call our method to make a thumnail
-                if let thumbnail = generateThumbnail(from: tempFileURL) {
+                // Upload PDF and once finished, upload the thumbnail
+                uploadFileToFirebase(tempFileURL) { pdfURL in
+                    self.uploadThumbnailToFirebase(thumbnail, pdfURL: pdfURL, fileName: fileName)
                     
-                    let fileName = selectedFile.lastPathComponent
-                    let pdfItem = PDFItem(thumbnail: thumbnail, fileName: fileName)
-                    // I found this online, we want the visual updates to happen on the main thread
-                    // so we can update the image here and now show the image, this is hard coded
-                    // for now, just to show the image is uploaded to firebase. In the future I will
-                    // do a collection view to dynamically present the pdfs.
+                    let pdfItem = PDFItem(thumbnail: thumbnail, fileName: fileName, pdfURL: pdfURL)
                     DispatchQueue.main.async {
                         self.pdfItems.append(pdfItem)
                         self.pdfCollectionView.reloadData()
                     }
-
-                    
-                    // Upload PDF and once finished, upload the thumbnail
-                    uploadFileToFirebase(tempFileURL) { pdfURL in
-                        self.uploadThumbnailToFirebase(thumbnail, pdfURL: pdfURL)
-                    }
                 }
-                
-            } catch {
-                print("Failed copying file: \(error.localizedDescription)")
             }
+        } catch {
+            print("Failed copying file: \(error.localizedDescription)")
         }
+    }
+
         
     // This method creates a thumbnail for the pdf
         func generateThumbnail(from pdfURL: URL, size: CGSize = CGSize(width: 150, height: 200)) -> UIImage? {
@@ -238,7 +237,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         }
         
         // Uploads the thumbnail image to Firebase
-        func uploadThumbnailToFirebase(_ image: UIImage, pdfURL: String) {
+    func uploadThumbnailToFirebase(_ image: UIImage, pdfURL: String, fileName: String) {
             
             // we compress to upload to firebase faster, 70% is apparently a
             // good balance between quality and size
@@ -259,7 +258,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                         print("Thumbnail uploaded: \(thumbnailURL.absoluteString)")
                         
                         // save both URLs to firestore
-                        self.saveFileMetadataToFirestore(pdfURL: pdfURL, thumbnailURL: thumbnailURL.absoluteString)
+                        self.saveFileMetadataToFirestore(pdfURL: pdfURL, thumbnailURL: thumbnailURL.absoluteString, fileName: fileName)
                     } else {
                         print("Failed to get thumbnail URL")
                     }
@@ -270,11 +269,12 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         // Sets up schema (I don't know if its correct but I was
         // searching and it said I can only control the schema through code and not the
         // firebase console)
-        func saveFileMetadataToFirestore(pdfURL: String, thumbnailURL: String) {
+    func saveFileMetadataToFirestore(pdfURL: String, thumbnailURL: String, fileName: String) {
             let db = Firestore.firestore()
             let data: [String: Any] = [
                 "pdfURL": pdfURL,
-                "thumbnailURL": thumbnailURL
+                "thumbnailURL": thumbnailURL,
+                "fileName": fileName
             ]
             
             db.collection("uploads").addDocument(data: data) { error in
@@ -285,6 +285,37 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                 }
             }
         }
+    
+    
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let selectedPDF = pdfItems[indexPath.row]
+            
+            let storyboard = UIStoryboard(name: "Lauren_Storyboard", bundle: nil)
+            if let selectedNoteVC = storyboard.instantiateViewController(withIdentifier: "SelectedNoteVC") as? SelectedNoteViewController {
+                
+                selectedNoteVC.passedNoteTitle = selectedPDF.fileName
+                selectedNoteVC.noteFilePath = getPathFromURL(selectedPDF.pdfURL) // Helper below
+                selectedNoteVC.folderFilePath = "generated/\(selectedPDF.fileName)" // Customize as needed
+                
+                self.present(selectedNoteVC, animated: true, completion: nil)
+            }
+        }
+
     }
+
+func getPathFromURL(_ fullURL: String) -> String {
+    // Firebase URLs are like: https://firebasestorage.googleapis.com/v0/b/YOUR_APP/o/uploads%2Fabc123.pdf?alt=media...
+    // We want: uploads/abc123.pdf
+    if let range = fullURL.range(of: "/o/") {
+        let pathPart = fullURL[range.upperBound...]
+        if let endIndex = pathPart.firstIndex(of: "?") {
+            let encodedPath = pathPart[..<endIndex]
+            let decodedPath = encodedPath.replacingOccurrences(of: "%2F", with: "/")
+            return String(decodedPath)
+        }
+    }
+    return ""
+}
+
     
 

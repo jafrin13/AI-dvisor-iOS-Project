@@ -26,6 +26,7 @@ class SelectedNoteViewController: UIViewController {
         super.viewDidLoad()
     }
     
+
     override func viewWillAppear(_ animated: Bool) {
         // update label to the name/title of the selected note
         noteTitle.text = passedNoteTitle
@@ -37,39 +38,64 @@ class SelectedNoteViewController: UIViewController {
         
         // make corners of the options view rounded
         optionsView.layer.cornerRadius = 35
+
+
         
         // locally download the file and fill UIView with the selected note
-        // downloadFileFromFirebase(filePath: noteFilePath)
+         downloadFileFromFirebase(filePath: noteFilePath)
     }
     
-//    func downloadFileFromFirebase(filePath: String) {
-//        let storageRef = Storage.storage().reference()
-//        let fileRef = storageRef.child(filePath)
-//        let localURL = FileManager.default.temporaryDirectory.tempDirectoryURL.appendingPathComponent(passedNoteTitle)
-//
-//        fileRef.write(toFile: localURL) { url, error in
-//            if let error = error {
-//                print("Error downloading file: \(error.localizedDescription)")
-//            } else {
-//                self.localFileURL = localURL
-//                self.displayDocument()
-//            }
-//        }
-//    }
-//    
-//    func displayDocument() {
-//        guard let localFileURL = localFileURL else { return }
-//        
-//        // Initialize PDFView and set up the document
-//        let pdfView = PDFView(frame: noteView.bounds)
-//        pdfView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        pdf.autoScales = true
-//        pdfView.document = PDFDocument(url: localFileURL)
-//        
-//        // Add the PDF view as a subview to noteView
-//        noteView.addSubview(pdfView)
-//    }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        print("noteView frame: \(noteView.frame)")
+        print("optionsView frame: \(optionsView.frame)")
+    }
+    
+    func downloadFileFromFirebase(filePath: String) {
+        let storageRef = Storage.storage().reference()
+        let fileRef = storageRef.child(filePath)
+        let localURL = FileManager.default.temporaryDirectory.appendingPathComponent(passedNoteTitle)
+
+        fileRef.write(toFile: localURL) { url, error in
+            if let error = error {
+                print("Error downloading file: \(error.localizedDescription)")
+            } else {
+                print("File downloaded to: \(localURL)")
+                self.localFileURL = localURL
+                DispatchQueue.main.async {
+                    self.displayDocument()
+                }
+            }
+        }
+    }
+
+
+
+    
+    func displayDocument() {
+        guard let localFileURL = localFileURL else {
+            print("localFileURL is nil")
+            return
+        }
+        
+        // Attempt to create the PDFDocument
+        guard let document = PDFDocument(url: localFileURL) else {
+            print("Failed to create PDFDocument from URL: \(localFileURL)")
+            return
+        }
+        
+        // Initialize PDFView and set up the document
+        let pdfView = PDFView(frame: noteView.bounds)
+        pdfView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        pdfView.autoScales = true
+        pdfView.document = document
+        
+        // Add the PDF view as a subview to noteView
+        noteView.addSubview(pdfView)
+        print("PDFView added to noteView")
+    }
+
     @IBAction func pressedGenerateButton(_ sender: Any) {
         // make options view pop up
         let targetHeight: CGFloat = 355
