@@ -12,10 +12,16 @@ extension HomeScreenViewController: NewJournalDelegate {
         journals.append(journal)
         journalCollectionView.reloadData()
     }
+    
+    func didEditJournal(_ journal: Journal, at index: Int) {
+        journals[index] = journal
+        journalCollectionView.reloadItems(at: [IndexPath(item: index + 1, section: 0)])
+    }
 }
+
 var journals: [Journal] = []
 
-class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIColorPickerViewControllerDelegate {
+class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIColorPickerViewControllerDelegate, EditJournalDelegate {
     
     @IBOutlet weak var journalCollectionView: UICollectionView!
     
@@ -37,6 +43,9 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         
         journalCollectionView.dataSource = self
         journalCollectionView.delegate = self
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        journalCollectionView.addGestureRecognizer(longPressGesture)
     }
     
     @objc func addFriendImageTapped(_ sender: UITapGestureRecognizer) {
@@ -113,6 +122,65 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         }
         
     }
+    
+//    @IBAction func editJournal(_ sender: Any) {
+//    }
+    
+    @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
+        let point = gesture.location(in: journalCollectionView)
+        
+        // Get the indexPath of the item being long-pressed
+        guard let indexPath = journalCollectionView.indexPathForItem(at: point) else { return }
+        
+        if gesture.state == .began {
+            let selectedJournal = journals[indexPath.item - 1]
+            showActionSheet(for: selectedJournal, at: indexPath)
+        }
+    }
+    
+    func showActionSheet(for journal: Journal, at indexPath: IndexPath) {
+        let actionSheet = UIAlertController(title: journal.title, message: "What would you like to do?", preferredStyle: .actionSheet)
+        
+        let editAction = UIAlertAction(title: "Edit", style: .default) { _ in
+            self.editJournal(at: indexPath)
+        }
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.deleteJournal(at: indexPath)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        actionSheet.addAction(editAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func editJournal(at indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
+        if let editJournalVC = storyboard.instantiateViewController(withIdentifier: "EditJournalViewController") as? EditJournalViewController {
+            editJournalVC.modalPresentationStyle = .pageSheet
+            editJournalVC.delegate = self
+            
+            let selectedJournal = journals[indexPath.item - 1]
+                    editJournalVC.journal = selectedJournal
+                    editJournalVC.journalIndex = indexPath.item - 1
+            
+            if let sheet = editJournalVC.sheetPresentationController {
+                sheet.detents = [.medium()] // Makes it take up half the screen
+            }
+            
+            present(editJournalVC, animated: true)
+        }
+    }
+    
+    func deleteJournal(at indexPath: IndexPath) {
+        journals.remove(at: indexPath.item - 1)
+        journalCollectionView.deleteItems(at: [indexPath])
+    }
+    
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
         selectedColor = viewController.selectedColor
     }

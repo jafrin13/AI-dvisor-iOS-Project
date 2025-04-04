@@ -9,8 +9,8 @@ import UIKit
 
 protocol NewJournalDelegate: AnyObject {
     func didCreateJournal(_ journal: Journal)
+//    func didEditJournal(_ journal: Journal)
 }
-
 
 extension NewJournalViewController: UIColorPickerViewControllerDelegate {
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
@@ -49,6 +49,7 @@ class NewJournalViewController: UIViewController{
         // Style for Rounded Buttons
         saveButton.layer.cornerRadius = 10
         cancelButton.layer.cornerRadius = 10
+        
     }
     
     
