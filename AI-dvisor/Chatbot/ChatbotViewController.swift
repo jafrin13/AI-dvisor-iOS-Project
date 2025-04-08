@@ -5,6 +5,7 @@
 //  Created by Mac Laptop on 3/3/25.
 //
 
+
 import UIKit
 import MessageKit
 import InputBarAccessoryView
@@ -21,7 +22,7 @@ class ChatbotViewController: MessagesViewController {
     let currentUser = Sender(senderId: "self", displayName: "User")
     let chatbot = Sender(senderId: "bot", displayName: "AI-dvisor")
     let defaultMessage: String = "Type message here..."
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTopBar()
@@ -117,26 +118,41 @@ extension ChatbotViewController: UITextViewDelegate {
 extension ChatbotViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         
-        // Create a new message when the send button is pressed
         let newMessage = Message(
             sender: currentSender,
             messageId: UUID().uuidString,
             sentDate: Date(),
             kind: .text(text)
         )
-        
-        // Append the new message to the array
         messages.append(newMessage)
-        
-        // Reload the data to update the message list
         messagesCollectionView.reloadData()
-        
-        // Clear the input text after sending
         inputBar.inputTextView.text = ""
-        
-        // Scroll to the last item (latest message)
         messagesCollectionView.scrollToLastItem()
-    }
+        
+        // potentially add typing indicator here
+        
+        // send message to open AI
+        OpenAIConnector.shared.getResponse(input: text) { [weak self] response in
+            guard let self = self else {
+                return
+            }
+                   
+           // Hide the typing indicator (if added)
+           
+           let botMessage = Message(
+               sender: self.chatbot,
+               messageId: UUID().uuidString,
+               sentDate: Date(),
+               kind: .text(response)
+           )
+           self.messages.append(botMessage)
+           
+           DispatchQueue.main.async {
+               self.messagesCollectionView.reloadData()
+               self.messagesCollectionView.scrollToLastItem()
+           }
+       }
+   }
 }
 
 extension ChatbotViewController: MessagesLayoutDelegate, MessagesDisplayDelegate {

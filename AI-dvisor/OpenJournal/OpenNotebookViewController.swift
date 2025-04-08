@@ -31,7 +31,6 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     
     var pdfItems: [PDFItem] = []
 
-    
         override func viewDidLoad() {
             super.viewDidLoad()
             loadUploadedPDFs()
@@ -40,7 +39,6 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             
             subjectLabel.text = journalTitle
 
-           
             // Do any additional setup after loading the view.
             let homeScreenGesture = UITapGestureRecognizer(target: self, action: #selector(homeBackImageTapped(_:)))
             
@@ -59,8 +57,6 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         return cell
     }
 
-    
-    
     func loadUploadedPDFs() {
         let db = Firestore.firestore()
         db.collection("uploads").getDocuments { snapshot, error in
@@ -95,9 +91,6 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             }
         }
     }
-
-
-
         
         @IBAction func onUploadButtonPressed(_ sender: Any) {
             let documentSelector = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.pdf])
@@ -108,9 +101,6 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             present(documentSelector, animated: true, completion: nil)
         }
         
-        
-        
-        
         @objc func homeBackImageTapped(_ sender: UITapGestureRecognizer) {
             print("Going back to homepage")
             let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
@@ -120,7 +110,6 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                 self.present(backHomeVC, animated: true, completion: nil)
             }
         }
-        
         
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         // make sure there is a selected file
@@ -164,7 +153,6 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         }
     }
 
-        
     // This method creates a thumbnail for the pdf
         func generateThumbnail(from pdfURL: URL, size: CGSize = CGSize(width: 150, height: 200)) -> UIImage? {
             
@@ -209,7 +197,6 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             }
         }
         
-        
         // Uploads the PDF file and returns the URL
         func uploadFileToFirebase(_ fileURL: URL, completion: @escaping (String) -> Void) {
             
@@ -251,7 +238,6 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                     return
                 }
                 
-                
                 // also just in case again if I need to grab the image again
                 storageRef.downloadURL { url, error in
                     if let thumbnailURL = url {
@@ -286,7 +272,6 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             }
         }
     
-    
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             let selectedPDF = pdfItems[indexPath.row]
             
@@ -296,11 +281,10 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                 selectedNoteVC.passedNoteTitle = selectedPDF.fileName
                 selectedNoteVC.noteFilePath = getPathFromURL(selectedPDF.pdfURL) // Helper below
                 selectedNoteVC.folderFilePath = "generated/\(selectedPDF.fileName)" // Customize as needed
-                
+                selectedNoteVC.modalPresentationStyle = .fullScreen
                 self.present(selectedNoteVC, animated: true, completion: nil)
             }
         }
-
     }
 
 func getPathFromURL(_ fullURL: String) -> String {

@@ -69,9 +69,6 @@ class SelectedNoteViewController: UIViewController {
             }
         }
     }
-
-
-
     
     func displayDocument() {
         guard let localFileURL = localFileURL else {
@@ -105,7 +102,6 @@ class SelectedNoteViewController: UIViewController {
         })
     }
     
-
     @IBAction func dragViewDown(_ sender: UIPanGestureRecognizer) {
         guard let piece = sender.view else {
             return
