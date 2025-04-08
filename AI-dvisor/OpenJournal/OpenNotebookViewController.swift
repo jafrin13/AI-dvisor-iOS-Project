@@ -20,7 +20,6 @@ struct PDFItem {
 }
 
 class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  UICollectionViewDataSource, UICollectionViewDelegate {
-    
 
     @IBOutlet weak var subjectLabel: UILabel!
     var journalTitle: String?
@@ -300,6 +299,3 @@ func getPathFromURL(_ fullURL: String) -> String {
     }
     return ""
 }
-
-    
-

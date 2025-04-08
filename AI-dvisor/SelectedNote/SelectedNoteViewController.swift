@@ -25,7 +25,6 @@ class SelectedNoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
 
     override func viewWillAppear(_ animated: Bool) {
         // update label to the name/title of the selected note
