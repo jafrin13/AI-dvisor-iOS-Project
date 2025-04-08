@@ -19,6 +19,9 @@ class ProfilePageViewController: UIViewController {
     var currentUsername: String = ""
     var currentUser: User?
     
+    // Delegate property
+    weak var delegate: ProfilePageDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -172,6 +175,9 @@ extension ProfilePageViewController: UIImagePickerControllerDelegate, UINavigati
             let imageData = editedImage.pngData()
             self.currentUser?.setValue(imageData, forKey: "profilePicture")
             self.saveContext()
+            
+            // Call the delegate to update the Settings VC with the new image
+            delegate?.profilePageDidUpdateProfilePicture(editedImage)
         } else if let originalImage = info[.originalImage] as? UIImage {
             profilePicture.image = originalImage
         }

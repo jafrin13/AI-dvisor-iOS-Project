@@ -84,14 +84,25 @@ class SettingsViewController: UIViewController {
         self.performSegue(withIdentifier: "profilePageSegue", sender: self)
     }
     
-    // Reload the data to reflect a possible PFP change
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let email = Auth.auth().currentUser?.email {
-            fetchUser(email: email)
-        }
+    // For profile changes communication
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       if segue.identifier == "profilePageSegue" {
+           if let profilePageVC = segue.destination as? ProfilePageViewController {
+               // Set self as the delegate so that the profile update is communicated back
+               profilePageVC.delegate = self
+           }
+       }
     }
 }
+
+// For profile changes communication
+extension SettingsViewController: ProfilePageDelegate {
+    func profilePageDidUpdateProfilePicture(_ newProfilePicture: UIImage) {
+        // Update the profile picture immediately
+        self.profilePicture.image = newProfilePicture
+    }
+}
+   
     
 
     
