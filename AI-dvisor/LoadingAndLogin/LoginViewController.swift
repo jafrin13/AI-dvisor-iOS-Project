@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseAuth
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
 
     let createAccountSegueIdentifier = "CreateAccountSegue"
     let successfullyLoggedInIdentifier = "SuccessfullyLoggedSegue"
@@ -19,6 +19,10 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // To close keyboard when tap on screen
+        passwordTextField.delegate = self
+        usernameTextField.delegate = self
+        
         passwordTextField.isSecureTextEntry = true
     }
     
@@ -46,6 +50,17 @@ class LoginViewController: UIViewController {
     // If user does not have an account, this will take them to the VC for account creation
     @IBAction func signUpButtonPressed(_ sender: Any) {
         self.performSegue(withIdentifier: self.createAccountSegueIdentifier, sender: self)
+    }
+    
+    // Called when 'return' key pressed
+    func textFieldShouldReturn(_ textField:UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // Called when the user clicks on the view outside of the UITextField
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 
 }

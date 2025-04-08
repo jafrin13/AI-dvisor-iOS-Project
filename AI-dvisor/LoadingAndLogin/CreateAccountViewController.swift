@@ -6,8 +6,15 @@
 //
 import UIKit
 import FirebaseAuth
+import CoreData
 
-class CreateAccountViewController: UIViewController {
+// Ptr to app delegate so we can get context (buffer/cache/notepad)
+let appDelegate = UIApplication.shared.delegate as! AppDelegate
+// This will write it out to core data unless its saved in it; this is the lazy var
+// from app delegate -- the container from over there
+let context = appDelegate.persistentContainer.viewContext
+
+class CreateAccountViewController: UIViewController, UITextFieldDelegate {
 
     let successfullyLoggedInIdentifier = "CreatedAccountSegue"
 
@@ -18,6 +25,11 @@ class CreateAccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // For keyboard to close when tap on screen
+        newUserPasswordTextField.delegate = self
+        newUserUsernameTextField.delegate = self
+        reEnterPasswordField.delegate = self
+        
         newUserPasswordTextField.isSecureTextEntry = true
         reEnterPasswordField.isSecureTextEntry = true
     }
@@ -80,6 +92,8 @@ class CreateAccountViewController: UIViewController {
                 Auth.auth().addStateDidChangeListener() {
                     (auth, user) in
                     if user != nil {
+                        // Store new user into core data
+                        self.storeUser()
                         self.performSegue(withIdentifier: self.successfullyLoggedInIdentifier, sender: nil)
                         // Successful login, clear fields
                         self.newUserPasswordTextField = nil
@@ -94,5 +108,45 @@ class CreateAccountViewController: UIViewController {
     // If user no longer wants to create an account, they can go back to login VC
     @IBAction func backButtonPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    // Called when 'return' key pressed
+    func textFieldShouldReturn(_ textField:UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // Called when the user clicks on the view outside of the UITextField
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    // This will create a new user entity to store into Core Data
+    func storeUser() {
+        guard let email = Auth.auth().currentUser?.email else { return }
+        let username = email.components(separatedBy: "@").first ?? email
+
+        // Load the default profile image
+        let defaultProfileImg = UIImage(named: "pfpTurtle")!
+        let imageData = defaultProfileImg.pngData()
+
+        let newUser = NSEntityDescription.insertNewObject(forEntityName: "User", into: context)
+        newUser.setValue(username, forKey: "username")
+        newUser.setValue(email, forKey: "email")
+        newUser.setValue(imageData, forKey: "profilePicture")
+
+        saveContext()
+    }
+    
+    // Saves the changes in core
+    func saveContext () {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
 }
