@@ -23,7 +23,7 @@ extension NewJournalViewController: UIColorPickerViewControllerDelegate {
     }
 }
 
-class NewJournalViewController: UIViewController{
+class NewJournalViewController: UIViewController, UITextFieldDelegate{
     
     @IBOutlet weak var journalNameTextFeild: UITextField!
     
@@ -52,7 +52,20 @@ class NewJournalViewController: UIViewController{
         saveButton.layer.cornerRadius = 10
         cancelButton.layer.cornerRadius = 10
         
+        journalNameTextFeild.delegate = self
+        
     }
+    
+    func textFieldShouldReturn(_ textField:UITextField) -> Bool {
+            textField.resignFirstResponder()
+            return true
+        }
+        
+        // Called when the user clicks on the view outside of the UITextField
+
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            self.view.endEditing(true)
+        }
     
     @IBAction func colorSelectorPressed(_ sender: Any) {
         let colorPicker = UIColorPickerViewController()
