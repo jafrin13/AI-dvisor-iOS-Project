@@ -20,7 +20,7 @@ extension EditJournalViewController: UIColorPickerViewControllerDelegate {
     }
 }
 
-class EditJournalViewController: UIViewController {
+class EditJournalViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var editColorButton: UIButton!
     @IBOutlet weak var editImportanceButton: UIButton!
@@ -47,8 +47,23 @@ class EditJournalViewController: UIViewController {
         // Style for Rounded Buttons
         saveBtn.layer.cornerRadius = 10
         cancelBtn.layer.cornerRadius = 10
+        
+        nameTextField.delegate = self
 
     }
+    
+    // Called when 'return' key pressed
+
+        func textFieldShouldReturn(_ textField:UITextField) -> Bool {
+            textField.resignFirstResponder()
+            return true
+        }
+        
+        // Called when the user clicks on the view outside of the UITextField
+
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            self.view.endEditing(true)
+        }
     
     @IBAction func editColorPressed(_ sender: Any) {
         let colorPicker = UIColorPickerViewController()

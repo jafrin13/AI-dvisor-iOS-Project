@@ -16,6 +16,8 @@ class ProfilePageViewController: UIViewController {
     @IBOutlet weak var errorMessage: UILabel!
     @IBOutlet weak var helloUserText: UILabel!
     
+    let imagePickerController = UIImagePickerController()
+    
     var currentUsername: String = ""
     var currentUser: User?
     
@@ -24,6 +26,8 @@ class ProfilePageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        imagePickerController.delegate = self
         
         // Set up the profile image view to be circular
         profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
@@ -134,24 +138,21 @@ class ProfilePageViewController: UIViewController {
     
     // Change pfp by user request
     @IBAction func onPFPButton(_ sender: Any) {
-        // Create an instance of UIImagePickerController
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
         imagePickerController.allowsEditing = true  // Allow users to crop the photo
 
         // Create an action sheet to let the user choose the image source
         let actionSheet = UIAlertController(title: "Select Profile Picture", message: "Choose a source", preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (_) in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                imagePickerController.sourceType = .camera
-                self.present(imagePickerController, animated: true, completion: nil)
+                self.imagePickerController.sourceType = .camera
+                self.present(self.imagePickerController, animated: true, completion: nil)
             } else {
                 print("Camera not available")
             }
         }))
         actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (_) in
-            imagePickerController.sourceType = .photoLibrary
-            self.present(imagePickerController, animated: true, completion: nil)
+            self.imagePickerController.sourceType = .photoLibrary
+            self.present(self.imagePickerController, animated: true, completion: nil)
         }))
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
