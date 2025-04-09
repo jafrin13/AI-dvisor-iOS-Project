@@ -1,5 +1,5 @@
 {
-  "originHash" : "628b65628f9480b1681027a03d51f0de94fa09a4d98d5bddc1b6ca50da708b7a",
+  "originHash" : "72189a6d97c9d6e68724045eafc797f61a6d31cf9d46ff8007be7b88d7cafb48",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -125,15 +125,6 @@
       "state" : {
         "revision" : "f5b55e19b5a634d1c86ca4f77e614ffd19d5fc1d",
         "version" : "0.3.9"
-      }
-    },
-    {
-      "identity" : "openaiswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/adamrushy/OpenAISwift.git",
-      "state" : {
-        "revision" : "ca66fb720d6ebb657601db5a0852b830ae310a4c",
-        "version" : "1.4.1"
       }
     },
     {
