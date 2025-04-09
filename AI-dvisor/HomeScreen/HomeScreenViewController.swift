@@ -108,6 +108,8 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             
             // This statement is to set this variable to a storyboard to allow for the transition to happen
             if let openNoteVC = storyboard.instantiateViewController(withIdentifier: "OpenNoteScreen") as? OpenNotebookViewController {
+                let selectedJournal = journals[indexPath.row - 1]
+                openNoteVC.journalTitle = selectedJournal.title
                 openNoteVC.modalTransitionStyle = .crossDissolve
                 openNoteVC.modalPresentationStyle = .fullScreen
                 self.present(openNoteVC, animated: true, completion: nil)
