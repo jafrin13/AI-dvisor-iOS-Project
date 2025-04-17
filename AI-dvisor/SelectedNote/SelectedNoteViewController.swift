@@ -16,7 +16,6 @@ class SelectedNoteViewController: UIViewController {
     @IBOutlet weak var noteView: UIView! // view to display the actual document
     @IBOutlet weak var optionsView: UIView! // view for generative options
     
-    
     var passedNoteTitle: String = "" // title of the displayed note passed from segue
     var noteFilePath: String = "" // path to the doc we want to display in Firebase passed from segue
     var folderFilePath: String = "" // path to the folder we want to store any generated content to passed from segue
@@ -25,7 +24,6 @@ class SelectedNoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
 
     override func viewWillAppear(_ animated: Bool) {
         // update label to the name/title of the selected note
@@ -39,12 +37,9 @@ class SelectedNoteViewController: UIViewController {
         // make corners of the options view rounded
         optionsView.layer.cornerRadius = 35
 
-
-        
         // locally download the file and fill UIView with the selected note
          downloadFileFromFirebase(filePath: noteFilePath)
     }
-    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -92,7 +87,11 @@ class SelectedNoteViewController: UIViewController {
         noteView.addSubview(pdfView)
         print("PDFView added to noteView")
     }
-
+    
+    @IBAction func pressedBackButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil) // Dismiss the current view controller
+    }
+    
     @IBAction func pressedGenerateButton(_ sender: Any) {
         // make options view pop up
         let targetHeight: CGFloat = 355

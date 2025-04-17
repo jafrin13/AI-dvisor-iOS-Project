@@ -6,24 +6,47 @@
 //
 
 import UIKit
+import FirebaseAuth
+import CoreData
 
 class SettingsViewController: UIViewController {
     
-    
-    
-    @IBOutlet weak var notifications: UILabel!
-    
+    @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var settings: UILabel!
-    
     @IBOutlet weak var onButton: UIButton!
     @IBOutlet weak var offButton: UIButton!
-    
-    
     @IBOutlet weak var logOffButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set up the profile image view to be circular
+        profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
+        profilePicture.clipsToBounds = true
+        profilePicture.layer.borderWidth = 2
+        profilePicture.layer.borderColor = UIColor.lightGray.cgColor
+        
+        // Obtain specific user from core and set profile picture
+        if let email = Auth.auth().currentUser?.email {
+            fetchUser(email: email)
+        }
+    }
+    
+    // Fetch user from core and update UI
+    func fetchUser(email: String) {
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest() 
+        fetchRequest.predicate = NSPredicate(format: "email MATCHES %@", email)
+
+        do {
+            let users = try context.fetch(fetchRequest)
+            if let user = users.first {
+                if let imageData = user.profilePicture as Data?, let image = UIImage(data: imageData) {
+                    profilePicture.image = image
+                }
+            }
+        } catch {
+            print("Failed to fetch user: \(error)")
+        }
     }
     
     // This function loads in the HomeScreenStoryboard when pressed
@@ -41,8 +64,13 @@ class SettingsViewController: UIViewController {
     
     // This function loads in the LoginandSignupStoryboard when pressed
     @IBAction func logoutButtonPressed(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print("Sign out error")
+        }
         
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         // This statement is to set this variable to a storyboard to allow for the transition to happen
         if let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginScreen") as? LoginViewController {
             // This is the style of how the transition looks
@@ -51,21 +79,35 @@ class SettingsViewController: UIViewController {
             self.present(loginVC, animated: true, completion: nil)
         }
     }
-}
     
-
-    
-
-   
-   
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func onProfileButtonPressed(_ sender: Any) {
+        self.performSegue(withIdentifier: "profilePageSegue", sender: self)
     }
-    */
+    
+    // For profile changes communication
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       if segue.identifier == "profilePageSegue" {
+           if let profilePageVC = segue.destination as? ProfilePageViewController {
+               // Set self as the delegate so that the profile update is communicated back
+               profilePageVC.delegate = self
+           }
+       }
+    }
+}
+
+// For profile changes communication
+extension SettingsViewController: ProfilePageDelegate {
+    func profilePageDidUpdateProfilePicture(_ newProfilePicture: UIImage) {
+        // Update the profile picture immediately
+        self.profilePicture.image = newProfilePicture
+    }
+}
+   
+    
+
+    
+
+   
+   
+
 
