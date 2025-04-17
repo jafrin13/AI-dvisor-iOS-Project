@@ -11,6 +11,7 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 import PDFKit
+import FirebaseAuth
 
 
 struct PDFItem {
@@ -61,30 +62,36 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     }
 
     func loadUploadedPDFs() {
+        // make sure we are only loading the PDFs for the specific journal
+        guard let journalTitle = self.journalTitle else { return }
+        guard let currentUserID = Auth.auth().currentUser?.uid else { return }
+        
         let db = Firestore.firestore()
-        db.collection("uploads").getDocuments { snapshot, error in
+
+        db.collection("users").document(currentUserID)
+          .collection("journals").document(journalTitle)
+          .collection("uploads").order(by: "timestamp", descending: false) 
+.getDocuments { snapshot, error in
             if let error = error {
                 print("Error fetching PDFs: \(error.localizedDescription)")
                 return
             }
-            
+
             // Clear the array before loading new data
             self.pdfItems.removeAll()
-            
+
             guard let documents = snapshot?.documents else { return }
             for doc in documents {
                 // Retrieve the file name (if not available, default to "Unknown.pdf")
                 let fileName = doc.data()["fileName"] as? String ?? "Unknown.pdf"
                 let pdfURL = doc.data()["pdfURL"] as? String ?? ""
-    
+
                 if let thumbnailURLString = doc.data()["thumbnailURL"] as? String,
                    let url = URL(string: thumbnailURLString) {
                     URLSession.shared.dataTask(with: url) { data, response, error in
                         if let data = data, let image = UIImage(data: data) {
-                            
                             DispatchQueue.main.async {
-                                
-                                let pdfItem = PDFItem(thumbnail: image, fileName: fileName, pdfURL:pdfURL)
+                                let pdfItem = PDFItem(thumbnail: image, fileName: fileName, pdfURL: pdfURL)
                                 self.pdfItems.append(pdfItem)
                                 self.pdfCollectionView.reloadData()
                             }
@@ -94,6 +101,8 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             }
         }
     }
+
+
         
         @IBAction func onUploadButtonPressed(_ sender: Any) {
             let documentSelector = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.pdf])
@@ -201,30 +210,29 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         }
         
         // Uploads the PDF file and returns the URL
-        func uploadFileToFirebase(_ fileURL: URL, completion: @escaping (String) -> Void) {
-            
-            // grabs the reference of the firebase storage
-            // then generates a unique name for the file under "uploads"
-            let storageRef = Storage.storage().reference().child("uploads/\(UUID().uuidString).pdf")
-            
-            let uploadPDF = storageRef.putFile(from: fileURL, metadata: nil) { metadata, error in
-                if let error = error {
-                    print("PDF upload to firebase failed: \(error.localizedDescription)")
-                    return
-                }
-                
-                // for now we don't need the url of the pdf but I have the method return
-                // the file url just in case we need it for dynamically creating the multiple thumbnails
-                storageRef.downloadURL { url, error in
-                    if let downloadURL = url {
-                        print("File uploaded successfully: \(downloadURL.absoluteString)")
-                        completion(downloadURL.absoluteString)
-                    } else {
-                        print("Failed to retrieve download URL")
-                    }
+    func uploadFileToFirebase(_ fileURL: URL, completion: @escaping (String) -> Void) {
+        guard let journalTitle = self.journalTitle else { return }
+
+        let filePath = "uploads/\(journalTitle)/\(UUID().uuidString).pdf"
+        let storageRef = Storage.storage().reference().child(filePath)
+
+        storageRef.putFile(from: fileURL, metadata: nil) { metadata, error in
+            if let error = error {
+                print("PDF upload to firebase failed: \(error.localizedDescription)")
+                return
+            }
+
+            storageRef.downloadURL { url, error in
+                if let downloadURL = url {
+                    print("File uploaded successfully: \(downloadURL.absoluteString)")
+                    completion(downloadURL.absoluteString)
+                } else {
+                    print("Failed to retrieve download URL")
                 }
             }
         }
+    }
+
     
     @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
         let point = gesture.location(in: pdfCollectionView)
@@ -294,21 +302,32 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         // searching and it said I can only control the schema through code and not the
         // firebase console)
     func saveFileMetadataToFirestore(pdfURL: String, thumbnailURL: String, fileName: String) {
-            let db = Firestore.firestore()
-            let data: [String: Any] = [
-                "pdfURL": pdfURL,
-                "thumbnailURL": thumbnailURL,
-                "fileName": fileName
-            ]
-            
-            db.collection("uploads").addDocument(data: data) { error in
-                if let error = error {
-                    print("Failed to save metadata: \(error.localizedDescription)")
-                } else {
-                    print("File metadata saved successfully.")
-                }
+        guard let journalTitle = self.journalTitle else { return }
+
+        let db = Firestore.firestore()
+        
+        let data: [String: Any] = [
+            "pdfURL": pdfURL,
+            "thumbnailURL": thumbnailURL,
+            "fileName": fileName,
+            "userId": Auth.auth().currentUser?.uid ?? "unknown",
+            "timestamp": FieldValue.serverTimestamp()  // ✅ Add this line
+        ]
+
+
+
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(userId)
+          .collection("journals").document(journalTitle)
+          .collection("uploads").addDocument(data: data) { error in
+            if let error = error {
+                print("Failed to save metadata: \(error.localizedDescription)")
+            } else {
+                print("File metadata saved successfully for journal: \(journalTitle)")
             }
         }
+    }
+
     
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             let selectedPDF = pdfItems[indexPath.row]
