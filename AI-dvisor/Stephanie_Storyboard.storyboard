@@ -40,7 +40,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTIFICATIONS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPZ-w3-E4D">
-                                <rect key="frame" x="160" y="359" width="120.33333333333331" height="24"/>
+                                <rect key="frame" x="157.33333333333334" y="359" width="125.66666666666666" height="20"/>
                                 <fontDescription key="fontDescription" name="BakbakOne-Regular" family="Bakbak One" pointSize="17"/>
                                 <color key="textColor" red="0.58039218189999997" green="0.50980395079999996" blue="0.53333336109999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -58,6 +58,9 @@
                                 </segments>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="selectedSegmentTintColor" red="0.45098042490000001" green="0.42352938649999999" blue="0.42352938649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="onDarkLightSegCtrl:" destination="Y6W-OH-hqX" eventType="valueChanged" id="xD5-tR-q3g"/>
+                                </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NB7-j9-TtM">
                                 <rect key="frame" x="170" y="563" width="100" height="40"/>
@@ -191,7 +194,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JVy-FB-IWj">
-                                <rect key="frame" x="137" y="394" width="60" height="33"/>
+                                <rect key="frame" x="157" y="394" width="60" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="3eA-FI-2fj"/>
                                     <constraint firstAttribute="width" constant="60" id="lse-us-22S"/>
@@ -218,7 +221,7 @@
                             <constraint firstItem="UP8-gG-OFw" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="38" id="4Pd-tH-EzL"/>
                             <constraint firstItem="OHs-9l-Rar" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="AcX-WM-8ce"/>
                             <constraint firstItem="wPZ-w3-E4D" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="AzT-67-Cr1"/>
-                            <constraint firstItem="JVy-FB-IWj" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="137" id="DZi-0d-rSS"/>
+                            <constraint firstItem="JVy-FB-IWj" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="157" id="DZi-0d-rSS"/>
                             <constraint firstItem="OHs-9l-Rar" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="556" id="Dfr-MU-nJ6"/>
                             <constraint firstItem="hKa-X5-Ggr" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="112" id="K6x-NT-Y5o"/>
                             <constraint firstItem="wPZ-w3-E4D" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="297" id="MAu-S4-K0b"/>
@@ -233,6 +236,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="darkLightSegCtrl" destination="rTs-I8-zc9" id="Lid-XS-Vfa"/>
                         <outlet property="logOffButton" destination="OHs-9l-Rar" id="93c-hd-Ank"/>
                         <outlet property="offButton" destination="fDi-bV-KRd" id="7d0-92-ZhE"/>
                         <outlet property="onButton" destination="JVy-FB-IWj" id="2Z8-v1-3eV"/>
@@ -375,7 +379,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hi, Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D2H-oR-De2">
                                 <rect key="frame" x="151" y="351" width="138" height="29"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="26"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kk-Aa-UBi">
@@ -537,7 +541,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ISC-gJ-S8z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="930" y="-9"/>
+            <point key="canvasLocation" x="930.00000000000011" y="-9.4142259414225951"/>
         </scene>
     </scenes>
     <resources>
@@ -551,7 +555,7 @@
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

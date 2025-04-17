@@ -54,14 +54,28 @@ class ProfilePageViewController: UIViewController {
             if let user = fetchedResults.first {
                 currentUser = user
                 helloUserText.text = "Hi, \(user.username ?? "")"
-
+                // Set pfp
                 if let imageData = user.profilePicture as Data?, let image = UIImage(data: imageData) {
                     profilePicture.image = image
                 }
+                // Set dark or light mode
+                let isDarkMode = user.value(forKey: "darkMode") as? Bool ?? false
+                onDarkLightMode(darkMode: isDarkMode)
             }
         } catch {
             print("Error while retrieving data: \(error)")
             errorMessage.text = "Failed to load user data."
+        }
+    }
+    
+    // For Dark/Light Mode
+    func onDarkLightMode(darkMode: Bool) {
+        if (darkMode) {
+            // Dark mode: Set a navy blue background
+            view.backgroundColor = UIColor(red: 40/255.0, green: 40/255.0, blue: 100/255.0, alpha: 1.0)
+        } else {
+            // Light mode: Set the background to the original light color
+            view.backgroundColor = UIColor(red: 245/255.0, green: 224/255.0, blue: 216/255.0, alpha: 1.0)
         }
     }
     

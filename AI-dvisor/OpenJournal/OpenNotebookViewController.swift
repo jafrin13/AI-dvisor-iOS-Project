@@ -11,6 +11,8 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 import PDFKit
+import CoreData
+import FirebaseAuth
 
 
 struct PDFItem {
@@ -30,19 +32,54 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     
     var pdfItems: [PDFItem] = []
 
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            loadUploadedPDFs()
-            pdfCollectionView.delegate = self
-            pdfCollectionView.dataSource = self
-            
-            subjectLabel.text = journalTitle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        loadUploadedPDFs()
+        pdfCollectionView.delegate = self
+        pdfCollectionView.dataSource = self
+        
+        subjectLabel.text = journalTitle
 
-            // Do any additional setup after loading the view.
-            let homeScreenGesture = UITapGestureRecognizer(target: self, action: #selector(homeBackImageTapped(_:)))
-            
-            homeBackButton.addGestureRecognizer(homeScreenGesture)
+        // Do any additional setup after loading the view.
+        let homeScreenGesture = UITapGestureRecognizer(target: self, action: #selector(homeBackImageTapped(_:)))
+        
+        homeBackButton.addGestureRecognizer(homeScreenGesture)
+        
+        // Obtain specific user from core
+        if let email = Auth.auth().currentUser?.email {
+            fetchUser(email: email)
         }
+    }
+    
+    // Fetch user from core and update UI
+    func fetchUser(email: String) {
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "email MATCHES %@", email)
+
+        do {
+            let users = try context.fetch(fetchRequest)
+            if let user = users.first {
+                // Set dark or light mode
+                let isDarkMode = user.value(forKey: "darkMode") as? Bool ?? false
+                onDarkLightMode(darkMode: isDarkMode)
+            }
+        } catch {
+            print("Failed to fetch user: \(error)")
+        }
+    }
+    
+    // For Dark/Light Mode
+    func onDarkLightMode(darkMode: Bool) {
+        if (darkMode) {
+            // Dark mode: Set a light gray background
+            view.backgroundColor = UIColor(red: 128/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1.0)
+            homeBackButton.backgroundColor = UIColor(red: 128/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1.0)
+        } else {
+            // Light mode: Set the background to the original light color
+            view.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+            homeBackButton.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return pdfItems.count

@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import CoreData
+import FirebaseAuth
 
 // This extension allows the HomeScreenViewController to handle new journal creation updates.
 extension HomeScreenViewController: NewJournalDelegate {
@@ -47,6 +49,41 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         journalCollectionView.addGestureRecognizer(longPressGesture)
+        
+        // Obtain specific user from core 
+        if let email = Auth.auth().currentUser?.email {
+            fetchUser(email: email)
+        }
+    }
+    
+    // Fetch user from core and update UI
+    func fetchUser(email: String) {
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "email MATCHES %@", email)
+
+        do {
+            let users = try context.fetch(fetchRequest)
+            if let user = users.first {
+                // Set dark or light mode
+                let isDarkMode = user.value(forKey: "darkMode") as? Bool ?? false
+                onDarkLightMode(darkMode: isDarkMode)
+            }
+        } catch {
+            print("Failed to fetch user: \(error)")
+        }
+    }
+    
+    // For Dark/Light Mode
+    func onDarkLightMode(darkMode: Bool) {
+        if (darkMode) {
+            // Dark mode: Set a light gray background
+            view.backgroundColor = UIColor(red: 128/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1.0)
+            journalCollectionView.backgroundColor = UIColor(red: 160/255.0, green: 160/255.0, blue: 160/255.0, alpha: 1.0)
+        } else {
+            // Light mode: Set the background to the original light color
+            view.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+            journalCollectionView.backgroundColor = UIColor(red: 230/255.0, green: 245/255.0, blue: 220/255.0, alpha: 1.0)
+        }
     }
     
     // This function is not implemented yet for Alpha but will be implemented for Final
