@@ -27,6 +27,8 @@ extension HomeScreenViewController: NewJournalDelegate {
 class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIColorPickerViewControllerDelegate, EditJournalDelegate {
     
     var journals: [Journal] = []
+    var cdJournals: [UserJournal] = []
+    
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private var currentUser: User?
     
@@ -39,6 +41,8 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        fetchCurrentUser()
         
         // These are to allow the Icons to act as buttons when tapped.
         let addFriendGesture = UITapGestureRecognizer(target: self, action: #selector(addFriendImageTapped(_:)))
@@ -54,23 +58,33 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         journalCollectionView.addGestureRecognizer(longPressGesture)
         
-        fetchCurrentUser()
+        
     }
     
     private func fetchCurrentUser() {
       guard let email = Auth.auth().currentUser?.email else {
-        print("❌ no Firebase user logged in")
-        return
+        fatalError("No Firebase user logged in")
       }
+
       let req: NSFetchRequest<User> = User.fetchRequest()
       req.predicate = NSPredicate(format: "email == %@", email)
+
       do {
-        currentUser = try context.fetch(req).first
-        if currentUser == nil {
-          print("❌ no matching User found in Core Data for \(email)")
+        if let user = try context.fetch(req).first {
+          // found an existing record
+          currentUser = user
+        } else {
+          // **not** found — create one now
+          let newUser = User(context: context)
+          newUser.email       = email
+          newUser.username    = email.components(separatedBy: "@").first
+          // you can set a default profile picture here if you want
+          try context.save()
+          currentUser = newUser
+          print("✅ Created Core Data User for \(email)")
         }
       } catch {
-        print("❌ error fetching User:", error)
+        fatalError("Failed fetching/creating User: \(error)")
       }
     }
     
@@ -81,46 +95,87 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
       }
     
     private func loadJournals() {
-        guard let user = currentUser else {
-            journals = []
-            return
-          }
-        let req: NSFetchRequest<UserJournal> = UserJournal.fetchRequest()
-        req.predicate = NSPredicate(format: "users == %@", currentUser ?? "Username")
-//        req.sortDescriptors = [ .init(key: "createdAt", ascending: false) ]
-        do {
-            let cdJournals = try context.fetch(req)
-            journals = cdJournals.map { entity in
-                Journal(
-                    title:      entity.title      ?? "Untitled",
-                    importance: entity.importance ?? "!",
-                    bgColor:    entity.bgColor ?? .blue
-                )
-            }
-        } catch {
-            print("📓 load error:", error)
-            journals = []
-        }
-    }
-    
-//    private func fetchCurrentUser() {
-//        guard let email = Auth.auth().currentUser?.email else {
-//          fatalError("No Firebase user!")
-//        }
-//        let req: NSFetchRequest<User> = User.fetchRequest()
-//        req.predicate = NSPredicate(format: "email == %@", email)
-//        do {
-//          if let user = try context.fetch(req).first {
-//            currentUser = user
-//          } else {
-//            fatalError("No matching User in Core Data for \(email)")
+//        guard let user = currentUser else {
+//            journals = []
+//            return
 //          }
+//        let req: NSFetchRequest<UserJournal> = UserJournal.fetchRequest()
+//        req.predicate = NSPredicate(format: "users == %@", currentUser ?? "Username")
+////        req.sortDescriptors = [ .init(key: "createdAt", ascending: false) ]
+//        do {
+//            let cdJournals = try context.fetch(req)
+//            journals = cdJournals.map { entity in
+//              // title & importance as before...
+//              let title      = entity.title      ?? "Untitled"
+//              let importance = entity.importance ?? "!"
+//              
+//              // turn Data back into UIColor
+//              let bgColor: UIColor
+//              if let data = entity.bgColor,
+//                 let color = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data)
+//                              as? UIColor {
+//                bgColor = color
+//              } else {
+//                bgColor = .blue
+//              }
+//
+//              return Journal(title: title, importance: importance, bgColor: bgColor)
 //        } catch {
-//          fatalError("Fetch failed: \(error)")
+//            print("📓 load error:", error)
+//            journals = []
 //        }
-//      }
-    
-    
+        
+
+        
+        // 1️⃣ Ensure we have the logged‑in User
+            guard let user = currentUser else {
+                cdJournals = []
+                journals   = []
+                journalCollectionView.reloadData()
+                return
+            }
+
+            // 2️⃣ Build & run the fetch request
+            let req: NSFetchRequest<UserJournal> = UserJournal.fetchRequest()
+            req.predicate = NSPredicate(format: "users == %@", user)
+            // If you have a createdAt Date attribute, you can sort:
+            // req.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+
+            do {
+                // Fetch the managed objects
+                cdJournals = try context.fetch(req)
+
+                // 3️⃣ Map each managed object into your Swift struct
+                journals = cdJournals.map { entity in
+                    let title      = entity.title      ?? "Untitled"
+                    let importance = entity.importance ?? "!"
+                    
+                    // Unarchive UIColor from Data, fallback to .blue
+                    let bgColor: UIColor
+                    if let data = entity.bgColor,
+                       let color = try? NSKeyedUnarchiver
+                                        .unarchivedObject(ofClass: UIColor.self, from: data) {
+                        bgColor = color
+                    } else {
+                        bgColor = .blue
+                    }
+
+                    return Journal(
+                        title:      title,
+                        importance: importance,
+                        bgColor:    bgColor
+                    )
+                }
+
+            } catch {
+                print("⚠️ Failed to fetch journals:", error)
+                cdJournals = []
+                journals   = []
+            }
+
+            // 4️⃣ Refresh the UI
+            journalCollectionView.reloadData()
+    }
     
     // This function is not implemented yet for Alpha but will be implemented for Final
     @objc func addFriendImageTapped(_ sender: UITapGestureRecognizer) {
@@ -156,8 +211,6 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             cell.journalTitle.text = journals[indexPath.row - 1].title
             cell.importanceLabel.text = journals[indexPath.row - 1].importance
             cell.journalView.backgroundColor = journals[indexPath.row - 1].bgColor
-//            cell.layer.cornerRadius = 15
-//                    cell.layer.masksToBounds = true  // Allow shadows to be visible
             
             cell.contentView.layer.cornerRadius = 15
                     cell.contentView.layer.masksToBounds = true
@@ -206,9 +259,6 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
-//    @IBAction func editJournal(_ sender: Any) {
-//    }
-    
     @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
         let point = gesture.location(in: journalCollectionView)
         
@@ -247,9 +297,10 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             editJournalVC.modalPresentationStyle = .pageSheet
             editJournalVC.delegate = self
             
-            let selectedJournal = journals[indexPath.item - 1]
-                    editJournalVC.journal = selectedJournal
+            let selectedJournal = cdJournals[indexPath.item - 1]
+            editJournalVC.userJournal = selectedJournal
                     editJournalVC.journalIndex = indexPath.item - 1
+                    editJournalVC.currentUser   = currentUser
             
             if let sheet = editJournalVC.sheetPresentationController {
                 sheet.detents = [.medium()] // Makes it take up half the screen

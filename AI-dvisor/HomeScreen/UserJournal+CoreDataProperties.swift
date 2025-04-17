@@ -8,7 +8,6 @@
 
 import Foundation
 import CoreData
-import UIKit
 
 
 extension UserJournal {
@@ -17,7 +16,7 @@ extension UserJournal {
         return NSFetchRequest<UserJournal>(entityName: "UserJournal")
     }
 
-    @NSManaged public var bgColor: UIColor?
+    @NSManaged public var bgColor: Data?
     @NSManaged public var importance: String?
     @NSManaged public var title: String?
     @NSManaged public var users: User?

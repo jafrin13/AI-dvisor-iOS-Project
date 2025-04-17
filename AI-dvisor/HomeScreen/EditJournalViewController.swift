@@ -21,6 +21,10 @@ extension EditJournalViewController: UIColorPickerViewControllerDelegate {
 }
 
 class EditJournalViewController: UIViewController, UITextFieldDelegate {
+    
+    var currentUser: User!
+    
+    var userJournal: UserJournal!
 
     @IBOutlet weak var editColorButton: UIButton!
     @IBOutlet weak var editImportanceButton: UIButton!
@@ -49,6 +53,19 @@ class EditJournalViewController: UIViewController, UITextFieldDelegate {
         cancelBtn.layer.cornerRadius = 10
         
         nameTextField.delegate = self
+        
+        nameTextField.text = userJournal.title
+          importanceLevel     = userJournal.importance ?? "!"
+        editImportanceButton.titleLabel?.text = importanceLevel
+          // unarchive color for the picker preview:
+          if let data = userJournal.bgColor,
+             let color = try? NSKeyedUnarchiver
+                             .unarchivedObject(ofClass: UIColor.self, from: data) {
+            selectedColor = color
+          }
+        editColorButton.backgroundColor = selectedColor
+        editColorButton.tintColor = selectedColor
+        editColorButton.setTitle( "", for: .normal)
 
     }
     
@@ -101,13 +118,92 @@ class EditJournalViewController: UIViewController, UITextFieldDelegate {
     
 
     @IBAction func updateBtnPressed(_ sender: Any) {
-        let journalTitle = nameTextField.text ?? "New Journal"
-        let selectedImportance = importanceLevel
-        let index = journalIndex ?? 0
-        let updatedJournal = Journal(title: journalTitle, importance: selectedImportance, bgColor: selectedColor)
-        delegate?.didEditJournal(updatedJournal, at: index)
+//        let newTitle = ((nameTextField.text?.isEmpty) != nil) ? "New Journal" : nameTextField.text
+//        let newImportance = importanceLevel
+//        let index = journalIndex ?? 0
+//        
+//        let colorData: Data
+//            do {
+//                colorData = try NSKeyedArchiver.archivedData(
+//                    withRootObject: selectedColor,
+//                    requiringSecureCoding: false
+//                )
+//            } catch {
+//                print("⚠️ color archiving failed:", error)
+//                colorData = Data()
+//            }
+//
+//            // 3. Write back into the managed object
+//            userJournal.title      = newTitle
+//            userJournal.importance = newImportance
+//            userJournal.bgColor    = colorData
+//        
+////       let updatedJournal = Journal(title: journalTitle, importance: selectedImportance, bgColor: selectedColor)
+//        do {
+//               try context.save()
+//            } catch {
+//               print("⚠️ Failed to save edits:", error)
+//            }
+//
+//            // 5. Update the in‑memory struct and UI immediately
+//            let updated = Journal(
+//                title:      newTitle!,
+//              importance: newImportance,
+//              bgColor:    selectedColor
+//            )
+//        delegate?.didEditJournal(updated, at: journalIndex!)
+//        
+//        dismiss(animated: true)
         
-        dismiss(animated: true)
+        // Chatgpt
+        // 1️⃣ Safely unwrap the managed object and text field
+            guard let journal = userJournal else {
+                print("❌ No journal to update")
+                dismiss(animated: true)
+                return
+            }
+            let rawText = nameTextField.text?
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                ?? ""
+            let newTitle = rawText.isEmpty ? "New Journal" : rawText
+            let newImportance = importanceLevel
+
+            // 2️⃣ Archive the selectedColor into Data
+            let colorData: Data
+            do {
+                colorData = try NSKeyedArchiver.archivedData(
+                    withRootObject: selectedColor,
+                    requiringSecureCoding: false
+                )
+            } catch {
+                print("⚠️ color archiving failed:", error)
+                colorData = Data()
+            }
+
+            // 3️⃣ Write back into the managed object
+            journal.title      = newTitle
+            journal.importance = newImportance
+            journal.bgColor    = colorData
+
+            // 4️⃣ Persist to Core Data
+            do {
+                try context.save()
+            } catch {
+                print("⚠️ Failed to save edits:", error)
+            }
+
+            // 5️⃣ Update the in‑memory struct/UI
+            let updated = Journal(
+                title:      newTitle,
+                importance: newImportance,
+                bgColor:    selectedColor
+            )
+            if let idx = journalIndex {
+                delegate?.didEditJournal(updated, at: idx)
+            }
+
+            // 6️⃣ Dismiss
+            dismiss(animated: true)
     }
     
     @IBAction func cancelBtnPressed(_ sender: Any) {
