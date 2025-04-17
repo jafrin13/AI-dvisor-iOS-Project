@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import CoreData
+import FirebaseAuth
 
 // This extension allows the HomeScreenViewController to handle new journal creation updates.
 extension HomeScreenViewController: NewJournalDelegate {
@@ -20,9 +22,15 @@ extension HomeScreenViewController: NewJournalDelegate {
     }
 }
 
-var journals: [Journal] = []
+
 
 class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIColorPickerViewControllerDelegate, EditJournalDelegate {
+    
+    var journals: [Journal] = []
+    var cdJournals: [UserJournal] = []
+    
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private var currentUser: User?
     
     @IBOutlet weak var journalCollectionView: UICollectionView!
     
@@ -33,6 +41,8 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        fetchCurrentUser()
         
         // These are to allow the Icons to act as buttons when tapped.
         let addFriendGesture = UITapGestureRecognizer(target: self, action: #selector(addFriendImageTapped(_:)))
@@ -47,6 +57,124 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         journalCollectionView.addGestureRecognizer(longPressGesture)
+        
+        
+    }
+    
+    private func fetchCurrentUser() {
+      guard let email = Auth.auth().currentUser?.email else {
+        fatalError("No Firebase user logged in")
+      }
+
+      let req: NSFetchRequest<User> = User.fetchRequest()
+      req.predicate = NSPredicate(format: "email == %@", email)
+
+      do {
+        if let user = try context.fetch(req).first {
+          // found an existing record
+          currentUser = user
+        } else {
+          // **not** found — create one now
+          let newUser = User(context: context)
+          newUser.email       = email
+          newUser.username    = email.components(separatedBy: "@").first
+          // you can set a default profile picture here if you want
+          try context.save()
+          currentUser = newUser
+          print("✅ Created Core Data User for \(email)")
+        }
+      } catch {
+        fatalError("Failed fetching/creating User: \(error)")
+      }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadJournals()
+        journalCollectionView.reloadData()
+      }
+    
+    private func loadJournals() {
+//        guard let user = currentUser else {
+//            journals = []
+//            return
+//          }
+//        let req: NSFetchRequest<UserJournal> = UserJournal.fetchRequest()
+//        req.predicate = NSPredicate(format: "users == %@", currentUser ?? "Username")
+////        req.sortDescriptors = [ .init(key: "createdAt", ascending: false) ]
+//        do {
+//            let cdJournals = try context.fetch(req)
+//            journals = cdJournals.map { entity in
+//              // title & importance as before...
+//              let title      = entity.title      ?? "Untitled"
+//              let importance = entity.importance ?? "!"
+//              
+//              // turn Data back into UIColor
+//              let bgColor: UIColor
+//              if let data = entity.bgColor,
+//                 let color = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data)
+//                              as? UIColor {
+//                bgColor = color
+//              } else {
+//                bgColor = .blue
+//              }
+//
+//              return Journal(title: title, importance: importance, bgColor: bgColor)
+//        } catch {
+//            print("📓 load error:", error)
+//            journals = []
+//        }
+        
+
+        
+        // 1️⃣ Ensure we have the logged‑in User
+            guard let user = currentUser else {
+                cdJournals = []
+                journals   = []
+                journalCollectionView.reloadData()
+                return
+            }
+
+            // 2️⃣ Build & run the fetch request
+            let req: NSFetchRequest<UserJournal> = UserJournal.fetchRequest()
+            req.predicate = NSPredicate(format: "users == %@", user)
+            // If you have a createdAt Date attribute, you can sort:
+            // req.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+
+            do {
+                // Fetch the managed objects
+                cdJournals = try context.fetch(req)
+
+                // 3️⃣ Map each managed object into your Swift struct
+                journals = cdJournals.map { entity in
+                    let title      = entity.title      ?? "Untitled"
+                    let importance = entity.importance ?? "!"
+                    
+                    // Unarchive UIColor from Data, fallback to .blue
+                    let bgColor: UIColor
+                    if let data = entity.bgColor,
+                       let color = try? NSKeyedUnarchiver
+                                        .unarchivedObject(ofClass: UIColor.self, from: data) {
+                        bgColor = color
+                    } else {
+                        bgColor = .blue
+                    }
+
+                    return Journal(
+                        title:      title,
+                        importance: importance,
+                        bgColor:    bgColor
+                    )
+                }
+
+            } catch {
+                print("⚠️ Failed to fetch journals:", error)
+                cdJournals = []
+                journals   = []
+            }
+
+            // 4️⃣ Refresh the UI
+            journalCollectionView.reloadData()
     }
     
     // This function is not implemented yet for Alpha but will be implemented for Final
@@ -83,8 +211,6 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             cell.journalTitle.text = journals[indexPath.row - 1].title
             cell.importanceLabel.text = journals[indexPath.row - 1].importance
             cell.journalView.backgroundColor = journals[indexPath.row - 1].bgColor
-//            cell.layer.cornerRadius = 15
-//                    cell.layer.masksToBounds = true  // Allow shadows to be visible
             
             cell.contentView.layer.cornerRadius = 15
                     cell.contentView.layer.masksToBounds = true
@@ -123,6 +249,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         if let newJournalVC = storyboard.instantiateViewController(withIdentifier: "NewJournalViewController") as? NewJournalViewController {
             // This is so it can be a custom style the way it is shown
             newJournalVC.modalPresentationStyle = .pageSheet
+            newJournalVC.currentUser = currentUser
             newJournalVC.delegate = self
             
             if let sheet = newJournalVC.sheetPresentationController {
@@ -131,9 +258,6 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             present(newJournalVC, animated: true)
         }
     }
-    
-//    @IBAction func editJournal(_ sender: Any) {
-//    }
     
     @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
         let point = gesture.location(in: journalCollectionView)
@@ -173,9 +297,10 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             editJournalVC.modalPresentationStyle = .pageSheet
             editJournalVC.delegate = self
             
-            let selectedJournal = journals[indexPath.item - 1]
-                    editJournalVC.journal = selectedJournal
+            let selectedJournal = cdJournals[indexPath.item - 1]
+            editJournalVC.userJournal = selectedJournal
                     editJournalVC.journalIndex = indexPath.item - 1
+                    editJournalVC.currentUser   = currentUser
             
             if let sheet = editJournalVC.sheetPresentationController {
                 sheet.detents = [.medium()] // Makes it take up half the screen

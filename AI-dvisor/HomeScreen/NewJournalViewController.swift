@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol NewJournalDelegate: AnyObject {
     func didCreateJournal(_ journal: Journal)
@@ -24,6 +25,8 @@ extension NewJournalViewController: UIColorPickerViewControllerDelegate {
 }
 
 class NewJournalViewController: UIViewController, UITextFieldDelegate{
+    
+    var currentUser: User!
     
     @IBOutlet weak var journalNameTextFeild: UITextField!
     
@@ -56,7 +59,9 @@ class NewJournalViewController: UIViewController, UITextFieldDelegate{
         
     }
     
-    func textFieldShouldReturn(_ textField:UITextField) -> Bool {
+    // Called when 'return' key pressed
+
+        func textFieldShouldReturn(_ textField:UITextField) -> Bool {
             textField.resignFirstResponder()
             return true
         }
@@ -101,13 +106,75 @@ class NewJournalViewController: UIViewController, UITextFieldDelegate{
     }
     
     @IBAction func saveButtonPressed(_ sender: Any) {
-        let journalTitle = journalNameTextFeild.text ?? "New Journal"
-        let selectedImportance = importanceLevel
+//        let journalTitle = journalNameTextFeild.text ?? "New Journal"
+//        let selectedImportance = importanceLevel
+//        let selectedColor = self.selectedColor
+//        let currUser = currentUser!
+//        
+//        let newJournal = Journal(title: journalTitle, importance: selectedImportance, bgColor: selectedColor)
+//        delegate?.didCreateJournal(newJournal)
+//        
+//        let newJournal = Journal(
+//              title:      journalTitle,
+//              importance: selectedImportance,
+//              bgColor:    selectedColor
+//            )
+//            delegate?.didCreateJournal(newJournal)
+//        
+//        let newCDJournal = NSEntityDescription.insertNewObject(forEntityName: "UserJournal", into: context)
+//        newCDJournal.setValue(journalTitle, forKey: "title")
+//        newCDJournal.setValue(selectedImportance, forKey: "importance")
+//        newCDJournal.setValue(selectedColor, forKey: "bgColor")
         
-        let newJournal = Journal(title: journalTitle, importance: selectedImportance, bgColor: selectedColor)
-        delegate?.didCreateJournal(newJournal)
+        
+        //Chatgpt code:
+        
+        guard let user = currentUser else { return }
+
+        let title = journalNameTextFeild.text?
+                       .trimmingCharacters(in: .whitespacesAndNewlines)
+                       .isEmpty == false
+                   ? journalNameTextFeild.text!
+                   : "New Journal"
+
+        // Archive the UIColor into Data
+        let colorData: Data
+        do {
+          colorData = try NSKeyedArchiver.archivedData(
+            withRootObject: selectedColor,
+            requiringSecureCoding: false
+          )
+        } catch {
+          print("⚠️ color archiving failed:", error)
+          colorData = Data()  // fallback to empty
+        }
+
+        let cd = UserJournal(context: context)
+        cd.title      = title
+        cd.importance = importanceLevel
+        cd.bgColor    = colorData   // Data, not UIColor
+        cd.users      = user
+
+        delegate?.didCreateJournal(Journal(
+          title:      title,
+          importance: importanceLevel,
+          bgColor:    selectedColor  // keep your struct as-is
+        ))
+        saveContext()
         
         dismiss(animated: true)
+    }
+    
+    // Saves the changes in core
+    func saveContext () {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
     
     @IBAction func cancelButtonPressed(_ sender: Any) {
