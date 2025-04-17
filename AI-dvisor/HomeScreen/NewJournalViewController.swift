@@ -26,6 +26,8 @@ extension NewJournalViewController: UIColorPickerViewControllerDelegate {
 
 class NewJournalViewController: UIViewController, UITextFieldDelegate{
     
+    var currentUser: User!
+    
     @IBOutlet weak var journalNameTextFeild: UITextField!
     
     @IBOutlet weak var importancePreview: UILabel!

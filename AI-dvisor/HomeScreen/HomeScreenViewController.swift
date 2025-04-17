@@ -28,7 +28,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     
     var journals: [Journal] = []
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    private var currentUser: User!
+    private var currentUser: User?
     
     @IBOutlet weak var journalCollectionView: UICollectionView!
     
@@ -53,6 +53,25 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         journalCollectionView.addGestureRecognizer(longPressGesture)
+        
+        fetchCurrentUser()
+    }
+    
+    private func fetchCurrentUser() {
+      guard let email = Auth.auth().currentUser?.email else {
+        print("❌ no Firebase user logged in")
+        return
+      }
+      let req: NSFetchRequest<User> = User.fetchRequest()
+      req.predicate = NSPredicate(format: "email == %@", email)
+      do {
+        currentUser = try context.fetch(req).first
+        if currentUser == nil {
+          print("❌ no matching User found in Core Data for \(email)")
+        }
+      } catch {
+        print("❌ error fetching User:", error)
+      }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,16 +81,20 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
       }
     
     private func loadJournals() {
+        guard let user = currentUser else {
+            journals = []
+            return
+          }
         let req: NSFetchRequest<UserJournal> = UserJournal.fetchRequest()
-        req.predicate = NSPredicate(format: "users == %@", currentUser)
-        req.sortDescriptors = [ .init(key: "createdAt", ascending: false) ]
+        req.predicate = NSPredicate(format: "users == %@", currentUser ?? "Username")
+//        req.sortDescriptors = [ .init(key: "createdAt", ascending: false) ]
         do {
             let cdJournals = try context.fetch(req)
             journals = cdJournals.map { entity in
                 Journal(
                     title:      entity.title      ?? "Untitled",
                     importance: entity.importance ?? "!",
-                    bgColor:    (entity.bgColor as? UIColor) ?? .blue
+                    bgColor:    entity.bgColor ?? .blue
                 )
             }
         } catch {
@@ -80,22 +103,22 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
-    private func fetchCurrentUser() {
-        guard let email = Auth.auth().currentUser?.email else {
-          fatalError("No Firebase user!")
-        }
-        let req: NSFetchRequest<User> = User.fetchRequest()
-        req.predicate = NSPredicate(format: "email == %@", email)
-        do {
-          if let user = try context.fetch(req).first {
-            currentUser = user
-          } else {
-            fatalError("No matching User in Core Data for \(email)")
-          }
-        } catch {
-          fatalError("Fetch failed: \(error)")
-        }
-      }
+//    private func fetchCurrentUser() {
+//        guard let email = Auth.auth().currentUser?.email else {
+//          fatalError("No Firebase user!")
+//        }
+//        let req: NSFetchRequest<User> = User.fetchRequest()
+//        req.predicate = NSPredicate(format: "email == %@", email)
+//        do {
+//          if let user = try context.fetch(req).first {
+//            currentUser = user
+//          } else {
+//            fatalError("No matching User in Core Data for \(email)")
+//          }
+//        } catch {
+//          fatalError("Fetch failed: \(error)")
+//        }
+//      }
     
     
     
@@ -173,6 +196,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         if let newJournalVC = storyboard.instantiateViewController(withIdentifier: "NewJournalViewController") as? NewJournalViewController {
             // This is so it can be a custom style the way it is shown
             newJournalVC.modalPresentationStyle = .pageSheet
+            newJournalVC.currentUser = currentUser
             newJournalVC.delegate = self
             
             if let sheet = newJournalVC.sheetPresentationController {

@@ -6,8 +6,8 @@
         <attribute name="username" optional="YES" attributeType="String"/>
         <relationship name="journals" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserJournal" inverseName="users" inverseEntity="UserJournal"/>
     </entity>
-    <entity name="UserJournal" representedClassName="UserJournal" syncable="YES" codeGenerationType="class">
-        <attribute name="bgColor" optional="YES" attributeType="Transformable"/>
+    <entity name="UserJournal" representedClassName=".UserJournal" syncable="YES">
+        <attribute name="bgColor" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName=".UIColor"/>
         <attribute name="importance" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="users" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="journals" inverseEntity="User"/>
