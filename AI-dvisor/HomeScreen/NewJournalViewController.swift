@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol NewJournalDelegate: AnyObject {
     func didCreateJournal(_ journal: Journal)
@@ -105,11 +106,38 @@ class NewJournalViewController: UIViewController, UITextFieldDelegate{
     @IBAction func saveButtonPressed(_ sender: Any) {
         let journalTitle = journalNameTextFeild.text ?? "New Journal"
         let selectedImportance = importanceLevel
+        let selectedColor = self.selectedColor
         
-        let newJournal = Journal(title: journalTitle, importance: selectedImportance, bgColor: selectedColor)
-        delegate?.didCreateJournal(newJournal)
+//        let newJournal = Journal(title: journalTitle, importance: selectedImportance, bgColor: selectedColor)
+//        delegate?.didCreateJournal(newJournal)
+        
+        let newJournal = Journal(
+              title:      journalTitle,
+              importance: selectedImportance,
+              bgColor:    selectedColor
+            )
+            delegate?.didCreateJournal(newJournal)
+        
+        let newCDJournal = NSEntityDescription.insertNewObject(forEntityName: "UserJournal", into: context)
+        newCDJournal.setValue(journalTitle, forKey: "title")
+        newCDJournal.setValue(selectedImportance, forKey: "importance")
+        newCDJournal.setValue(selectedColor, forKey: "bgColor")
+        
+        saveContext()
         
         dismiss(animated: true)
+    }
+    
+    // Saves the changes in core
+    func saveContext () {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
     
     @IBAction func cancelButtonPressed(_ sender: Any) {

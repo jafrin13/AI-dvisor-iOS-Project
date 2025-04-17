@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import CoreData
+import FirebaseAuth
 
 // This extension allows the HomeScreenViewController to handle new journal creation updates.
 extension HomeScreenViewController: NewJournalDelegate {
@@ -20,9 +22,13 @@ extension HomeScreenViewController: NewJournalDelegate {
     }
 }
 
-var journals: [Journal] = []
+
 
 class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIColorPickerViewControllerDelegate, EditJournalDelegate {
+    
+    var journals: [Journal] = []
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private var currentUser: User!
     
     @IBOutlet weak var journalCollectionView: UICollectionView!
     
@@ -48,6 +54,50 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         journalCollectionView.addGestureRecognizer(longPressGesture)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadJournals()
+        journalCollectionView.reloadData()
+      }
+    
+    private func loadJournals() {
+        let req: NSFetchRequest<UserJournal> = UserJournal.fetchRequest()
+        req.predicate = NSPredicate(format: "users == %@", currentUser)
+        req.sortDescriptors = [ .init(key: "createdAt", ascending: false) ]
+        do {
+            let cdJournals = try context.fetch(req)
+            journals = cdJournals.map { entity in
+                Journal(
+                    title:      entity.title      ?? "Untitled",
+                    importance: entity.importance ?? "!",
+                    bgColor:    (entity.bgColor as? UIColor) ?? .blue
+                )
+            }
+        } catch {
+            print("📓 load error:", error)
+            journals = []
+        }
+    }
+    
+    private func fetchCurrentUser() {
+        guard let email = Auth.auth().currentUser?.email else {
+          fatalError("No Firebase user!")
+        }
+        let req: NSFetchRequest<User> = User.fetchRequest()
+        req.predicate = NSPredicate(format: "email == %@", email)
+        do {
+          if let user = try context.fetch(req).first {
+            currentUser = user
+          } else {
+            fatalError("No matching User in Core Data for \(email)")
+          }
+        } catch {
+          fatalError("Fetch failed: \(error)")
+        }
+      }
+    
+    
     
     // This function is not implemented yet for Alpha but will be implemented for Final
     @objc func addFriendImageTapped(_ sender: UITapGestureRecognizer) {
