@@ -42,6 +42,10 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             let homeScreenGesture = UITapGestureRecognizer(target: self, action: #selector(homeBackImageTapped(_:)))
             
             homeBackButton.addGestureRecognizer(homeScreenGesture)
+            
+            
+            let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+            pdfCollectionView.addGestureRecognizer(longPressGesture)
         }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
