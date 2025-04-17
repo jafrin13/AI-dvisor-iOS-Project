@@ -232,7 +232,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         guard let indexPath = pdfCollectionView.indexPathForItem(at: point) else { return }
         
         if gesture.state == .began {
-            let selectedPDF = pdfItems[indexPath.item - 1]
+            let selectedPDF = pdfItems[indexPath.item]
             showActionSheet(for: selectedPDF, at: indexPath)
         }
     }
@@ -254,7 +254,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     }
     
     func deletePDF(at indexPath: IndexPath) {
-        pdfItems.remove(at: indexPath.item - 1)
+        pdfItems.remove(at: indexPath.item)
         pdfCollectionView.deleteItems(at: [indexPath])
     }
     
