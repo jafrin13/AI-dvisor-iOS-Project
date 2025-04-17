@@ -222,6 +222,41 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                 }
             }
         }
+    
+    @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
+        let point = gesture.location(in: pdfCollectionView)
+        
+        guard let indexPath = pdfCollectionView.indexPathForItem(at: point) else { return }
+        
+        if gesture.state == .began {
+            let selectedPDF = pdfItems[indexPath.item - 1]
+            showActionSheet(for: selectedPDF, at: indexPath)
+        }
+    }
+    
+    func showActionSheet(for pdf: PDFItem, at indexPath: IndexPath) {
+        let actionSheet = UIAlertController(title:"Remove PDF" , message: "Would you like to delete this PDF?", preferredStyle: .actionSheet)
+        
+      
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.deletePDF(at: indexPath)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func deletePDF(at indexPath: IndexPath) {
+        pdfItems.remove(at: indexPath.item - 1)
+        pdfCollectionView.deleteItems(at: [indexPath])
+    }
+    
+    
+    
         
         // Uploads the thumbnail image to Firebase
     func uploadThumbnailToFirebase(_ image: UIImage, pdfURL: String, fileName: String) {
@@ -288,8 +323,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     }
 
 func getPathFromURL(_ fullURL: String) -> String {
-    // Firebase URLs are like: https://firebasestorage.googleapis.com/v0/b/YOUR_APP/o/uploads%2Fabc123.pdf?alt=media...
-    // We want: uploads/abc123.pdf
+    
     if let range = fullURL.range(of: "/o/") {
         let pathPart = fullURL[range.upperBound...]
         if let endIndex = pathPart.firstIndex(of: "?") {
