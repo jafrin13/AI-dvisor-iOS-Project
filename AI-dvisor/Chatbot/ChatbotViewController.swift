@@ -24,11 +24,11 @@ class ChatbotViewController: MessagesViewController {
     let currentUser = Sender(senderId: "self", displayName: "User")
     let chatbot = Sender(senderId: "bot", displayName: "AI-dvisor")
     let defaultMessage: String = "Type message here..."
+    var darkMode: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Obtain specific user from core
-        var darkMode: Bool = false
         if let email = Auth.auth().currentUser?.email {
             darkMode = fetchUser(email: email)
         }
@@ -42,6 +42,12 @@ class ChatbotViewController: MessagesViewController {
         messageInputBar.inputTextView.delegate = self
         messageInputBar.inputTextView.text = defaultMessage
         messageInputBar.inputTextView.textColor = .lightGray
+        if (darkMode) {
+            messagesCollectionView.backgroundColor = .black
+            messageInputBar.backgroundView.backgroundColor = .gray
+        } else {
+            messagesCollectionView.backgroundColor = .white
+        }
     }
     
     // Fetch user from core and update UI
@@ -194,6 +200,11 @@ extension ChatbotViewController: InputBarAccessoryViewDelegate {
 
 extension ChatbotViewController: MessagesLayoutDelegate, MessagesDisplayDelegate {
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        
+        if (darkMode) {
+            return isFromCurrentSender(message: message) ? UIColor(red: 245/255.0, green: 245/255.0, blue: 245/255.0, alpha: 1.0) : UIColor(red: 220/255.0, green: 220/255.0, blue: 220/255.0, alpha: 1.0)
+        }
+        
         return isFromCurrentSender(message: message) ? UIColor(red: 255/255, green: 202/255, blue: 212/255, alpha: 1.0) : UIColor(red: 244/255, green: 172/255, blue: 183/255, alpha: 1.0)
     }
     
