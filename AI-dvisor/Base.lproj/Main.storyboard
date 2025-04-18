@@ -136,8 +136,8 @@
                                     <action selector="signUpButtonPressed:" destination="Nlc-NS-z3L" eventType="touchUpInside" id="PWa-Vq-L7M"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzP-9T-aR0">
-                                <rect key="frame" x="85" y="176" width="79" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzP-9T-aR0">
+                                <rect key="frame" x="85" y="176" width="44" height="24"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
                                 <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -276,8 +276,8 @@
                                     <action selector="nextButtonPressed:" destination="ga7-4B-dGY" eventType="touchUpInside" id="JbZ-Ml-BMC"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1h1-pA-P1q">
-                                <rect key="frame" x="85" y="211.33333333333334" width="79" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1h1-pA-P1q">
+                                <rect key="frame" x="85" y="211.33333333333334" width="44" height="24"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
                                 <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>

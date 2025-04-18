@@ -7,6 +7,10 @@
 		<string>BagelFatOne-Regular.ttf</string>
 		<string>BakbakOne-Regular.ttf</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string></string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -21,7 +25,7 @@
 					<key>UISceneDelegateClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
 					<key>UISceneStoryboardFile</key>
-					<string>Lauren_Storyboard</string>
+					<string>HomeScreenStoryboard</string>
 				</dict>
 			</array>
 		</dict>

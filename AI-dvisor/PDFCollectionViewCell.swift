@@ -8,7 +8,6 @@
 import UIKit
 
 class PDFCollectionViewCell: UICollectionViewCell {
-    
     @IBOutlet weak var pdfName: UILabel!
     @IBOutlet weak var pdfThumbnailImageView: UIImageView!
 }

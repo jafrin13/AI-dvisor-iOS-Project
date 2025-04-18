@@ -12,11 +12,36 @@
         <!--Selected Note View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" customClass="SelectedNoteViewController" customModule="AI_dvisor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SelectedNoteVC" id="Y6W-OH-hqX" customClass="SelectedNoteViewController" customModule="AI_dvisor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oav-0y-Oin">
+                                <rect key="frame" x="0.0" y="163" width="440" height="722"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="440" id="a8f-Kc-0p0"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zso-WC-yHL">
+                                <rect key="frame" x="10" y="56" width="103" height="49"/>
+                                <color key="tintColor" red="0.80784313725490198" green="0.83137254901960778" blue="0.70196078431372544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="&lt; Back">
+                                    <fontDescription key="titleFontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="32"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="pressedBackButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="jXA-1J-V4U"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;Insert Note Title Here&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cOo-el-Fta">
+                                <rect key="frame" x="20" y="95" width="400" height="60"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="28"/>
+                                <color key="textColor" red="0.5878216624" green="0.50997132060000006" blue="0.53903526069999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b12-k5-gLH">
                                 <rect key="frame" x="20" y="885" width="60" height="57"/>
                                 <color key="backgroundColor" red="0.57647061349999995" green="0.51372551919999998" blue="0.53725492949999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -36,10 +61,6 @@
                                     <action selector="pressedGenerateButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="T8Y-r8-YJS"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oav-0y-Oin">
-                                <rect key="frame" x="0.0" y="163" width="440" height="722"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
                             <view clipsSubviews="YES" clearsContextBeforeDrawing="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m6s-bu-upV">
                                 <rect key="frame" x="0.0" y="601" width="440" height="355"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -143,31 +164,19 @@
                                     <outletCollection property="gestureRecognizers" destination="MpB-6g-WNK" appends="YES" id="DqL-iT-YZL"/>
                                 </connections>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="&lt;Insert Note Title Here&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cOo-el-Fta">
-                                <rect key="frame" x="20" y="95" width="400" height="60"/>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="28"/>
-                                <color key="textColor" red="0.5878216624" green="0.50997132060000006" blue="0.53903526069999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zso-WC-yHL">
-                                <rect key="frame" x="10" y="56" width="103" height="49"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" red="0.80784313725490198" green="0.83137254901960778" blue="0.70196078431372544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="&lt; Back">
-                                    <fontDescription key="titleFontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="32"/>
-                                </buttonConfiguration>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" red="0.96951407190000005" green="0.90277594329999999" blue="0.84947317840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="zso-WC-yHL" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="2xD-2H-sgC"/>
+                            <constraint firstItem="Oav-0y-Oin" firstAttribute="top" secondItem="zso-WC-yHL" secondAttribute="bottom" constant="58" id="6w4-Hc-BJg"/>
+                            <constraint firstItem="Oav-0y-Oin" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="7bu-CY-0Ob"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="cOo-el-Fta" secondAttribute="trailing" constant="20" id="Byd-Gw-ZcL"/>
                             <constraint firstItem="b12-k5-gLH" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="Fux-iK-Y7T"/>
                             <constraint firstItem="b12-k5-gLH" firstAttribute="top" secondItem="Oav-0y-Oin" secondAttribute="bottom" id="MjW-O8-hok"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="b12-k5-gLH" secondAttribute="trailing" constant="360" id="O50-M8-eIu"/>
                             <constraint firstItem="cOo-el-Fta" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="cFI-p8-D3b"/>
-                            <constraint firstItem="cOo-el-Fta" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="4" id="gcS-h5-1te"/>
+                            <constraint firstItem="cOo-el-Fta" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="33" id="gcS-h5-1te"/>
                             <constraint firstItem="Oav-0y-Oin" firstAttribute="top" secondItem="cOo-el-Fta" secondAttribute="bottom" constant="8" id="lPk-44-EU7"/>
                             <constraint firstAttribute="bottomMargin" secondItem="b12-k5-gLH" secondAttribute="bottom" constant="-20" id="pmU-Df-0V5"/>
                             <constraint firstAttribute="bottom" secondItem="Oav-0y-Oin" secondAttribute="bottom" constant="71" id="sv6-jn-1Uk"/>
@@ -212,9 +221,6 @@
         <image name="plus.circle" catalog="system" width="128" height="123"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>
