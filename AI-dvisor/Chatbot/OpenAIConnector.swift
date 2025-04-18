@@ -10,7 +10,7 @@ import Foundation
 class OpenAIConnector {
     static let shared = OpenAIConnector()
     
-    private let apiKey = "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"
+    private let apiKey = ""
             
     init() {}
     
