@@ -20,11 +20,15 @@ extension HomeScreenViewController: NewJournalDelegate {
         journals[index] = journal
         journalCollectionView.reloadItems(at: [IndexPath(item: index + 1, section: 0)])
     }
+    
+    func didAddEvent() {
+        
+    }
 }
 
 
 
-class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIColorPickerViewControllerDelegate, EditJournalDelegate {
+class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIColorPickerViewControllerDelegate, EditJournalDelegate, AddEventDelegate {
     
     var journals: [Journal] = []
     var cdJournals: [UserJournal] = []
@@ -36,8 +40,11 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     
     @IBOutlet weak var settingsImage: UIImageView!
     @IBOutlet weak var addFriend: UIImageView!
+    @IBOutlet weak var addDueDate: UIImageView!
     
     var selectedColor: UIColor = .orange
+    
+    @IBOutlet weak var sortJournalSegCtrl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,10 +54,13 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         // These are to allow the Icons to act as buttons when tapped.
         let addFriendGesture = UITapGestureRecognizer(target: self, action: #selector(addFriendImageTapped(_:)))
         let settingsGesture = UITapGestureRecognizer(target: self, action: #selector(settingsImageTapped(_:)))
+        let addEventGesture = UITapGestureRecognizer(target: self, action: #selector(addDueDateTapped(_:)))
+        
         
         // This adds that functionality to the UIImageViews above so that a specifc function is called for them
         addFriend.addGestureRecognizer(addFriendGesture)
         settingsImage.addGestureRecognizer(settingsGesture)
+        addDueDate.addGestureRecognizer(addEventGesture)
         
         journalCollectionView.dataSource = self
         journalCollectionView.delegate = self
@@ -103,38 +113,11 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         journalCollectionView.reloadData()
       }
     
+    @IBAction func sortJournals(_ sender: Any) {
+        loadJournals()
+    }
+    
     private func loadJournals() {
-//        guard let user = currentUser else {
-//            journals = []
-//            return
-//          }
-//        let req: NSFetchRequest<UserJournal> = UserJournal.fetchRequest()
-//        req.predicate = NSPredicate(format: "users == %@", currentUser ?? "Username")
-////        req.sortDescriptors = [ .init(key: "createdAt", ascending: false) ]
-//        do {
-//            let cdJournals = try context.fetch(req)
-//            journals = cdJournals.map { entity in
-//              // title & importance as before...
-//              let title      = entity.title      ?? "Untitled"
-//              let importance = entity.importance ?? "!"
-//              
-//              // turn Data back into UIColor
-//              let bgColor: UIColor
-//              if let data = entity.bgColor,
-//                 let color = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data)
-//                              as? UIColor {
-//                bgColor = color
-//              } else {
-//                bgColor = .blue
-//              }
-//
-//              return Journal(title: title, importance: importance, bgColor: bgColor)
-//        } catch {
-//            print("📓 load error:", error)
-//            journals = []
-//        }
-        
-
         
         // 1️⃣ Ensure we have the logged‑in User
             guard let user = currentUser else {
@@ -147,12 +130,27 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             // 2️⃣ Build & run the fetch request
             let req: NSFetchRequest<UserJournal> = UserJournal.fetchRequest()
             req.predicate = NSPredicate(format: "users == %@", user)
-            // If you have a createdAt Date attribute, you can sort:
-            // req.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
-
+        
+        
             do {
                 // Fetch the managed objects
                 cdJournals = try context.fetch(req)
+                
+                // Sort based on which segment of the segctrl is selected
+                switch sortJournalSegCtrl.selectedSegmentIndex {
+                case 0:
+                    // alphabetical by title
+                    cdJournals.sort {
+                                   ($0.title ?? "").localizedCaseInsensitiveCompare($1.title ?? "") == .orderedAscending
+                               }
+                case 1:
+                    cdJournals.sort {
+                                    ($0.importance?.count ?? 0) > ($1.importance?.count ?? 0)
+                                }
+                default:
+                    break
+                }
+
 
                 // 3️⃣ Map each managed object into your Swift struct
                 journals = cdJournals.map { entity in
@@ -189,6 +187,23 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     // This function is not implemented yet for Alpha but will be implemented for Final
     @objc func addFriendImageTapped(_ sender: UITapGestureRecognizer) {
         print("Go to Add Friend Page")
+    }
+    
+    @objc func addDueDateTapped(_ sender: UITapGestureRecognizer) {
+        let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
+        
+        if let newEventVC = storyboard.instantiateViewController(withIdentifier: "AddEventViewController") as? AddEventViewController {
+            // This is so it can be a custom style the way it is shown
+            newEventVC.modalPresentationStyle = .pageSheet
+            newEventVC.currentUser = currentUser
+            newEventVC.journals = journals
+            newEventVC.delegate = self
+            
+            if let sheet = newEventVC.sheetPresentationController {
+                sheet.detents = [.medium()] // Makes it take up half the screen
+            }
+            present(newEventVC, animated: true)
+        }
     }
     
     // This function acts just the same as a pressedButton function but for images.
