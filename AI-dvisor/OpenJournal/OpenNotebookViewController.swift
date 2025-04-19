@@ -37,6 +37,9 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             pdfCollectionView.delegate = self
             pdfCollectionView.dataSource = self
             
+            pdfCollectionView.layer.cornerRadius = 16
+            pdfCollectionView.layer.masksToBounds = true // important!
+            
             subjectLabel.text = journalTitle
 
             // Do any additional setup after loading the view.

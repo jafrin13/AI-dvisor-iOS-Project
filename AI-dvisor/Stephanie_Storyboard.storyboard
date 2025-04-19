@@ -482,13 +482,13 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="BagelFatOne-Regular" family="Bagel Fat One" pointSize="39"/>
-                                <color key="textColor" red="0.80634667328453613" green="0.62607946456173558" blue="0.68302730871606665" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.47409118936472655" green="0.61301949097938147" blue="0.42620786333167937" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0dj-nd-vi6">
-                                <rect key="frame" x="40" y="170" width="354" height="664"/>
+                                <rect key="frame" x="40" y="155" width="354" height="679"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.69466345943118102" green="0.81763450386597936" blue="0.63507288973763898" alpha="0.47624362244897961" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.74408209797408176" green="0.81111066365979378" blue="0.65468975723936795" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="K7T-Ch-xLs">
                                     <size key="itemSize" width="162" height="231"/>
@@ -514,7 +514,7 @@
                                                     <attributedString key="attributedText">
                                                         <fragment content="PdfName">
                                                             <attributes>
-                                                                <font key="NSFont" size="15" name="BakbakOne-Regular"/>
+                                                                <font key="NSFont" metaFont="system" size="15"/>
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                             </attributes>
                                                         </fragment>
