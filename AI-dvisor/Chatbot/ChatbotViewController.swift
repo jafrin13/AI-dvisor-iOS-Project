@@ -24,10 +24,15 @@ class ChatbotViewController: MessagesViewController {
     let currentUser = Sender(senderId: "self", displayName: "User")
     let chatbot = Sender(senderId: "bot", displayName: "AI-dvisor")
     let defaultMessage: String = "Type message here..."
+    var darkMode: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTopBar()
+        // Obtain specific user from core
+        if let email = Auth.auth().currentUser?.email {
+            darkMode = fetchUser(email: email)
+        }
+        setupTopBar(darkMode: darkMode)
         // save room for the top of the VC (can change value if too much or too little)
         messagesCollectionView.contentInset = UIEdgeInsets(top: 163, left: 0, bottom: 0, right: 0)
         messagesCollectionView.messagesDataSource = self
@@ -37,19 +42,51 @@ class ChatbotViewController: MessagesViewController {
         messageInputBar.inputTextView.delegate = self
         messageInputBar.inputTextView.text = defaultMessage
         messageInputBar.inputTextView.textColor = .lightGray
+        if (darkMode) {
+            messagesCollectionView.backgroundColor = .black
+            messageInputBar.backgroundView.backgroundColor = .gray
+        } else {
+            messagesCollectionView.backgroundColor = .white
+        }
     }
     
-    private func setupTopBar() {
+    // Fetch user from core and update UI
+    func fetchUser(email: String) -> Bool {
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "email MATCHES %@", email)
+
+        do {
+            let users = try context.fetch(fetchRequest)
+            if let user = users.first {
+                // Set dark or light mode
+                let isDarkMode = user.value(forKey: "darkMode") as? Bool ?? false
+                return isDarkMode
+            }
+        } catch {
+            print("Failed to fetch user: \(error)")
+        }
+        return false
+    }
+    
+    private func setupTopBar(darkMode: Bool) {
         // Create Background View for the Top Bar
         let topBarView = UIView()
-        topBarView.backgroundColor = UIColor(red: 255/255.0, green: 229/255.0, blue: 217/255.0, alpha: 1.0)
+        if (darkMode) {
+            topBarView.backgroundColor = UIColor(red:  50/255, green:  50/255, blue:  50/255, alpha: 1)
+        } else {
+            topBarView.backgroundColor = UIColor(red: 255/255.0, green: 229/255.0, blue: 217/255.0, alpha: 1.0)
+        }
         topBarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(topBarView)
 
         // Create Back Button
         let backButton = UIButton(type: .system)
         backButton.setTitle("< Back", for: .normal)
-        backButton.setTitleColor(UIColor(red: 206/255.0, green: 212/255.0, blue: 179/255.0, alpha: 1.0), for: .normal)
+        if (darkMode) {
+            backButton.setTitleColor(.white, for: .normal)
+        } else {
+            backButton.setTitleColor(UIColor(red: 206/255.0, green: 212/255.0, blue: 179/255.0, alpha: 1.0), for: .normal)
+        }
         backButton.titleLabel?.font = UIFont(name: "Marker Felt", size: 32)
         backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -58,7 +95,11 @@ class ChatbotViewController: MessagesViewController {
         // Create Title Label
         let titleLabel = UILabel()
         titleLabel.text = "Chat"
-        titleLabel.textColor = UIColor(red: 157/255.0, green: 129/255.0, blue: 137/255.0, alpha: 1.0)
+        if (darkMode) {
+            titleLabel.textColor = UIColor(.white)
+        } else {
+            titleLabel.textColor = UIColor(red: 157/255.0, green: 129/255.0, blue: 137/255.0, alpha: 1.0)
+        }
         titleLabel.font = UIFont(name: "Marker Felt", size: 32)
         titleLabel.textAlignment = .center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -159,6 +200,11 @@ extension ChatbotViewController: InputBarAccessoryViewDelegate {
 
 extension ChatbotViewController: MessagesLayoutDelegate, MessagesDisplayDelegate {
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        
+        if (darkMode) {
+            return isFromCurrentSender(message: message) ? UIColor(red: 245/255.0, green: 245/255.0, blue: 245/255.0, alpha: 1.0) : UIColor(red: 220/255.0, green: 220/255.0, blue: 220/255.0, alpha: 1.0)
+        }
+        
         return isFromCurrentSender(message: message) ? UIColor(red: 255/255, green: 202/255, blue: 212/255, alpha: 1.0) : UIColor(red: 244/255, green: 172/255, blue: 183/255, alpha: 1.0)
     }
     
