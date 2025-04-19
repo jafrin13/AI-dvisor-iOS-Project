@@ -45,7 +45,7 @@ class EditJournalViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         // Style for rounded corners
-        view.layer.cornerRadius = 16
+        view.layer.cornerRadius = 25
         view.layer.masksToBounds = true
         
         // Style for Rounded Buttons
