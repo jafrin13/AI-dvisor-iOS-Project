@@ -75,7 +75,7 @@ class ProfilePageViewController: UIViewController {
             view.backgroundColor = UIColor(red: 40/255.0, green: 40/255.0, blue: 100/255.0, alpha: 1.0)
         } else {
             // Light mode: Set the background to the original light color
-            view.backgroundColor = UIColor(red: 245/255.0, green: 224/255.0, blue: 216/255.0, alpha: 1.0)
+            view.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
         }
     }
     

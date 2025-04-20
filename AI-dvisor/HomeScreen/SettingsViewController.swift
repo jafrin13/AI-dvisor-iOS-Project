@@ -64,7 +64,7 @@ class SettingsViewController: UIViewController {
             darkLightSegCtrl.selectedSegmentIndex = 1
         } else {
             // Light mode: Set the background to the original light color
-            view.backgroundColor = UIColor(red: 245/255.0, green: 224/255.0, blue: 216/255.0, alpha: 1.0)
+            view.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
             darkLightSegCtrl.selectedSegmentIndex = 0
         }
     }
@@ -123,7 +123,7 @@ class SettingsViewController: UIViewController {
             self.currentUser?.setValue(false, forKey: "darkMode")
             self.saveContext()
             // Reset background color to the light mode color
-            view.backgroundColor = UIColor(red: 245/255.0, green: 224/255.0, blue: 216/255.0, alpha: 1.0)
+            view.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
 
         case 1:
             // Dark mode; selected segment is 1

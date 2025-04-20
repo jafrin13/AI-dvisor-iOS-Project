@@ -44,6 +44,8 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         let homeScreenGesture = UITapGestureRecognizer(target: self, action: #selector(homeBackImageTapped(_:)))
         
         homeBackButton.addGestureRecognizer(homeScreenGesture)
+        pdfCollectionView.layer.cornerRadius = 16
+        pdfCollectionView.layer.masksToBounds = true // important!
         
         // Obtain specific user from core
         if let email = Auth.auth().currentUser?.email {
@@ -77,6 +79,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         } else {
             // Light mode: Set the background to the original light color
             view.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+            pdfCollectionView.backgroundColor = UIColor(red: 190/255.0, green: 207/255.0, blue: 167/255.0, alpha: 1.0)
             homeBackButton.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
         }
     }
