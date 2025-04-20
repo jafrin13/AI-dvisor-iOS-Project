@@ -41,6 +41,9 @@ class AddEventViewController: UIViewController {
         // Style for Rounded Buttons
         addButton.layer.cornerRadius = 10
         cancelButton.layer.cornerRadius = 10
+        selectJournalDD.layer.cornerRadius = 10
+        
+        
         requestCalendarPermission()
 
     }
@@ -83,10 +86,6 @@ class AddEventViewController: UIViewController {
             )
         selectJournalDD.showsMenuAsPrimaryAction = true
         
-            // Optionally style your button
-        selectJournalDD.layer.cornerRadius = 8
-        selectJournalDD.layer.borderWidth  = 1
-        selectJournalDD.layer.borderColor  = UIColor.systemGray4.cgColor
     }
 
     @IBAction func addButtonPressed(_ sender: Any) {
@@ -106,6 +105,7 @@ class AddEventViewController: UIViewController {
                 self.present(alert, animated: true)
               }
             }
+        dismiss(animated: true)
     }
     
     private func addEventToCalendar(

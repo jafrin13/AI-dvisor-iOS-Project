@@ -51,6 +51,8 @@ class EditJournalViewController: UIViewController, UITextFieldDelegate {
         // Style for Rounded Buttons
         saveBtn.layer.cornerRadius = 10
         cancelBtn.layer.cornerRadius = 10
+        editColorButton.layer.cornerRadius = 10
+        editImportanceButton.layer.cornerRadius = 10
         
         nameTextField.delegate = self
         
