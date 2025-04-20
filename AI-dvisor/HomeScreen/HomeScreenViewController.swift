@@ -10,7 +10,9 @@ import CoreData
 import FirebaseAuth
 
 // This extension allows the HomeScreenViewController to handle new journal creation updates.
-extension HomeScreenViewController: NewJournalDelegate {
+extension HomeScreenViewController: NewJournalDelegate, EditJournalDelegate, AddEventDelegate, AddTimerDelegate {
+
+    
     func didCreateJournal(_ journal: Journal) {
         journals.append(journal)
         journalCollectionView.reloadData()
@@ -22,13 +24,15 @@ extension HomeScreenViewController: NewJournalDelegate {
     }
     
     func didAddEvent() {
-        
+    }
+    
+    func didAddTimer() {
     }
 }
 
 
 
-class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIColorPickerViewControllerDelegate, EditJournalDelegate, AddEventDelegate {
+class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIColorPickerViewControllerDelegate {
     
     var journals: [Journal] = []
     var cdJournals: [UserJournal] = []
@@ -41,6 +45,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var settingsImage: UIImageView!
     @IBOutlet weak var addFriend: UIImageView!
     @IBOutlet weak var addDueDate: UIImageView!
+    @IBOutlet weak var addTimer: UIImageView!
     
     var selectedColor: UIColor = .orange
     
@@ -55,12 +60,13 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         let addFriendGesture = UITapGestureRecognizer(target: self, action: #selector(addFriendImageTapped(_:)))
         let settingsGesture = UITapGestureRecognizer(target: self, action: #selector(settingsImageTapped(_:)))
         let addEventGesture = UITapGestureRecognizer(target: self, action: #selector(addDueDateTapped(_:)))
-        
+        let addTimerGesture = UITapGestureRecognizer(target: self, action: #selector(addTimerImageTapped(_:)))
         
         // This adds that functionality to the UIImageViews above so that a specifc function is called for them
         addFriend.addGestureRecognizer(addFriendGesture)
         settingsImage.addGestureRecognizer(settingsGesture)
         addDueDate.addGestureRecognizer(addEventGesture)
+        addTimer.addGestureRecognizer(addTimerGesture)
         
         journalCollectionView.dataSource = self
         journalCollectionView.delegate = self
@@ -177,8 +183,34 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     
     // This function is not implemented yet for Alpha but will be implemented for Final
     @objc func addFriendImageTapped(_ sender: UITapGestureRecognizer) {
-        print("Go to Add Friend Page")
+        let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
+        
+        if let newFriendVC = storyboard.instantiateViewController(withIdentifier: "AddFriendViewController") as? AddFriendViewController {
+            // This is so it can be a custom style the way it is shown
+            // This is the style of how the transition looks
+            newFriendVC.modalTransitionStyle = .crossDissolve
+            newFriendVC.modalPresentationStyle = .fullScreen
+            self.present(newFriendVC, animated: true, completion: nil)
+        }
     }
+    
+    @objc func addTimerImageTapped(_ sender: UITapGestureRecognizer) {
+        let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
+        
+        if let newTimerVC = storyboard.instantiateViewController(withIdentifier: "AddTimerViewController") as? AddTimerViewController {
+            // This is so it can be a custom style the way it is shown
+            newTimerVC.modalPresentationStyle = .pageSheet
+            
+            newTimerVC.delegate = self
+            
+            if let sheet = newTimerVC.sheetPresentationController {
+                sheet.detents = [.medium()] // Makes it take up half the screen
+            }
+            present(newTimerVC, animated: true)
+        }
+    }
+    
+
     
     @objc func addDueDateTapped(_ sender: UITapGestureRecognizer) {
         let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
