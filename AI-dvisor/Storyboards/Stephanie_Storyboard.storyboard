@@ -9,11 +9,6 @@
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="BagelFatOne-Regular.ttf">
-            <string>BagelFatOne-Regular</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Settings View Controller-->
         <scene sceneID="s0d-6b-0kx">
@@ -24,17 +19,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UP8-gG-OFw">
-                                <rect key="frame" x="125.33333333333333" y="153" width="189.33333333333337" height="64.666666666666686"/>
+                                <rect key="frame" x="114" y="153" width="212" height="77"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Settings">
                                         <attributes>
-                                            <color key="NSColor" red="0.3999682115" green="0.51717541879999995" blue="0.3595713244" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" metaFont="system" size="54"/>
+                                            <color key="NSColor" red="0.047058823529411764" green="0.26666666666666666" blue="0.015686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="59" name="MarkerFelt-Wide"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
-                                <nil key="highlightedColor"/>
+                                <color key="highlightedColor" red="0.1176470518" green="0.26274511220000002" blue="0.062745101750000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="rTs-I8-zc9">
                                 <rect key="frame" x="145" y="446" width="150" height="66"/>
@@ -203,12 +198,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dCD-eL-Rg6">
-                                <rect key="frame" x="148.33333333333337" y="97" width="143.66666666666663" height="64.666666666666686"/>
+                                <rect key="frame" x="142.33333333333331" y="97" width="155.33333333333331" height="70.333333333333314"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Profile">
                                         <attributes>
-                                            <color key="NSColor" red="0.3999682115" green="0.51717541879999995" blue="0.3595713244" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" metaFont="system" size="54"/>
+                                            <color key="NSColor" red="0.047058823529411764" green="0.26666666666666666" blue="0.015686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="54" name="MarkerFelt-Wide"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -329,12 +324,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D2H-oR-De2">
-                                <rect key="frame" x="145" y="351" width="150" height="31.333333333333314"/>
+                                <rect key="frame" x="145" y="351" width="150.33333333333337" height="34"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Hi, Username">
                                         <attributes>
-                                            <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <font key="NSFont" metaFont="system" size="26"/>
+                                            <color key="NSColor" red="0.40392160420000001" green="0.30980393290000002" blue="0.2352941036" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <font key="NSFont" size="26" name="MarkerFelt-Wide"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
@@ -431,10 +426,10 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gMz-dU-QmR">
                                 <rect key="frame" x="341" y="862" width="60" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" red="0.054937750420000001" green="0.26343025129999997" blue="0.095322043440000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="tintColor" red="0.054901960780000002" green="0.26343025129999997" blue="0.095322043440000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="tinted" image="plus" catalog="system" cornerStyle="capsule">
-                                    <color key="baseBackgroundColor" red="0.054937750420000001" green="0.26343025129999997" blue="0.095322043440000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <buttonConfiguration key="configuration" style="filled" image="plus" catalog="system" cornerStyle="capsule">
+                                    <color key="baseBackgroundColor" red="0.054901960780000002" green="0.26343025129999997" blue="0.095322043440000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="onUploadButtonPressed:" destination="2YH-C8-jYA" eventType="touchUpInside" id="du9-6d-U08"/>
@@ -443,16 +438,21 @@
                             <imageView clipsSubviews="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="house.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Z9a-jd-V6S">
                                 <rect key="frame" x="40" y="862" width="74" height="58"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.89411771299999998" green="0.92156863209999995" blue="0.79607844350000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="tintColor" red="0.1019607931" green="0.26274511220000002" blue="0.094117648900000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration" identifier="BackHomeButton"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Subject" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B1u-Cd-CtY">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B1u-Cd-CtY">
                                 <rect key="frame" x="30" y="62" width="381" height="85"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="BagelFatOne-Regular" family="Bagel Fat One" pointSize="39"/>
-                                <color key="textColor" red="0.47409118936472655" green="0.61301949097938147" blue="0.42620786333167937" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Subject">
+                                        <attributes>
+                                            <color key="NSColor" red="0.047058823529411764" green="0.26666666666666666" blue="0.015686274509803921" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <font key="NSFont" size="49" name="MarkerFelt-Wide"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0dj-nd-vi6">
@@ -510,6 +510,7 @@
                         <color key="backgroundColor" red="0.89411764705882346" green="0.92156862745098034" blue="0.79607843137254897" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                     <connections>
+                        <outlet property="addPDFButton" destination="gMz-dU-QmR" id="4hm-PJ-fcI"/>
                         <outlet property="homeBackButton" destination="Z9a-jd-V6S" id="SVz-VZ-SNj"/>
                         <outlet property="pdfCollectionView" destination="0dj-nd-vi6" id="MyH-xf-4qm"/>
                         <outlet property="subjectLabel" destination="B1u-Cd-CtY" id="G4B-uJ-hew"/>

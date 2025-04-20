@@ -71,6 +71,18 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         journalCollectionView.addGestureRecognizer(longPressGesture)
+        
+        // So teh SegCtrl text color can be different
+        let selectedTextAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.white  // Color for selected text
+        ]
+
+        let unselectedTextAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.black  // Color for unselected text
+        ]
+
+        sortJournalSegCtrl.setTitleTextAttributes(selectedTextAttributes, for: .selected)
+        sortJournalSegCtrl.setTitleTextAttributes(unselectedTextAttributes, for: .normal)
     }
 
     private func fetchCurrentUser() {
@@ -95,7 +107,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
               // you can set a default profile picture here if you want
               try context.save()
               currentUser = newUser
-              print("✅ Created Core Data User for \(email)")
+              print("Created Core Data User for \(email)")
             }
           } catch {
             fatalError("Failed fetching/creating User: \(error)")
@@ -105,11 +117,15 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     // For Dark/Light Mode
     func onDarkLightMode(darkMode: Bool) {
         if (darkMode) {
-            // Dark mode: Set a light gray background
-            view.backgroundColor = UIColor(red: 128/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1.0)
-            journalCollectionView.backgroundColor = UIColor(red: 160/255.0, green: 160/255.0, blue: 160/255.0, alpha: 1.0)
+            // Dark mode:
+            view.backgroundColor = UIColor(red: 12/255.0, green: 68/255.0, blue: 4/255.0, alpha: 1.0)
+            journalCollectionView.backgroundColor = UIColor(red: 12/255.0, green: 68/255.0, blue: 4/255.0, alpha: 1.0)
+            settingsImage.tintColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+            addTimer.tintColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+            addFriend.tintColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+            addDueDate.tintColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
         } else {
-           
+           // Light Mode:
             view.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
             journalCollectionView.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
 

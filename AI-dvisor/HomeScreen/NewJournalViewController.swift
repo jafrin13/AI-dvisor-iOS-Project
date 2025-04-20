@@ -30,8 +30,6 @@ class NewJournalViewController: UIViewController, UITextFieldDelegate{
     
     @IBOutlet weak var journalNameTextFeild: UITextField!
     
-    @IBOutlet weak var importancePreview: UILabel!
-    
     @IBOutlet weak var colorSelectorButton: UIButton!
     @IBOutlet weak var importanceSelectorButton: UIButton!
     
@@ -49,7 +47,6 @@ class NewJournalViewController: UIViewController, UITextFieldDelegate{
         // Style for rounded corners
         view.layer.cornerRadius = 25
         view.layer.masksToBounds = true
-        importancePreview.text = ""
         
         // Style for Rounded Buttons
         saveButton.layer.cornerRadius = 10

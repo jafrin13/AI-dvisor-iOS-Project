@@ -12,6 +12,7 @@ import FirebaseFirestore
 import FirebaseStorage
 import PDFKit
 import FirebaseAuth
+import CoreData
 
 class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  UICollectionViewDataSource, UICollectionViewDelegate, PDFItemAppender {
     
@@ -22,6 +23,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
 
     @IBOutlet weak var pdfCollectionView: UICollectionView!
     
+    @IBOutlet weak var addPDFButton: UIButton!
     var pdfItems: [PDFItem] = []
     
     override func viewDidLoad() {
@@ -39,6 +41,48 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         pdfCollectionView.addGestureRecognizer(longPressGesture)
+        
+        // Obtain user from core and set profile picture and username
+        // Fetch and setup user data
+       if let userEmail = Auth.auth().currentUser?.email {
+           fetchUser(email: userEmail)
+       }
+        
+    }
+    
+    // Fetch user from core and update UI
+    func fetchUser(email: String) {
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "email == %@", email)
+        
+        do {
+            let fetchedResults = try context.fetch(fetchRequest)
+            if let user = fetchedResults.first {
+                // Set dark or light mode
+                let isDarkMode = user.value(forKey: "darkMode") as? Bool ?? false
+                onDarkLightMode(darkMode: isDarkMode)
+            }
+        } catch {
+            print("Error while retrieving data: \(error)")
+        }
+    }
+    
+    // For Dark/Light Mode
+    func onDarkLightMode(darkMode: Bool) {
+        if (darkMode) {
+            // Dark mode: Set a navy blue background
+            view.backgroundColor = UIColor(red: 12/255.0, green: 68/255.0, blue: 4/255.0, alpha: 1.0)
+            pdfCollectionView.backgroundColor = UIColor(red: 12/255.0, green: 68/255.0, blue: 4/255.0, alpha: 1.0)
+            subjectLabel.textColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+            addPDFButton.tintColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+            homeBackButton.tintColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+        } else {
+            // Light mode: Set the background to the original light color
+            view.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+            pdfCollectionView.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+            addPDFButton.backgroundColor = UIColor(red: 14.0/255.0, green: 67.0/255.0, blue: 24.0/255.0, alpha: 0)
+            homeBackButton.tintColor = UIColor(red: 14.0/255.0, green: 67.0/255.0, blue: 24.0/255.0, alpha: 1.0)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

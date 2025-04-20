@@ -38,7 +38,7 @@ class OpenAIConnector {
             "model": "gpt-3.5-turbo", // model we want to use
             "messages": [message], // message we want to send/get response for
             "temperature": 0.5, // randomness of the text generation
-            "max_tokens": 500 // max number of tokens to generate
+            "max_tokens": 300 // max number of tokens to generate
         ]
 
         // create a JSON object with the specified parameters

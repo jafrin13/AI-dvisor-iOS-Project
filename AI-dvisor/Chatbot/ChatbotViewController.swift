@@ -76,9 +76,9 @@ class ChatbotViewController: MessagesViewController {
          // Create Background View for the Top Bar
          let topBarView = UIView()
          if (darkMode) {
-             topBarView.backgroundColor = UIColor(red:  50/255, green:  50/255, blue:  50/255, alpha: 1)
+             topBarView.backgroundColor = UIColor(red:  50/255, green:  50/255, blue:  50/255, alpha: 1.0)
          } else {
-             topBarView.backgroundColor = UIColor(red: 228/255.0, green: 235/255.0, blue:  203/255.0,alpha: 1.0)
+             topBarView.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
          }
          topBarView.translatesAutoresizingMaskIntoConstraints = false
          view.addSubview(topBarView)
@@ -101,11 +101,13 @@ class ChatbotViewController: MessagesViewController {
          let titleLabel = UILabel()
          titleLabel.text = "Chat"
          if (darkMode) {
-             titleLabel.textColor = UIColor(.white)
+             titleLabel.textColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
+             backButton.tintColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
          } else {
-             titleLabel.textColor = UIColor(red: 157/255.0, green: 129/255.0, blue: 137/255.0, alpha: 1.0)
+             titleLabel.textColor = UIColor(red: 12/255.0, green: 68/255.0, blue: 4/255.0, alpha: 1.0)
          }
-         titleLabel.font = UIFont(name: "Marker Felt", size: 32)
+         titleLabel.font = UIFont(name: "MarkerFelt-Wide", size: 32)
+        
          titleLabel.textAlignment = .center
          titleLabel.translatesAutoresizingMaskIntoConstraints = false
          view.addSubview(titleLabel)
@@ -459,10 +461,6 @@ extension ChatbotViewController: MessagesLayoutDelegate, MessagesDisplayDelegate
     
     // sets colors of text bubbles
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        if (darkMode) {
-           return isFromCurrentSender(message: message) ? UIColor(red: 245/255.0, green: 245/255.0, blue: 245/255.0, alpha: 1.0) : UIColor(red: 220/255.0, green: 220/255.0, blue: 220/255.0, alpha: 1.0)
-       }
-        
         // if the sender is the user make the bubbles light pink, otherise make them dark pink
         return isFromCurrentSender(message: message) ? UIColor(red: 255/255, green: 202/255, blue: 212/255, alpha: 1.0) : UIColor(red: 244/255, green: 172/255, blue: 183/255, alpha: 1.0)
     }
