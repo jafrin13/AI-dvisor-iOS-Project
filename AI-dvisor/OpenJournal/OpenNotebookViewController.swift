@@ -11,7 +11,6 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 import PDFKit
-import CoreData
 import FirebaseAuth
 
 
@@ -20,6 +19,8 @@ struct PDFItem {
     let fileName: String
     let pdfURL: String
 }
+var pdfItems: [PDFItem] = []
+var globalPdfCollectionView: UICollectionView?
 
 class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  UICollectionViewDataSource, UICollectionViewDelegate {
 
@@ -30,59 +31,24 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
 
     @IBOutlet weak var pdfCollectionView: UICollectionView!
     
-    var pdfItems: [PDFItem] = []
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            loadUploadedPDFs()
+            pdfCollectionView.delegate = self
+            pdfCollectionView.dataSource = self
+            globalPdfCollectionView = pdfCollectionView
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        loadUploadedPDFs()
-        pdfCollectionView.delegate = self
-        pdfCollectionView.dataSource = self
-        
-        subjectLabel.text = journalTitle
+            subjectLabel.text = journalTitle
 
-        // Do any additional setup after loading the view.
-        let homeScreenGesture = UITapGestureRecognizer(target: self, action: #selector(homeBackImageTapped(_:)))
-        
-        homeBackButton.addGestureRecognizer(homeScreenGesture)
-        pdfCollectionView.layer.cornerRadius = 16
-        pdfCollectionView.layer.masksToBounds = true // important!
-        
-        // Obtain specific user from core
-        if let email = Auth.auth().currentUser?.email {
-            fetchUser(email: email)
+            // Do any additional setup after loading the view.
+            let homeScreenGesture = UITapGestureRecognizer(target: self, action: #selector(homeBackImageTapped(_:)))
+            
+            homeBackButton.addGestureRecognizer(homeScreenGesture)
+            
+            
+            let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+            pdfCollectionView.addGestureRecognizer(longPressGesture)
         }
-    }
-    
-    // Fetch user from core and update UI
-    func fetchUser(email: String) {
-        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "email MATCHES %@", email)
-
-        do {
-            let users = try context.fetch(fetchRequest)
-            if let user = users.first {
-                // Set dark or light mode
-                let isDarkMode = user.value(forKey: "darkMode") as? Bool ?? false
-                onDarkLightMode(darkMode: isDarkMode)
-            }
-        } catch {
-            print("Failed to fetch user: \(error)")
-        }
-    }
-    
-    // For Dark/Light Mode
-    func onDarkLightMode(darkMode: Bool) {
-        if (darkMode) {
-            // Dark mode: Set a light gray background
-            view.backgroundColor = UIColor(red: 128/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1.0)
-            homeBackButton.backgroundColor = UIColor(red: 128/255.0, green: 128/255.0, blue: 128/255.0, alpha: 1.0)
-        } else {
-            // Light mode: Set the background to the original light color
-            view.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
-            pdfCollectionView.backgroundColor = UIColor(red: 190/255.0, green: 207/255.0, blue: 167/255.0, alpha: 1.0)
-            homeBackButton.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
-        }
-    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return pdfItems.count
@@ -105,7 +71,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
 
         db.collection("users").document(currentUserID)
           .collection("journals").document(journalTitle)
-          .collection("uploads").order(by: "timestamp", descending: false) 
+          .collection("uploads").order(by: "timestamp", descending: false)
 .getDocuments { snapshot, error in
             if let error = error {
                 print("Error fetching PDFs: \(error.localizedDescription)")
@@ -113,7 +79,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             }
 
             // Clear the array before loading new data
-            self.pdfItems.removeAll()
+            pdfItems.removeAll()
 
             guard let documents = snapshot?.documents else { return }
             for doc in documents {
@@ -127,7 +93,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                         if let data = data, let image = UIImage(data: data) {
                             DispatchQueue.main.async {
                                 let pdfItem = PDFItem(thumbnail: image, fileName: fileName, pdfURL: pdfURL)
-                                self.pdfItems.append(pdfItem)
+                                pdfItems.append(pdfItem)
                                 self.pdfCollectionView.reloadData()
                             }
                         }
@@ -190,7 +156,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                     
                     let pdfItem = PDFItem(thumbnail: thumbnail, fileName: fileName, pdfURL: pdfURL)
                     DispatchQueue.main.async {
-                        self.pdfItems.append(pdfItem)
+                        pdfItems.append(pdfItem)
                         self.pdfCollectionView.reloadData()
                     }
                 }

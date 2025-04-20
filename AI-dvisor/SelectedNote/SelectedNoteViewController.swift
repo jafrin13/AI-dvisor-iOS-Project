@@ -168,24 +168,23 @@ class SelectedNoteViewController: UIViewController {
     }
     
     @IBAction func pressedQuizButton(_ sender: Any) {
-        performSegue(withIdentifier: "toChatbotSegue", sender: "quiz")
+        performSegue(withIdentifier: "toChatbotSegue", sender: "Quiz")
     }
     
     @IBAction func pressedTestButton(_ sender: Any) {
-        performSegue(withIdentifier: "toChatbotSegue", sender: "test")
+        performSegue(withIdentifier: "toChatbotSegue", sender: "Test")
     }
     
     @IBAction func pressedFlashcardsButton(_ sender: Any) {
-        performSegue(withIdentifier: "toChatbotSegue", sender: "flashcards")
+        performSegue(withIdentifier: "toChatbotSegue", sender: "Flashcards")
     }
     
     @IBAction func pressedTalkToChatButton(_ sender: Any) {
-        performSegue(withIdentifier: "toChatbotSegue", sender: "none")
+        performSegue(withIdentifier: "toChatbotSegue", sender: "None")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toChatbotSegue", let chatbotVC = segue.destination as? ChatbotViewController {
-            chatbotVC.noteFilePath = self.noteFilePath
             chatbotVC.folderFilePath = self.folderFilePath
             chatbotVC.localFileURL = self.localFileURL
             chatbotVC.delegate = self
