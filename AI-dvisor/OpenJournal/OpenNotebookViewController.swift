@@ -13,17 +13,8 @@ import FirebaseStorage
 import PDFKit
 import FirebaseAuth
 
-
-struct PDFItem {
-    let thumbnail: UIImage
-    let fileName: String
-    let pdfURL: String
-}
-var pdfItems: [PDFItem] = []
-var globalPdfCollectionView: UICollectionView?
-
-class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  UICollectionViewDataSource, UICollectionViewDelegate {
-
+class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  UICollectionViewDataSource, UICollectionViewDelegate, PDFItemAppender {
+    
     @IBOutlet weak var subjectLabel: UILabel!
     var journalTitle: String?
     
@@ -31,24 +22,24 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
 
     @IBOutlet weak var pdfCollectionView: UICollectionView!
     
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            loadUploadedPDFs()
-            pdfCollectionView.delegate = self
-            pdfCollectionView.dataSource = self
-            globalPdfCollectionView = pdfCollectionView
+    var pdfItems: [PDFItem] = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        loadUploadedPDFs()
+        pdfCollectionView.delegate = self
+        pdfCollectionView.dataSource = self
 
-            subjectLabel.text = journalTitle
+        subjectLabel.text = journalTitle
 
-            // Do any additional setup after loading the view.
-            let homeScreenGesture = UITapGestureRecognizer(target: self, action: #selector(homeBackImageTapped(_:)))
-            
-            homeBackButton.addGestureRecognizer(homeScreenGesture)
-            
-            
-            let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
-            pdfCollectionView.addGestureRecognizer(longPressGesture)
-        }
+        // Do any additional setup after loading the view.
+        let homeScreenGesture = UITapGestureRecognizer(target: self, action: #selector(homeBackImageTapped(_:)))
+        
+        homeBackButton.addGestureRecognizer(homeScreenGesture)
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        pdfCollectionView.addGestureRecognizer(longPressGesture)
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return pdfItems.count
@@ -72,14 +63,14 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         db.collection("users").document(currentUserID)
           .collection("journals").document(journalTitle)
           .collection("uploads").order(by: "timestamp", descending: false)
-.getDocuments { snapshot, error in
+          .getDocuments { snapshot, error in
             if let error = error {
                 print("Error fetching PDFs: \(error.localizedDescription)")
                 return
             }
 
             // Clear the array before loading new data
-            pdfItems.removeAll()
+            self.pdfItems.removeAll()
 
             guard let documents = snapshot?.documents else { return }
             for doc in documents {
@@ -93,7 +84,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                         if let data = data, let image = UIImage(data: data) {
                             DispatchQueue.main.async {
                                 let pdfItem = PDFItem(thumbnail: image, fileName: fileName, pdfURL: pdfURL)
-                                pdfItems.append(pdfItem)
+                                self.pdfItems.append(pdfItem)
                                 self.pdfCollectionView.reloadData()
                             }
                         }
@@ -103,26 +94,24 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         }
     }
 
-
-        
-        @IBAction func onUploadButtonPressed(_ sender: Any) {
-            let documentSelector = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.pdf])
-            // delegate should call document picker
-            documentSelector.delegate = self
-            // user can only choose 1 file at a time
-            documentSelector.allowsMultipleSelection = false
-            present(documentSelector, animated: true, completion: nil)
+    @IBAction func onUploadButtonPressed(_ sender: Any) {
+        let documentSelector = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.pdf])
+        // delegate should call document picker
+        documentSelector.delegate = self
+        // user can only choose 1 file at a time
+        documentSelector.allowsMultipleSelection = false
+        present(documentSelector, animated: true, completion: nil)
+    }
+    
+    @objc func homeBackImageTapped(_ sender: UITapGestureRecognizer) {
+        print("Going back to homepage")
+        let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
+        if let backHomeVC = storyboard.instantiateViewController(withIdentifier: "HomeScreen") as? HomeScreenViewController {
+            backHomeVC.modalTransitionStyle = .crossDissolve
+            backHomeVC.modalPresentationStyle = .fullScreen
+            self.present(backHomeVC, animated: true, completion: nil)
         }
-        
-        @objc func homeBackImageTapped(_ sender: UITapGestureRecognizer) {
-            print("Going back to homepage")
-            let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
-            if let backHomeVC = storyboard.instantiateViewController(withIdentifier: "HomeScreen") as? HomeScreenViewController {
-                backHomeVC.modalTransitionStyle = .crossDissolve
-                backHomeVC.modalPresentationStyle = .fullScreen
-                self.present(backHomeVC, animated: true, completion: nil)
-            }
-        }
+    }
         
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         // make sure there is a selected file
@@ -156,8 +145,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                     
                     let pdfItem = PDFItem(thumbnail: thumbnail, fileName: fileName, pdfURL: pdfURL)
                     DispatchQueue.main.async {
-                        pdfItems.append(pdfItem)
-                        self.pdfCollectionView.reloadData()
+                        self.pdfItems.append(pdfItem)
                     }
                 }
             }
@@ -167,50 +155,49 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     }
 
     // This method creates a thumbnail for the pdf
-        func generateThumbnail(from pdfURL: URL, size: CGSize = CGSize(width: 150, height: 200)) -> UIImage? {
-            
-            // get pdf and grabs the first page
-            guard let pdfDoc = PDFDocument(url: pdfURL),
-                  let firstPage = pdfDoc.page(at: 0) else { return nil }
-            
-            // Get page dimensions
-            let pageRect = firstPage.bounds(for: .mediaBox)
-            
-            // found online, this basically creates a  UI Image since obviously a pdf is not an image
-            // by nature
-            let renderer = UIGraphicsImageRenderer(size: size)
-            
-            // create a new image
-            return renderer.image { context in
-                // makes a white rectagle
-                UIColor.white.set()
-                context.fill(CGRect(origin: .zero, size: size)) // Fill background to avoid transparency
-                
-                
-                // I got help from chatgpt here to be able to size down the pdf where it fits into the rectangle
-                // 1. here we find a scale factor that makes the pdf fit inside the rectangle
-                // 2. we can then use it to make the pdf a fraction of its original size
-                let scale = min(size.width / pageRect.width, size.height / pageRect.height)
-                let scaledWidth = pageRect.width * scale
-                let scaledHeight = pageRect.height * scale
-                
-                // the math for centering is that the left over space is divided into either side so, the contents
-                // will still be centered
-                let xOffset = (size.width - scaledWidth) / 2
-                let yOffset = (size.height - scaledHeight) / 2
-                
-                // -scale is there to fix upside down issue, then moved up
-                // because UI Kit and PDF Kit have diff coordinate systems
-                let transform = CGAffineTransform(scaleX: scale, y: -scale)
-                    .translatedBy(x: 0, y: -pageRect.height)
-                
-                context.cgContext.concatenate(transform)
-                
-                firstPage.draw(with: .mediaBox, to: context.cgContext)
-            }
-        }
+    func generateThumbnail(from pdfURL: URL, size: CGSize = CGSize(width: 150, height: 200)) -> UIImage? {
         
-        // Uploads the PDF file and returns the URL
+        // get pdf and grabs the first page
+        guard let pdfDoc = PDFDocument(url: pdfURL),
+              let firstPage = pdfDoc.page(at: 0) else { return nil }
+        
+        // Get page dimensions
+        let pageRect = firstPage.bounds(for: .mediaBox)
+        
+        // found online, this basically creates a  UI Image since obviously a pdf is not an image
+        // by nature
+        let renderer = UIGraphicsImageRenderer(size: size)
+        
+        // create a new image
+        return renderer.image { context in
+            // makes a white rectagle
+            UIColor.white.set()
+            context.fill(CGRect(origin: .zero, size: size)) // Fill background to avoid transparency
+            
+            // I got help from chatgpt here to be able to size down the pdf where it fits into the rectangle
+            // 1. here we find a scale factor that makes the pdf fit inside the rectangle
+            // 2. we can then use it to make the pdf a fraction of its original size
+            let scale = min(size.width / pageRect.width, size.height / pageRect.height)
+            let scaledWidth = pageRect.width * scale
+            let scaledHeight = pageRect.height * scale
+            
+            // the math for centering is that the left over space is divided into either side so, the contents
+            // will still be centered
+            let xOffset = (size.width - scaledWidth) / 2
+            let yOffset = (size.height - scaledHeight) / 2
+            
+            // -scale is there to fix upside down issue, then moved up
+            // because UI Kit and PDF Kit have diff coordinate systems
+            let transform = CGAffineTransform(scaleX: scale, y: -scale)
+                .translatedBy(x: 0, y: -pageRect.height)
+            
+            context.cgContext.concatenate(transform)
+            
+            firstPage.draw(with: .mediaBox, to: context.cgContext)
+        }
+    }
+        
+    // Uploads the PDF file and returns the URL
     func uploadFileToFirebase(_ fileURL: URL, completion: @escaping (String) -> Void) {
         guard let journalTitle = self.journalTitle else { return }
 
@@ -234,7 +221,6 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         }
     }
 
-    
     @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
         let point = gesture.location(in: pdfCollectionView)
         
@@ -266,42 +252,39 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         pdfItems.remove(at: indexPath.item)
         pdfCollectionView.deleteItems(at: [indexPath])
     }
-    
-    
-    
         
-        // Uploads the thumbnail image to Firebase
+    // Uploads the thumbnail image to Firebase
     func uploadThumbnailToFirebase(_ image: UIImage, pdfURL: String, fileName: String) {
             
-            // we compress to upload to firebase faster, 70% is apparently a
-            // good balance between quality and size
-            guard let imageData = image.jpegData(compressionQuality: 0.7) else { return }
+        // we compress to upload to firebase faster, 70% is apparently a
+        // good balance between quality and size
+        guard let imageData = image.jpegData(compressionQuality: 0.7) else { return }
+        
+        let storageRef = Storage.storage().reference().child("thumbnails/\(UUID().uuidString).jpg")
+        
+        let uploadThumbnail = storageRef.putData(imageData, metadata: nil) { metadata, error in
+            if let error = error {
+                print("Thumbnail upload to firebase failed: \(error.localizedDescription)")
+                return
+            }
             
-            let storageRef = Storage.storage().reference().child("thumbnails/\(UUID().uuidString).jpg")
-            
-            let uploadThumbnail = storageRef.putData(imageData, metadata: nil) { metadata, error in
-                if let error = error {
-                    print("Thumbnail upload to firebase failed: \(error.localizedDescription)")
-                    return
-                }
-                
-                // also just in case again if I need to grab the image again
-                storageRef.downloadURL { url, error in
-                    if let thumbnailURL = url {
-                        print("Thumbnail uploaded: \(thumbnailURL.absoluteString)")
-                        
-                        // save both URLs to firestore
-                        self.saveFileMetadataToFirestore(pdfURL: pdfURL, thumbnailURL: thumbnailURL.absoluteString, fileName: fileName)
-                    } else {
-                        print("Failed to get thumbnail URL")
-                    }
+            // also just in case again if I need to grab the image again
+            storageRef.downloadURL { url, error in
+                if let thumbnailURL = url {
+                    print("Thumbnail uploaded: \(thumbnailURL.absoluteString)")
+                    
+                    // save both URLs to firestore
+                    self.saveFileMetadataToFirestore(pdfURL: pdfURL, thumbnailURL: thumbnailURL.absoluteString, fileName: fileName)
+                } else {
+                    print("Failed to get thumbnail URL")
                 }
             }
         }
+    }
         
-        // Sets up schema (I don't know if its correct but I was
-        // searching and it said I can only control the schema through code and not the
-        // firebase console)
+    // Sets up schema (I don't know if its correct but I was
+    // searching and it said I can only control the schema through code and not the
+    // firebase console)
     func saveFileMetadataToFirestore(pdfURL: String, thumbnailURL: String, fileName: String) {
         guard let journalTitle = self.journalTitle else { return }
 
@@ -312,10 +295,8 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             "thumbnailURL": thumbnailURL,
             "fileName": fileName,
             "userId": Auth.auth().currentUser?.uid ?? "unknown",
-            "timestamp": FieldValue.serverTimestamp()  // ✅ Add this line
+            "timestamp": FieldValue.serverTimestamp()
         ]
-
-
 
         guard let userId = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(userId)
@@ -328,32 +309,36 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             }
         }
     }
-
     
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            let selectedPDF = pdfItems[indexPath.row]
-            
-            let storyboard = UIStoryboard(name: "Lauren_Storyboard", bundle: nil)
-            if let selectedNoteVC = storyboard.instantiateViewController(withIdentifier: "SelectedNoteVC") as? SelectedNoteViewController {
-                
-                selectedNoteVC.passedNoteTitle = selectedPDF.fileName
-                selectedNoteVC.noteFilePath = getPathFromURL(selectedPDF.pdfURL) // Helper below
-                selectedNoteVC.folderFilePath = "generated/\(selectedPDF.fileName)" // Customize as needed
-                selectedNoteVC.modalPresentationStyle = .fullScreen
-                self.present(selectedNoteVC, animated: true, completion: nil)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedPDF = pdfItems[indexPath.row]
+        
+        let storyboard = UIStoryboard(name: "Lauren_Storyboard", bundle: nil)
+        if let selectedNoteVC = storyboard.instantiateViewController(withIdentifier: "SelectedNoteVC") as? SelectedNoteViewController {
+            selectedNoteVC.delegate = self
+            selectedNoteVC.passedNoteTitle = selectedPDF.fileName
+            selectedNoteVC.noteFilePath = getPathFromURL(selectedPDF.pdfURL) // Helper below
+            selectedNoteVC.folderFilePath = "generated/\(selectedPDF.fileName)" // Customize as needed
+            selectedNoteVC.modalPresentationStyle = .fullScreen
+            self.present(selectedNoteVC, animated: true, completion: nil)
+        }
+    }
+    
+    func getPathFromURL(_ fullURL: String) -> String {
+        if let range = fullURL.range(of: "/o/") {
+            let pathPart = fullURL[range.upperBound...]
+            if let endIndex = pathPart.firstIndex(of: "?") {
+                let encodedPath = pathPart[..<endIndex]
+                let decodedPath = encodedPath.replacingOccurrences(of: "%2F", with: "/")
+                return String(decodedPath)
             }
         }
+        return ""
     }
-
-func getPathFromURL(_ fullURL: String) -> String {
     
-    if let range = fullURL.range(of: "/o/") {
-        let pathPart = fullURL[range.upperBound...]
-        if let endIndex = pathPart.firstIndex(of: "?") {
-            let encodedPath = pathPart[..<endIndex]
-            let decodedPath = encodedPath.replacingOccurrences(of: "%2F", with: "/")
-            return String(decodedPath)
-        }
+    func addPDFItem(newPDFItem: PDFItem) {
+        pdfItems.append(newPDFItem)
+        self.pdfCollectionView.reloadData()
+        
     }
-    return ""
 }

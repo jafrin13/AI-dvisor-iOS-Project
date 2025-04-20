@@ -20,7 +20,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AI-dvisor" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F7S-jx-rU7">
                                 <rect key="frame" x="98.666666666666686" y="192" width="243" height="75.666666666666686"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="58"/>
-                                <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turtle.png" translatesAutoresizingMaskIntoConstraints="NO" id="IOR-JC-saM">
@@ -33,7 +33,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="slow and steady wins the race. . ." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="55o-LP-FQO">
                                 <rect key="frame" x="78" y="647.66666666666663" width="284" height="26"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="20"/>
-                                <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Mtf-4d-Han">
@@ -54,7 +54,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="0.89411764705882346" green="0.92156862745098034" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="F7S-jx-rU7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="130" id="2Ds-PK-n0m"/>
                             <constraint firstItem="FVd-bj-o56" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="HvW-aC-c2H"/>
@@ -89,7 +89,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aAs-Xe-nHf">
                                 <rect key="frame" x="152.66666666666666" y="80" width="134.99999999999997" height="76"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="58"/>
-                                <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your email. . ." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RcR-mS-82J" userLabel="Username Text Field">
@@ -139,19 +139,19 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzP-9T-aR0">
                                 <rect key="frame" x="85" y="176" width="44" height="24"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
-                                <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vYc-qf-x2D">
                                 <rect key="frame" x="85" y="253" width="74" height="24"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
-                                <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not an existing user?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cMK-XK-gRf">
                                 <rect key="frame" x="138.66666666666666" y="441" width="162.99999999999997" height="24"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
-                                <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turtleRock.png" translatesAutoresizingMaskIntoConstraints="NO" id="ObF-MI-0H1">
@@ -171,13 +171,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blueBox.png" translatesAutoresizingMaskIntoConstraints="NO" id="idh-cs-QOS">
-                                <rect key="frame" x="0.0" y="856" width="440" height="100"/>
-                                <color key="backgroundColor" red="0.85490196939999996" green="0.88627451660000001" blue="0.86274516580000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="GbD-h9-AML"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJb-X9-yYm">
                                 <rect key="frame" x="45" y="381" width="350" height="0.0"/>
                                 <constraints>
@@ -189,18 +182,16 @@
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="flY-a7-bFV"/>
-                        <color key="backgroundColor" red="0.98431372640000003" green="0.90196079019999997" blue="0.85882353779999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.89411764705882346" green="0.92156862745098034" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="aAs-Xe-nHf" firstAttribute="top" secondItem="flY-a7-bFV" secondAttribute="top" constant="80" id="1KB-Xw-So4"/>
                             <constraint firstItem="07M-hq-T9w" firstAttribute="centerX" secondItem="nIE-MG-pv1" secondAttribute="centerX" id="3yM-Ug-N1d"/>
                             <constraint firstItem="lzP-9T-aR0" firstAttribute="top" secondItem="aAs-Xe-nHf" secondAttribute="bottom" constant="20" id="7sI-3L-7KD"/>
                             <constraint firstItem="aAs-Xe-nHf" firstAttribute="centerX" secondItem="nIE-MG-pv1" secondAttribute="centerX" id="9v0-eU-NuO"/>
                             <constraint firstItem="cMK-XK-gRf" firstAttribute="centerX" secondItem="nIE-MG-pv1" secondAttribute="centerX" id="Ae6-yQ-sht"/>
-                            <constraint firstAttribute="bottom" secondItem="idh-cs-QOS" secondAttribute="bottom" id="HjF-H8-2c7"/>
                             <constraint firstItem="RcR-mS-82J" firstAttribute="top" secondItem="aAs-Xe-nHf" secondAttribute="bottom" constant="50" id="NEL-WB-hVE"/>
                             <constraint firstItem="vYc-qf-x2D" firstAttribute="leading" secondItem="flY-a7-bFV" secondAttribute="leading" constant="85" id="NgO-C1-CoM"/>
                             <constraint firstItem="nvk-5r-SVe" firstAttribute="top" secondItem="RcR-mS-82J" secondAttribute="bottom" constant="40" id="PRY-oy-ZYj"/>
-                            <constraint firstItem="idh-cs-QOS" firstAttribute="leading" secondItem="flY-a7-bFV" secondAttribute="leading" id="Rdi-rc-TOG"/>
                             <constraint firstItem="cMK-XK-gRf" firstAttribute="top" secondItem="07M-hq-T9w" secondAttribute="bottom" constant="75" id="Snr-uo-YiO"/>
                             <constraint firstItem="bJb-X9-yYm" firstAttribute="centerX" secondItem="nIE-MG-pv1" secondAttribute="centerX" id="Xa4-ZG-VgW"/>
                             <constraint firstItem="vYc-qf-x2D" firstAttribute="top" secondItem="RcR-mS-82J" secondAttribute="bottom" constant="12" id="XvT-rF-6Q2"/>
@@ -213,7 +204,6 @@
                             <constraint firstItem="bJb-X9-yYm" firstAttribute="top" secondItem="07M-hq-T9w" secondAttribute="bottom" constant="15" id="uoE-Lw-vqp"/>
                             <constraint firstItem="lzP-9T-aR0" firstAttribute="leading" secondItem="flY-a7-bFV" secondAttribute="leading" constant="85" id="y3Q-V4-3zo"/>
                             <constraint firstItem="nvk-5r-SVe" firstAttribute="centerX" secondItem="nIE-MG-pv1" secondAttribute="centerX" id="yrX-UV-Jd5"/>
-                            <constraint firstItem="flY-a7-bFV" firstAttribute="trailing" secondItem="idh-cs-QOS" secondAttribute="trailing" id="yuP-HH-pmy"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="a2p-fA-sZo"/>
@@ -240,13 +230,13 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Account " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oOt-2a-3aB">
                                 <rect key="frame" x="106" y="115.66666666666666" width="228" height="75.666666666666657"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="58"/>
-                                <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create an" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zXS-N5-3Cm">
                                 <rect key="frame" x="99.666666666666671" y="40.000000000000007" width="240.66666666666663" height="75.666666666666686"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="58"/>
-                                <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your email. . ." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L0V-17-fLh" userLabel="Username Text Field">
@@ -279,13 +269,13 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1h1-pA-P1q">
                                 <rect key="frame" x="85" y="211.33333333333334" width="44" height="24"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
-                                <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ka-54-Mts">
                                 <rect key="frame" x="85" y="288.33333333333331" width="74" height="24"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
-                                <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="turtleRock.png" translatesAutoresizingMaskIntoConstraints="NO" id="2hP-4Z-flx">
@@ -315,17 +305,10 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blueBox.png" translatesAutoresizingMaskIntoConstraints="NO" id="4el-AV-wql">
-                                <rect key="frame" x="0.0" y="856" width="440" height="100"/>
-                                <color key="backgroundColor" red="0.85490196939999996" green="0.88627451660000001" blue="0.86274516580000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="oNv-Bt-Omi"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Re-type Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b5T-4l-Vg8">
                                 <rect key="frame" x="85" y="363.33333333333331" width="142" height="24"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="18"/>
-                                <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OFC-8o-ISZ">
@@ -345,7 +328,7 @@
                                 <buttonConfiguration key="configuration" style="plain">
                                     <imageReference key="image" image="chevron.backward" catalog="system" symbolScale="large"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" weight="black"/>
-                                    <color key="baseForegroundColor" red="0.8078432083" green="0.83137255909999996" blue="0.7254902124" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="baseForegroundColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="backButtonPressed:" destination="ga7-4B-dGY" eventType="touchUpInside" id="Xi8-uM-UU0"/>
@@ -353,7 +336,7 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="pvu-3a-oxz"/>
-                        <color key="backgroundColor" red="0.98431372640000003" green="0.90196079019999997" blue="0.85882353779999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.89411764705882346" green="0.92156862745098034" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="1h1-pA-P1q" firstAttribute="leading" secondItem="pvu-3a-oxz" secondAttribute="leading" constant="85" id="0c2-Qm-EiV"/>
                             <constraint firstItem="1ka-54-Mts" firstAttribute="leading" secondItem="pvu-3a-oxz" secondAttribute="leading" constant="85" id="3qq-rK-MbY"/>
@@ -362,18 +345,15 @@
                             <constraint firstItem="zXS-N5-3Cm" firstAttribute="centerX" secondItem="TSL-fH-ehn" secondAttribute="centerX" id="AS4-pN-Fgm"/>
                             <constraint firstItem="2hP-4Z-flx" firstAttribute="top" secondItem="hPP-F2-xud" secondAttribute="bottom" constant="40" id="Atw-f1-AD7"/>
                             <constraint firstItem="L0V-17-fLh" firstAttribute="centerX" secondItem="TSL-fH-ehn" secondAttribute="centerX" id="FXO-6e-mzZ"/>
-                            <constraint firstAttribute="bottom" secondItem="4el-AV-wql" secondAttribute="bottom" id="Fs8-54-B0H"/>
                             <constraint firstItem="87j-KQ-UK1" firstAttribute="top" secondItem="Wuv-s2-9AB" secondAttribute="bottom" constant="40" id="Hml-cJ-y8d"/>
                             <constraint firstItem="1ka-54-Mts" firstAttribute="top" secondItem="L0V-17-fLh" secondAttribute="bottom" constant="12" id="HuC-q9-90z"/>
                             <constraint firstItem="OFC-8o-ISZ" firstAttribute="top" secondItem="87j-KQ-UK1" secondAttribute="bottom" constant="10" id="Hys-3L-m82"/>
                             <constraint firstItem="L0V-17-fLh" firstAttribute="top" secondItem="oOt-2a-3aB" secondAttribute="bottom" constant="50" id="Ihd-SY-93a"/>
                             <constraint firstItem="b5T-4l-Vg8" firstAttribute="top" secondItem="Wuv-s2-9AB" secondAttribute="bottom" constant="12" id="IrD-K7-v2i"/>
-                            <constraint firstItem="pvu-3a-oxz" firstAttribute="trailing" secondItem="4el-AV-wql" secondAttribute="trailing" id="Jsh-aj-jre"/>
                             <constraint firstItem="hPP-F2-xud" firstAttribute="top" secondItem="87j-KQ-UK1" secondAttribute="bottom" constant="60" id="Q9e-7D-YAs"/>
                             <constraint firstItem="1h1-pA-P1q" firstAttribute="top" secondItem="oOt-2a-3aB" secondAttribute="bottom" constant="20" id="VrH-If-mlm"/>
                             <constraint firstItem="2hP-4Z-flx" firstAttribute="centerX" secondItem="TSL-fH-ehn" secondAttribute="centerX" id="Z6y-xJ-yWd"/>
                             <constraint firstItem="2hP-4Z-flx" firstAttribute="centerX" secondItem="TSL-fH-ehn" secondAttribute="centerX" id="hfV-ds-lkr"/>
-                            <constraint firstItem="4el-AV-wql" firstAttribute="leading" secondItem="pvu-3a-oxz" secondAttribute="leading" id="k1m-ed-1Vg"/>
                             <constraint firstItem="hPP-F2-xud" firstAttribute="centerX" secondItem="TSL-fH-ehn" secondAttribute="centerX" id="pQm-02-2Ko"/>
                             <constraint firstItem="Wuv-s2-9AB" firstAttribute="top" secondItem="L0V-17-fLh" secondAttribute="bottom" constant="40" id="phL-0F-uVW"/>
                             <constraint firstItem="oOt-2a-3aB" firstAttribute="top" secondItem="zXS-N5-3Cm" secondAttribute="bottom" id="qYW-5K-hjk"/>
@@ -414,12 +394,24 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kVG-uH-NxU">
                                 <rect key="frame" x="108" y="229.99999999999997" width="224" height="75.666666666666657"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="58"/>
-                                <color key="textColor" red="0.50574100379999998" green="0.38770399560000002" blue="0.43677182809999998" alpha="0.80316121689999997" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.048204243180000002" green="0.2672024965" blue="0.01436788961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plant 1" translatesAutoresizingMaskIntoConstraints="NO" id="2Y8-Fe-JCy">
+                                <rect key="frame" x="98" y="839" width="149" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="leaf 2" translatesAutoresizingMaskIntoConstraints="NO" id="Gkm-kr-CLS">
+                                <rect key="frame" x="-44" y="721" width="236" height="330"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="leaf" translatesAutoresizingMaskIntoConstraints="NO" id="M04-XM-6Qd">
+                                <rect key="frame" x="268" y="-50" width="212" height="221"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="N5h-pB-lTM"/>
-                        <color key="backgroundColor" red="0.98431372640000003" green="0.90196079019999997" blue="0.85882353779999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.89411764705882346" green="0.92156862745098034" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="kVG-uH-NxU" firstAttribute="top" secondItem="N5h-pB-lTM" secondAttribute="top" constant="230" id="0vJ-B1-OJT"/>
                             <constraint firstItem="Idz-sf-DLo" firstAttribute="top" secondItem="kVG-uH-NxU" secondAttribute="bottom" constant="100" id="krb-VC-esq"/>
@@ -434,22 +426,21 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ogj-5u-uf4"/>
+        <segue reference="2sp-DB-rD5"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="blueBox.png" width="106" height="35"/>
         <image name="chevron.backward" catalog="system" width="97" height="128"/>
+        <image name="leaf" width="360" height="337"/>
+        <image name="leaf 2" width="360" height="337"/>
         <image name="loadingBarTurtle.png" width="617.14288330078125" height="617.14288330078125"/>
+        <image name="plant 1" width="215" height="337"/>
         <image name="turtle.png" width="455" height="349.5"/>
         <image name="turtleRock.png" width="237" height="216"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -18,6 +18,7 @@ class SelectedNoteViewController: UIViewController {
     @IBOutlet weak var noteView: UIView! // view to display the actual document
     @IBOutlet weak var optionsView: UIView! // view for generative options
     
+    var delegate: UIViewController!
     var passedNoteTitle: String = "" // title of the displayed note passed from segue
     var noteFilePath: String = "" // path to the doc we want to display in Firebase passed from segue
     var folderFilePath: String = "" // path to the folder we want to store any generated content to passed from segue
@@ -187,7 +188,7 @@ class SelectedNoteViewController: UIViewController {
         if segue.identifier == "toChatbotSegue", let chatbotVC = segue.destination as? ChatbotViewController {
             chatbotVC.folderFilePath = self.folderFilePath
             chatbotVC.localFileURL = self.localFileURL
-            chatbotVC.delegate = self
+            chatbotVC.delegate = delegate
             
             if let materialType = sender as? String {
                 chatbotVC.studyMaterialType = materialType

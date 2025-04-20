@@ -78,20 +78,21 @@ class ChatbotViewController: MessagesViewController {
          if (darkMode) {
              topBarView.backgroundColor = UIColor(red:  50/255, green:  50/255, blue:  50/255, alpha: 1)
          } else {
-             topBarView.backgroundColor = UIColor(red: 255/255.0, green: 229/255.0, blue: 217/255.0, alpha: 1.0)
+             topBarView.backgroundColor = UIColor(red: 228/255.0, green: 235/255.0, blue:  203/255.0,alpha: 1.0)
          }
          topBarView.translatesAutoresizingMaskIntoConstraints = false
          view.addSubview(topBarView)
 
          // Create Back Button
          let backButton = UIButton(type: .system)
-         backButton.setTitle("< Back", for: .normal)
-         if (darkMode) {
-             backButton.setTitleColor(.white, for: .normal)
-         } else {
-             backButton.setTitleColor(UIColor(red: 206/255.0, green: 212/255.0, blue: 179/255.0, alpha: 1.0), for: .normal)
-         }
-         backButton.titleLabel?.font = UIFont(name: "Marker Felt", size: 32)
+
+         let config = UIImage.SymbolConfiguration(scale: .large).applying(UIImage.SymbolConfiguration(weight: .black))
+         let backImage = UIImage(systemName: "chevron.backward", withConfiguration: config)
+         backButton.setImage(backImage, for: .normal)
+
+         let customColor = UIColor(red: 12/255.0, green: 68/255.0, blue: 4/255.0, alpha: 1.0)
+         backButton.tintColor = customColor
+
          backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
          backButton.translatesAutoresizingMaskIntoConstraints = false
          view.addSubview(backButton)
@@ -247,8 +248,8 @@ class ChatbotViewController: MessagesViewController {
                 
                 let pdfItem = PDFItem(thumbnail: thumbnail, fileName: fileName, pdfURL: pdfURL)
                 DispatchQueue.main.async {
-                    pdfItems.append(pdfItem)
-                    globalPdfCollectionView?.reloadData()
+                    let notebookViewController = self.delegate as! PDFItemAppender
+                    notebookViewController.addPDFItem(newPDFItem: pdfItem)
                 }
             }
         }

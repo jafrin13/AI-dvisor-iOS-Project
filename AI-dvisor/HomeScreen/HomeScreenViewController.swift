@@ -30,8 +30,6 @@ extension HomeScreenViewController: NewJournalDelegate, EditJournalDelegate, Add
     }
 }
 
-
-
 class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIColorPickerViewControllerDelegate {
     
     var journals: [Journal] = []
@@ -54,7 +52,6 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         fetchCurrentUser()
         
         // These are to allow the Icons to act as buttons when tapped.
@@ -75,7 +72,6 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         journalCollectionView.addGestureRecognizer(longPressGesture)
     }
-    
 
     private func fetchCurrentUser() {
           guard let email = Auth.auth().currentUser?.email else {

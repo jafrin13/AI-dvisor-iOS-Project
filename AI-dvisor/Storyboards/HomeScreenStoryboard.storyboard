@@ -103,12 +103,12 @@
                             <imageView clipsSubviews="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="stopwatch" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Hp7-rY-NyE">
                                 <rect key="frame" x="89" y="863" width="53" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" name="label"/>
+                                <color key="tintColor" red="0.048268817370000001" green="0.26721215250000002" blue="0.0083652511240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                             <imageView clipsSubviews="YES" tag="1" contentMode="scaleAspectFit" fixedFrame="YES" image="person.badge.plus" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="sJ2-sQ-DaU">
                                 <rect key="frame" x="302" y="867.66666666666663" width="53" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" red="0.048268817370000001" green="0.26721215250000002" blue="0.0083652511240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="AddFriendButton">
                                     <accessibilityTraits key="traits" image="YES"/>
                                 </accessibility>
@@ -116,7 +116,7 @@
                             <imageView clipsSubviews="YES" tag="2" contentMode="scaleAspectFit" fixedFrame="YES" image="gearshape" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="0QZ-h9-2Co">
                                 <rect key="frame" x="360" y="849.33333333333337" width="51" height="82.000000000000014"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" red="0.048268817370000001" green="0.26721215250000002" blue="0.0083652511240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="SettingsButton">
                                     <accessibilityTraits key="traits" image="YES"/>
                                 </accessibility>
@@ -124,11 +124,11 @@
                             <imageView clipsSubviews="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="calendar.badge.plus" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="MqO-cO-2lR">
                                 <rect key="frame" x="30" y="864.66666666666663" width="53" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" name="label"/>
+                                <color key="tintColor" red="0.047058823529411764" green="0.26721215250000002" blue="0.0083652511240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" red="0.89471669919999997" green="0.92207635310000002" blue="0.79865635629999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.89411764705882346" green="0.92156862745098034" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="VnI-8g-LnR" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="gTM-aG-29Y"/>
                             <constraint firstItem="VnI-8g-LnR" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="9" id="sAu-bj-Slw"/>
