@@ -142,8 +142,8 @@
                                     <action selector="logoutButtonPressed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="CIL-kY-vEj"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="04_19_2025_X-Design (1)" translatesAutoresizingMaskIntoConstraints="NO" id="hKa-X5-Ggr">
-                                <rect key="frame" x="128.66666666666666" y="246" width="182.99999999999997" height="163"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="04_19_2025_X-Design (1)" translatesAutoresizingMaskIntoConstraints="NO" id="hKa-X5-Ggr">
+                                <rect key="frame" x="128.66666666666666" y="246" width="163" height="163"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="163" id="0zU-AT-dOE"/>
                                     <constraint firstAttribute="width" constant="183" id="IyH-kW-BBU"/>
@@ -536,7 +536,7 @@
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

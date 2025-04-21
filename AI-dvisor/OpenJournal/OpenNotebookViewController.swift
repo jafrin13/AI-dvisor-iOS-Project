@@ -190,6 +190,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                     let pdfItem = PDFItem(thumbnail: thumbnail, fileName: fileName, pdfURL: pdfURL)
                     DispatchQueue.main.async {
                         self.pdfItems.append(pdfItem)
+                        self.pdfCollectionView.reloadData()
                     }
                 }
             }
