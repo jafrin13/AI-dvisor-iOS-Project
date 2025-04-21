@@ -129,8 +129,6 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             view.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
             journalCollectionView.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
 
-
-
         }
     }
     
@@ -146,7 +144,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     
     private func loadJournals() {
         
-        // 1️⃣ Ensure we have the logged‑in User
+        // Ensure we have the logged‑in User
             guard let user = currentUser else {
                 cdJournals = []
                 journals   = []
@@ -154,7 +152,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
                 return
             }
 
-            // 2️⃣ Build & run the fetch request
+            // Build & run the fetch request
             let req: NSFetchRequest<UserJournal> = UserJournal.fetchRequest()
             req.predicate = NSPredicate(format: "users == %@", user)
         
@@ -178,8 +176,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
                     break
                 }
 
-
-                // 3️⃣ Map each managed object into your Swift struct
+                // Map each managed object into your Swift struct
                 journals = cdJournals.map { entity in
                     let title      = entity.title      ?? "Untitled"
                     let importance = entity.importance ?? "!"
@@ -202,12 +199,12 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
                 }
 
             } catch {
-                print("⚠️ Failed to fetch journals:", error)
+                print("Failed to fetch journals:", error)
                 cdJournals = []
                 journals   = []
             }
 
-            // 4️⃣ Refresh the UI
+            // Refresh the UI
             journalCollectionView.reloadData()
     }
     
@@ -239,8 +236,6 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             present(newTimerVC, animated: true)
         }
     }
-    
-
     
     @objc func addDueDateTapped(_ sender: UITapGestureRecognizer) {
         let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
@@ -395,7 +390,4 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
         selectedColor = viewController.selectedColor
     }
-    
-   
-
 }
