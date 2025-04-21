@@ -161,7 +161,8 @@ class ChatbotViewController: MessagesViewController {
             materialMade = "Practice \(materialType)"
             prompt = """
                 Please use  mostly the following notes and your additional resources to create a practice \(materialType).
-                The notes are: \(notesContent)
+                The notes are: \(notesContent).
+                If you are missing context or are not asked a question, do not confused the user and answer appropriately.
             """
         }
         
@@ -169,7 +170,8 @@ class ChatbotViewController: MessagesViewController {
             materialMade = "Flashcards"
             prompt = """
                 Please use  mostly the following notes and your additional resources to create flashcards.
-                The notes are: \(notesContent)
+                The notes are: \(notesContent).
+                If you are missing context or are not asked a question, do not confused the user and answer appropriately.
             """
         }
         
