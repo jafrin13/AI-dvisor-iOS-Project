@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension UserJournal {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<UserJournal> {
