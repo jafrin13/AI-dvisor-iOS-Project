@@ -34,7 +34,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         reEnterPasswordField.isSecureTextEntry = true
     }
     
-    // Validation Helper Methods
+    // Validation Helper Methods for password
     func isValidEmail(_ email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
@@ -69,7 +69,7 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
             return "Passwords do not match."
         }
         
-        return nil  // No error
+        return nil  // No error, safe account creation
     }
     
     // Let's user create a new account
@@ -110,13 +110,13 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
         dismiss(animated: true, completion: nil)
     }
     
-    // Called when 'return' key pressed
+    // Called when 'return' key pressed to exit keyboard
     func textFieldShouldReturn(_ textField:UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    // Called when the user clicks on the view outside of the UITextField
+    // Called when the user clicks on the view outside of the UITextField to exit keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }

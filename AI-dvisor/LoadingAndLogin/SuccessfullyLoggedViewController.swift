@@ -12,12 +12,11 @@ class SuccessfullyLoggedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Adds a delay and then segue into the true home screen from here
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             self.navigateToHomeScreen()
         }
     }
-    
-    // Note: add a delay and then segue into the true home screen from here
     
     func navigateToHomeScreen() {
             let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
