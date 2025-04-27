@@ -11,10 +11,22 @@ import FirebaseAuth
 
 // This extension allows the HomeScreenViewController to handle new journal creation updates.
 extension HomeScreenViewController: NewJournalDelegate, EditJournalDelegate, AddEventDelegate, AddTimerDelegate {
-
     
     func didCreateJournal(_ journal: Journal) {
         journals.append(journal)
+        
+        // Sort after appending based on the selected segment
+        switch sortJournalSegCtrl.selectedSegmentIndex {
+        case 0:
+            // Alphabetical
+            journals.sort { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+        case 1:
+            // Importance (higher importance first, assuming importance is "!!!", "!!", "!")
+            journals.sort { ($0.importance.count) > ($1.importance.count) }
+        default:
+            break
+        }
+        
         journalCollectionView.reloadData()
     }
     
@@ -72,46 +84,46 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         journalCollectionView.addGestureRecognizer(longPressGesture)
         
-        // So teh SegCtrl text color can be different
+        // So the SegCtrl text color can be different
         let selectedTextAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.white  // Color for selected text
         ]
-
+        
         let unselectedTextAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.black  // Color for unselected text
         ]
-
+        
         sortJournalSegCtrl.setTitleTextAttributes(selectedTextAttributes, for: .selected)
         sortJournalSegCtrl.setTitleTextAttributes(unselectedTextAttributes, for: .normal)
     }
-
+    
     private func fetchCurrentUser() {
-          guard let email = Auth.auth().currentUser?.email else {
+        guard let email = Auth.auth().currentUser?.email else {
             fatalError("No Firebase user logged in")
-          }
-
-          let req: NSFetchRequest<User> = User.fetchRequest()
-          req.predicate = NSPredicate(format: "email == %@", email)
-
-          do {
+        }
+        
+        let req: NSFetchRequest<User> = User.fetchRequest()
+        req.predicate = NSPredicate(format: "email == %@", email)
+        
+        do {
             if let user = try context.fetch(req).first {
-              // found an existing record
-              let isDarkMode = user.value(forKey: "darkMode") as? Bool ?? false
-              onDarkLightMode(darkMode: isDarkMode)
-              currentUser = user
+                // found an existing record
+                let isDarkMode = user.value(forKey: "darkMode") as? Bool ?? false
+                onDarkLightMode(darkMode: isDarkMode)
+                currentUser = user
             } else {
-              // **not** found — create one now
-              let newUser = User(context: context)
-              newUser.email       = email
-              newUser.username    = email.components(separatedBy: "@").first
-              // you can set a default profile picture here if you want
-              try context.save()
-              currentUser = newUser
-              print("Created Core Data User for \(email)")
+                // **not** found — create one now
+                let newUser = User(context: context)
+                newUser.email       = email
+                newUser.username    = email.components(separatedBy: "@").first
+                // you can set a default profile picture here if you want
+                try context.save()
+                currentUser = newUser
+                print("Created Core Data User for \(email)")
             }
-          } catch {
+        } catch {
             fatalError("Failed fetching/creating User: \(error)")
-          }
+        }
     }
     
     // For Dark/Light Mode
@@ -125,10 +137,10 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             addFriend.tintColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
             addDueDate.tintColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
         } else {
-           // Light Mode:
+            // Light Mode:
             view.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
             journalCollectionView.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
-
+            
         }
     }
     
@@ -136,7 +148,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         super.viewWillAppear(animated)
         loadJournals()
         journalCollectionView.reloadData()
-      }
+    }
     
     @IBAction func sortJournals(_ sender: Any) {
         loadJournals()
@@ -145,70 +157,70 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     private func loadJournals() {
         
         // Ensure we have the logged‑in User
-            guard let user = currentUser else {
-                cdJournals = []
-                journals   = []
-                journalCollectionView.reloadData()
-                return
-            }
-
-            // Build & run the fetch request
-            let req: NSFetchRequest<UserJournal> = UserJournal.fetchRequest()
-            req.predicate = NSPredicate(format: "users == %@", user)
-        
-        
-            do {
-                // Fetch the managed objects
-                cdJournals = try context.fetch(req)
-                
-                // Sort based on which segment of the segctrl is selected
-                switch sortJournalSegCtrl.selectedSegmentIndex {
-                case 0:
-                    // alphabetical by title
-                    cdJournals.sort {
-                                   ($0.title ?? "").localizedCaseInsensitiveCompare($1.title ?? "") == .orderedAscending
-                               }
-                case 1:
-                    cdJournals.sort {
-                                    ($0.importance?.count ?? 0) > ($1.importance?.count ?? 0)
-                                }
-                default:
-                    break
-                }
-
-                // Map each managed object into your Swift struct
-                journals = cdJournals.map { entity in
-                    let title      = entity.title      ?? "Untitled"
-                    let importance = entity.importance ?? "!"
-                    
-                    // Unarchive UIColor from Data, fallback to .blue
-                    let bgColor: UIColor
-                    if let data = entity.bgColor,
-                       let color = try? NSKeyedUnarchiver
-                                        .unarchivedObject(ofClass: UIColor.self, from: data) {
-                        bgColor = color
-                    } else {
-                        bgColor = .blue
-                    }
-
-                    return Journal(
-                        title:      title,
-                        importance: importance,
-                        bgColor:    bgColor
-                    )
-                }
-
-            } catch {
-                print("Failed to fetch journals:", error)
-                cdJournals = []
-                journals   = []
-            }
-
-            // Refresh the UI
+        guard let user = currentUser else {
+            cdJournals = []
+            journals   = []
             journalCollectionView.reloadData()
+            return
+        }
+        
+        // Build & run the fetch request
+        let req: NSFetchRequest<UserJournal> = UserJournal.fetchRequest()
+        req.predicate = NSPredicate(format: "users == %@", user)
+        
+        
+        do {
+            // Fetch the managed objects
+            cdJournals = try context.fetch(req)
+            
+            // Sort based on which segment of the segctrl is selected
+            switch sortJournalSegCtrl.selectedSegmentIndex {
+            case 0:
+                // alphabetical by title
+                cdJournals.sort {
+                    ($0.title ?? "").localizedCaseInsensitiveCompare($1.title ?? "") == .orderedAscending
+                }
+            case 1:
+                cdJournals.sort {
+                    ($0.importance?.count ?? 0) > ($1.importance?.count ?? 0)
+                }
+            default:
+                break
+            }
+            
+            // Map each managed object into your Swift struct
+            journals = cdJournals.map { entity in
+                let title      = entity.title      ?? "Untitled"
+                let importance = entity.importance ?? "!"
+                
+                // Unarchive UIColor from Data, fallback to .blue
+                let bgColor: UIColor
+                if let data = entity.bgColor,
+                   let color = try? NSKeyedUnarchiver
+                    .unarchivedObject(ofClass: UIColor.self, from: data) {
+                    bgColor = color
+                } else {
+                    bgColor = .blue
+                }
+                
+                return Journal(
+                    title:      title,
+                    importance: importance,
+                    bgColor:    bgColor
+                )
+            }
+            
+        } catch {
+            print("Failed to fetch journals:", error)
+            cdJournals = []
+            journals   = []
+        }
+        
+        // Refresh the UI
+        journalCollectionView.reloadData()
     }
     
-    // This function is not implemented yet for Alpha but will be implemented for Final
+    // This function acts just the same as a pressedButton function but for images.
     @objc func addFriendImageTapped(_ sender: UITapGestureRecognizer) {
         let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
         
@@ -221,6 +233,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    // This function acts just the same as a pressedButton function but for images.
     @objc func addTimerImageTapped(_ sender: UITapGestureRecognizer) {
         let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
         
@@ -237,6 +250,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    // This function acts just the same as a pressedButton function but for images.
     @objc func addDueDateTapped(_ sender: UITapGestureRecognizer) {
         let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
         
@@ -276,7 +290,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             let cell = journalCollectionView.dequeueReusableCell(withReuseIdentifier: "AddJournalCell", for: indexPath)
             cell.layer.cornerRadius = 15
             cell.layer.masksToBounds = true
-
+            
             return cell
         } else {
             let cell = journalCollectionView.dequeueReusableCell(withReuseIdentifier: "JournalCell", for: indexPath) as! JournalCollectionViewCell
@@ -285,12 +299,12 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             cell.journalView.backgroundColor = journals[indexPath.row - 1].bgColor
             
             cell.contentView.layer.cornerRadius = 15
-                    cell.contentView.layer.masksToBounds = true
-
-                    // Apply shadow
-                    cell.layer.shadowColor = UIColor.black.cgColor
-                    cell.layer.shadowOpacity = 0.4
-                    cell.layer.shadowOffset = CGSize(width: 2, height: 2)
+            cell.contentView.layer.masksToBounds = true
+            
+            // Apply shadow
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowOpacity = 0.4
+            cell.layer.shadowOffset = CGSize(width: 2, height: 2)
             cell.layer.shadowRadius = 4
             cell.layer.masksToBounds = false
             return cell
@@ -351,7 +365,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         }
         
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.deleteJournal(at: indexPath)
+            self.showDeleteAlert(for: indexPath)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -363,6 +377,21 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         present(actionSheet, animated: true, completion: nil)
     }
     
+    func showDeleteAlert(for indexPath: IndexPath) {
+        let alert = UIAlertController(title: "Confirm Deletion", message: "Are you sure you want to delete this journal and all of it's contents?", preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.deleteJournal(at: indexPath)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     func editJournal(at indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "HomeScreenStoryboard", bundle: nil)
         if let editJournalVC = storyboard.instantiateViewController(withIdentifier: "EditJournalViewController") as? EditJournalViewController {
@@ -371,8 +400,8 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
             
             let selectedJournal = cdJournals[indexPath.item - 1]
             editJournalVC.userJournal = selectedJournal
-                    editJournalVC.journalIndex = indexPath.item - 1
-                    editJournalVC.currentUser   = currentUser
+            editJournalVC.journalIndex = indexPath.item - 1
+            editJournalVC.currentUser   = currentUser
             
             if let sheet = editJournalVC.sheetPresentationController {
                 sheet.detents = [.medium()] // Makes it take up half the screen
@@ -383,8 +412,17 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func deleteJournal(at indexPath: IndexPath) {
-        journals.remove(at: indexPath.item - 1)
-        journalCollectionView.deleteItems(at: [indexPath])
+        let journalToDelete = cdJournals[indexPath.item - 1]
+        context.delete(journalToDelete)
+        
+        do {
+            try context.save()
+            cdJournals.remove(at: indexPath.item - 1)
+            journals.remove(at: indexPath.item - 1)
+            journalCollectionView.deleteItems(at: [indexPath])
+        } catch {
+            print("Failed to delete journal: \(error)")
+        }
     }
     
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
