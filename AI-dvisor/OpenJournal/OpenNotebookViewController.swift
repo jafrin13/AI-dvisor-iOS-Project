@@ -28,7 +28,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadUploadedPDFs()
+      //  loadUploadedPDFs()
         pdfCollectionView.delegate = self
         pdfCollectionView.dataSource = self
 
@@ -48,6 +48,11 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
            fetchUser(email: userEmail)
        }
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadUploadedPDFs()
     }
     
     // Fetch user from core and update UI
@@ -115,19 +120,21 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
 
             // Clear the array before loading new data
             self.pdfItems.removeAll()
+            self.pdfCollectionView.reloadData()
 
             guard let documents = snapshot?.documents else { return }
             for doc in documents {
                 // Retrieve the file name (if not available, default to "Unknown.pdf")
                 let fileName = doc.data()["fileName"] as? String ?? "Unknown.pdf"
                 let pdfURL = doc.data()["pdfURL"] as? String ?? ""
+                let filePath = doc.data()["filePath"] as? String ?? ""
 
                 if let thumbnailURLString = doc.data()["thumbnailURL"] as? String,
                    let url = URL(string: thumbnailURLString) {
                     URLSession.shared.dataTask(with: url) { data, response, error in
                         if let data = data, let image = UIImage(data: data) {
                             DispatchQueue.main.async {
-                                let pdfItem = PDFItem(thumbnail: image, fileName: fileName, pdfURL: pdfURL)
+                                let pdfItem = PDFItem(thumbnail: image, fileName: fileName, pdfURL: pdfURL, filePath: filePath)
                                 self.pdfItems.append(pdfItem)
                                 self.pdfCollectionView.reloadData()
                             }
@@ -184,10 +191,10 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                 // do a collection view to dynamically present the pdfs.
                 
                 // Upload PDF and once finished, upload the thumbnail
-                uploadFileToFirebase(tempFileURL) { pdfURL in
+                uploadFileToFirebase(tempFileURL) { pdfURL, filePath in
                     self.uploadThumbnailToFirebase(thumbnail, pdfURL: pdfURL, fileName: fileName)
                     
-                    let pdfItem = PDFItem(thumbnail: thumbnail, fileName: fileName, pdfURL: pdfURL)
+                    let pdfItem = PDFItem(thumbnail: thumbnail, fileName: fileName, pdfURL: pdfURL, filePath: filePath)
                     DispatchQueue.main.async {
                         self.pdfItems.append(pdfItem)
                         self.pdfCollectionView.reloadData()
@@ -243,7 +250,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     }
         
     // Uploads the PDF file and returns the URL
-    func uploadFileToFirebase(_ fileURL: URL, completion: @escaping (String) -> Void) {
+    func uploadFileToFirebase(_ fileURL: URL, completion: @escaping (String, String) -> Void) {
         guard let journalTitle = self.journalTitle else { return }
 
         let filePath = "uploads/\(journalTitle)/\(UUID().uuidString).pdf"
@@ -258,7 +265,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             storageRef.downloadURL { url, error in
                 if let downloadURL = url {
                     print("File uploaded successfully: \(downloadURL.absoluteString)")
-                    completion(downloadURL.absoluteString)
+                    completion(downloadURL.absoluteString, filePath)
                 } else {
                     print("Failed to retrieve download URL")
                 }
@@ -294,9 +301,46 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     }
     
     func deletePDF(at indexPath: IndexPath) {
+        // get pdf item we want to delete
+        let pdfItem = pdfItems[indexPath.item]
+
+        //  Delete the file itself from Firebase Storage
+        let storageRef = Storage.storage().reference().child(pdfItem.filePath)
+        storageRef.delete { error in
+            if let error = error {
+                print("Error deleting file from Storage: \(error.localizedDescription)")
+            } else {
+                print("Successfully deleted file from Storage")
+            }
+        }
+
+        // 3️⃣ Delete the Firestore document that holds its metadata
+        guard let journalTitle = journalTitle,
+              let userId = Auth.auth().currentUser?.uid else { return }
+
+        let db = Firestore.firestore()
+        let uploadsRef = db
+          .collection("users").document(userId)
+          .collection("journals").document(journalTitle)
+          .collection("uploads")
+
+        // We assume you stored the download URL under "pdfURL"
+        uploadsRef
+          .whereField("pdfURL", isEqualTo: pdfItem.pdfURL)
+          .getDocuments { snapshot, error in
+            if let error = error {
+              print("Error finding Firestore doc to delete: \(error.localizedDescription)")
+              return
+            }
+            snapshot?.documents.forEach { $0.reference.delete() }
+            print("Successfully deleted Firestore metadata")
+          }
+
+        // 4️⃣ Now remove it from your local array & animate the deletion
         pdfItems.remove(at: indexPath.item)
         pdfCollectionView.deleteItems(at: [indexPath])
     }
+
         
     // Uploads the thumbnail image to Firebase
     func uploadThumbnailToFirebase(_ image: UIImage, pdfURL: String, fileName: String) {

@@ -12,10 +12,12 @@ class PDFItem {
     var thumbnail: UIImage
     var fileName: String
     var pdfURL: String
+    var filePath: String
 
-    init(thumbnail: UIImage, fileName: String, pdfURL: String) {
+    init(thumbnail: UIImage, fileName: String, pdfURL: String, filePath: String) {
         self.thumbnail = thumbnail
         self.fileName = fileName
         self.pdfURL = pdfURL
+        self.filePath = filePath
     }
 }

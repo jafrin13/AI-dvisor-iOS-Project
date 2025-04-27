@@ -247,10 +247,10 @@ class ChatbotViewController: MessagesViewController {
             // Generate thumbnail
             let thumbnail = generateThumbnail(from: tempFileURL) ?? UIImage(named: "defaultThumbnail")!
             // Upload PDF and once finished, upload the thumbnail
-            uploadFileToFirebase(tempFileURL) { pdfURL in
+            uploadFileToFirebase(tempFileURL) { pdfURL, filePath in
                 uploadThumbnailToFirebase(thumbnail, pdfURL: pdfURL, fileName: fileName)
                 
-                let pdfItem = PDFItem(thumbnail: thumbnail, fileName: fileName, pdfURL: pdfURL)
+                let pdfItem = PDFItem(thumbnail: thumbnail, fileName: fileName, pdfURL: pdfURL,  filePath: filePath)
                 DispatchQueue.main.async {
                     let notebookViewController = self.delegate as! PDFItemAppender
                     notebookViewController.addPDFItem(newPDFItem: pdfItem)
@@ -303,8 +303,10 @@ class ChatbotViewController: MessagesViewController {
         }
         
         // Uploads the PDF file and returns the URL
-        func uploadFileToFirebase(_ fileURL: URL, completion: @escaping (String) -> Void) {
+        func uploadFileToFirebase(_ fileURL: URL, completion: @escaping (_ pdfURL: String, _ filePath: String) -> Void) {
             
+            let filePath = "uploads/\(UUID().uuidString).pdf"
+           
             // grabs the reference of the firebase storage
             // then generates a unique name for the file under "uploads"
             let storageRef = Storage.storage().reference().child("uploads/\(UUID().uuidString).pdf")
@@ -320,7 +322,7 @@ class ChatbotViewController: MessagesViewController {
                 storageRef.downloadURL { url, error in
                     if let downloadURL = url {
                         print("File uploaded successfully: \(downloadURL.absoluteString)")
-                        completion(downloadURL.absoluteString)
+                        completion(downloadURL.absoluteString, filePath)
                     } else {
                         print("Failed to retrieve download URL")
                     }
