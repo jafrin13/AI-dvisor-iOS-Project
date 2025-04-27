@@ -187,9 +187,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                 let fileName = selectedFile.lastPathComponent
                 // I found this online, we want the visual updates to happen on the main thread
                 // so we can update the image here and now show the image, this is hard coded
-                // for now, just to show the image is uploaded to firebase. In the future I will
                 // do a collection view to dynamically present the pdfs.
-                
                 // Upload PDF and once finished, upload the thumbnail
                 uploadFileToFirebase(tempFileURL) { pdfURL, filePath in
                     self.uploadThumbnailToFirebase(thumbnail, pdfURL: pdfURL, fileName: fileName)
@@ -314,7 +312,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             }
         }
 
-        // 3️⃣ Delete the Firestore document that holds its metadata
+        // Delete the Firestore document that holds its metadata
         guard let journalTitle = journalTitle,
               let userId = Auth.auth().currentUser?.uid else { return }
 
@@ -336,7 +334,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             print("Successfully deleted Firestore metadata")
           }
 
-        // 4️⃣ Now remove it from your local array & animate the deletion
+        // Now remove it from your local array & animate the deletion
         pdfItems.remove(at: indexPath.item)
         pdfCollectionView.deleteItems(at: [indexPath])
     }
