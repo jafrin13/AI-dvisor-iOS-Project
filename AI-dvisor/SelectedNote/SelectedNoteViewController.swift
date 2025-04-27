@@ -2,7 +2,7 @@
 //  SelectedNoteViewController.swift
 //  AI-dvisor
 //
-//  Created by Mac Laptop on 3/3/25.
+//  Created by Lauren Leyendecker on 3/3/25.
 //
 
 import UIKit

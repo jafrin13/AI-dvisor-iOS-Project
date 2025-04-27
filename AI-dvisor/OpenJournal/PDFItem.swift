@@ -2,7 +2,7 @@
 //  PDFItem.swift
 //  AI-dvisor
 //
-//  Created by Mac Laptop on 4/20/25.
+//  Created by Lauren Leyendecker on 4/20/25.
 //
 
 import UIKit
@@ -12,10 +12,12 @@ class PDFItem {
     var thumbnail: UIImage
     var fileName: String
     var pdfURL: String
+    var filePath: String
 
-    init(thumbnail: UIImage, fileName: String, pdfURL: String) {
+    init(thumbnail: UIImage, fileName: String, pdfURL: String, filePath: String) {
         self.thumbnail = thumbnail
         self.fileName = fileName
         self.pdfURL = pdfURL
+        self.filePath = filePath
     }
 }

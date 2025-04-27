@@ -10,18 +10,6 @@ import CoreData
 
 protocol NewJournalDelegate: AnyObject {
     func didCreateJournal(_ journal: Journal)
-//    func didEditJournal(_ journal: Journal)
-}
-
-// This extension makes the NewJournalViewController conform to
-// UIColorPickerViewControllerDelegate without having the required methods
-extension NewJournalViewController: UIColorPickerViewControllerDelegate {
-    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
-        selectedColor = viewController.selectedColor
-        colorSelectorButton.backgroundColor = viewController.selectedColor
-        colorSelectorButton.tintColor = viewController.selectedColor
-        colorSelectorButton.setTitle( "", for: .normal)
-    }
 }
 
 class NewJournalViewController: UIViewController, UITextFieldDelegate{
@@ -59,17 +47,15 @@ class NewJournalViewController: UIViewController, UITextFieldDelegate{
     }
     
     // Called when 'return' key pressed
-
-        func textFieldShouldReturn(_ textField:UITextField) -> Bool {
-            textField.resignFirstResponder()
-            return true
-        }
-        
-        // Called when the user clicks on the view outside of the UITextField
-
-        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            self.view.endEditing(true)
-        }
+    func textFieldShouldReturn(_ textField:UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // Called when the user clicks on the view outside of the UITextField
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     
     @IBAction func colorSelectorPressed(_ sender: Any) {
         let colorPicker = UIColorPickerViewController()
@@ -105,59 +91,34 @@ class NewJournalViewController: UIViewController, UITextFieldDelegate{
     }
     
     @IBAction func saveButtonPressed(_ sender: Any) {
-//        let journalTitle = journalNameTextFeild.text ?? "New Journal"
-//        let selectedImportance = importanceLevel
-//        let selectedColor = self.selectedColor
-//        let currUser = currentUser!
-//        
-//        let newJournal = Journal(title: journalTitle, importance: selectedImportance, bgColor: selectedColor)
-//        delegate?.didCreateJournal(newJournal)
-//        
-//        let newJournal = Journal(
-//              title:      journalTitle,
-//              importance: selectedImportance,
-//              bgColor:    selectedColor
-//            )
-//            delegate?.didCreateJournal(newJournal)
-//        
-//        let newCDJournal = NSEntityDescription.insertNewObject(forEntityName: "UserJournal", into: context)
-//        newCDJournal.setValue(journalTitle, forKey: "title")
-//        newCDJournal.setValue(selectedImportance, forKey: "importance")
-//        newCDJournal.setValue(selectedColor, forKey: "bgColor")
-        
-        
-        //Chatgpt code:
-        
         guard let user = currentUser else { return }
-
-        let title = journalNameTextFeild.text?
-                       .trimmingCharacters(in: .whitespacesAndNewlines)
-                       .isEmpty == false
-                   ? journalNameTextFeild.text!
-                   : "New Journal"
-
+        
+        let title = journalNameTextFeild.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+            .isEmpty == false
+        ? journalNameTextFeild.text!
+        : "New Journal"
+        
         // Archive the UIColor into Data
         let colorData: Data
         do {
-          colorData = try NSKeyedArchiver.archivedData(
-            withRootObject: selectedColor,
-            requiringSecureCoding: false
-          )
+            colorData = try NSKeyedArchiver.archivedData(
+                withRootObject: selectedColor,
+                requiringSecureCoding: false )
         } catch {
-          print("⚠️ color archiving failed:", error)
-          colorData = Data()  // fallback to empty
+            print("Color archiving failed:", error)
+            colorData = Data()  // fallback to empty
         }
-
+        
         let cd = UserJournal(context: context)
         cd.title      = title
         cd.importance = importanceLevel
         cd.bgColor    = colorData   // Data, not UIColor
         cd.users      = user
-
+        
         delegate?.didCreateJournal(Journal(
-          title:      title,
-          importance: importanceLevel,
-          bgColor:    selectedColor  // keep your struct as-is
+            title:      title,
+            importance: importanceLevel,
+            bgColor:    selectedColor  // keep the struct the same
         ))
         saveContext()
         
