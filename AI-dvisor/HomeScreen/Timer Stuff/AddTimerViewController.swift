@@ -11,10 +11,10 @@ protocol AddTimerDelegate: AnyObject {
     func didAddTimer()
 }
 
-var pickerData = ["30 minutes","45 minutes","1 hour","1 hour 15 minutes","1 hour 30 minutes","1 hour 45 minutes","2 hours", "10 Seconds"]
+var pickerData = ["30 minutes","45 minutes","1 hour","1 hour 15 minutes","1 hour 30 minutes","1 hour 45 minutes","2 hours","10 Seconds"]
 
 class AddTimerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-
+    
     @IBOutlet weak var timePicker: UIPickerView!
     
     var duration: TimeInterval = 0
@@ -28,7 +28,7 @@ class AddTimerViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         timePicker.delegate = self
         timePicker.dataSource = self
@@ -56,57 +56,47 @@ class AddTimerViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let selected = pickerData[row]
-                switch selected {
-                case "30 minutes":
-                    duration =  30*60
-                    selectedRow = 0
-                case "45 minutes":
-                    duration = 45*60
-                    selectedRow = 1
-                case "1 hour":
-                    duration = 60*60
-                    selectedRow = 2
-                case "1 hour 15 minutes":
-                    duration = 75*60
-                    selectedRow = 3
-                case "1 hour 30 minutes":
-                    duration =  90*60
-                    selectedRow = 4
-                case "1 hour 45 minutes":
-                    duration = 105*60
-                    selectedRow = 5
-                case "2 hours":
-                    duration = 120*60
-                    selectedRow = 6
-                case "10 Seconds":
-                    duration = 10
-                    selectedRow = 7
-                default:
-                    duration =  0
-                }
+        switch selected {
+        case "30 minutes":
+            // Doing this math so it convert seconds to minutes becuase "Time Interval" is only in seconds
+            duration =  30*60
+            selectedRow = 0
+        case "45 minutes":
+            duration = 45*60
+            selectedRow = 1
+        case "1 hour":
+            duration = 60*60
+            selectedRow = 2
+        case "1 hour 15 minutes":
+            duration = 75*60
+            selectedRow = 3
+        case "1 hour 30 minutes":
+            duration =  90*60
+            selectedRow = 4
+        case "1 hour 45 minutes":
+            duration = 105*60
+            selectedRow = 5
+        case "2 hours":
+            duration = 120*60
+            selectedRow = 6
+        // This case was for the demo but i'm leaving it in for grading purposes
+        case "10 Seconds":
+            duration = 10
+            selectedRow = 7
+        default:
+            duration =  0
+        }
     }
     
     @IBAction func setButtonTapped(_ sender: Any) {
-//        timer?.invalidate()
-//                
-//                timer = Timer.scheduledTimer(timeInterval: duration,
-//                                             target: self,
-//                                             selector: #selector(timerFinished),
-//                                             userInfo: nil,
-//                                             repeats: false)
+        // This line is so that the timer runs no matter what view you are on
+        // So that the alert will show up on any screen not just the that set it. 
         TimerClass.shared.start(duration: duration)
-            delegate?.didAddTimer()
+        delegate?.didAddTimer()
         self.dismiss(animated: true)
         
     }
     
-//    @objc private func timerFinished() {
-//            let alert = UIAlertController(title: "Time to take a Break!",
-//                                          message: "Your \(selectedRow) timer has finished.",
-//                                          preferredStyle: .alert)
-//            alert.addAction(.init(title: "OK", style: .default))
-//            present(alert, animated: true)
-//        }
     @IBAction func cancleButtonTapped(_ sender: Any) {
         self.dismiss(animated: true)
     }

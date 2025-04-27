@@ -11,30 +11,32 @@ import UIKit
 
 
 class TimerClass {
+    // This is so it can be called in the AddTimerViewController Class
     static let shared = TimerClass()
     private init() {}
-
+    
     private var timer: Timer?
     private var duration: TimeInterval = 0
-
+    
     func start(duration: TimeInterval) {
         timer?.invalidate()
         self.duration = duration
         timer = Timer.scheduledTimer(timeInterval: duration,
                                      target: self,
-                                     selector: #selector(fire),
+                                     selector: #selector(timerFinish),
                                      userInfo: nil,
                                      repeats: false)
     }
-
-    @objc private func fire() {
+    
+    @objc private func timerFinish() {
         timer?.invalidate()
         DispatchQueue.main.async {
             self.showAlert()
         }
     }
-
+    
     private func showAlert() {
+        // This is refering to whatever viewcontroller is on the screen at that moment
         guard let top = UIApplication.topViewController() else { return }
         let alert = UIAlertController(title: "Time to take a Break!",
                                       message: "Your timer has finished. Go Stretch, Watch a Movie, or Play a Game!",
@@ -44,30 +46,4 @@ class TimerClass {
     }
 }
 
-extension UIApplication {
 
-    static var keyWindow: UIWindow? {
-        return shared
-            .connectedScenes
-            .lazy
-            .compactMap { $0 as? UIWindowScene }
-            .flatMap { $0.windows }
-            .first { $0.isKeyWindow }
-    }
-    
-    // Recursively finds the top‑most view controller from the key window’s root
-    static func topViewController(base: UIViewController? = UIApplication.keyWindow?.rootViewController)
-      -> UIViewController?
-    {
-        if let nav = base as? UINavigationController {
-            return topViewController(base: nav.visibleViewController)
-        }
-        if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
-            return topViewController(base: selected)
-        }
-        if let presented = base?.presentedViewController {
-            return topViewController(base: presented)
-        }
-        return base
-    }
-}
