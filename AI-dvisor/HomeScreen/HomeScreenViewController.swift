@@ -14,6 +14,19 @@ extension HomeScreenViewController: NewJournalDelegate, EditJournalDelegate, Add
     
     func didCreateJournal(_ journal: Journal) {
         journals.append(journal)
+        
+        // Sort after appending based on the selected segment
+        switch sortJournalSegCtrl.selectedSegmentIndex {
+        case 0:
+            // Alphabetical
+            journals.sort { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+        case 1:
+            // Importance (higher importance first, assuming importance is "!!!", "!!", "!")
+            journals.sort { ($0.importance.count) > ($1.importance.count) }
+        default:
+            break
+        }
+        
         journalCollectionView.reloadData()
     }
     
@@ -352,7 +365,7 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         }
         
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.deleteJournal(at: indexPath)
+            self.showDeleteAlert(for: indexPath)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -362,6 +375,21 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
         actionSheet.addAction(cancelAction)
         
         present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func showDeleteAlert(for indexPath: IndexPath) {
+        let alert = UIAlertController(title: "Confirm Deletion", message: "Are you sure you want to delete this journal and all of it's contents?", preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.deleteJournal(at: indexPath)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
     }
     
     func editJournal(at indexPath: IndexPath) {
@@ -384,8 +412,17 @@ class HomeScreenViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func deleteJournal(at indexPath: IndexPath) {
-        journals.remove(at: indexPath.item - 1)
-        journalCollectionView.deleteItems(at: [indexPath])
+        let journalToDelete = cdJournals[indexPath.item - 1]
+        context.delete(journalToDelete)
+        
+        do {
+            try context.save()
+            cdJournals.remove(at: indexPath.item - 1)
+            journals.remove(at: indexPath.item - 1)
+            journalCollectionView.deleteItems(at: [indexPath])
+        } catch {
+            print("Failed to delete journal: \(error)")
+        }
     }
     
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
