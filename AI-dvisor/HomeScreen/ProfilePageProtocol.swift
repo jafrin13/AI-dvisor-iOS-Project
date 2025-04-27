@@ -7,6 +7,7 @@
 
 import UIKit
 
+// To communicate back to the settings page to change PFP since user changed it
 protocol ProfilePageDelegate: AnyObject {
     func profilePageDidUpdateProfilePicture(_ newProfilePicture: UIImage)
 }

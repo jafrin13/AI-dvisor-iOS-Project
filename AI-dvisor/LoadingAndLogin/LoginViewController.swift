@@ -47,18 +47,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    // If user does not have an account, this will take them to the VC for account creation
+    // If user does not have an account, this will take them to the VC for account creation when pressed
     @IBAction func signUpButtonPressed(_ sender: Any) {
         self.performSegue(withIdentifier: self.createAccountSegueIdentifier, sender: self)
     }
     
-    // Called when 'return' key pressed
+    // Called when 'return' key pressed to exit out of keyboard
     func textFieldShouldReturn(_ textField:UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    // Called when the user clicks on the view outside of the UITextField
+    // Called when the user clicks on the view outside of the UITextField to exit out of keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }

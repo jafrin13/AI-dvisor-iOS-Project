@@ -10,7 +10,7 @@ import FirebaseAuth
 import Firebase
 import CoreData
 
-class ProfilePageViewController: UIViewController {
+class ProfilePageViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var errorMessage: UILabel!
@@ -54,7 +54,7 @@ class ProfilePageViewController: UIViewController {
             if let user = fetchedResults.first {
                 currentUser = user
                 helloUserText.text = "Hi, \(user.username ?? "")"
-                // Set pfp
+                // Set PFP
                 if let imageData = user.profilePicture as Data?, let image = UIImage(data: imageData) {
                     profilePicture.image = image
                 }
@@ -178,10 +178,8 @@ class ProfilePageViewController: UIViewController {
     @IBAction func onBackButtonPressed(_ sender: Any) {
         self.dismiss(animated: true)
     }
-}
-
-// MARK: - Image Picker Delegate
-extension ProfilePageViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    // Sets profile picture with the user's desired image
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // Get the image from the image picker, either the edited image or the original
         if let editedImage = info[.editedImage] as? UIImage {
@@ -203,3 +201,27 @@ extension ProfilePageViewController: UIImagePickerControllerDelegate, UINavigati
         picker.dismiss(animated: true, completion: nil)
     }
 }
+
+//// MARK: - Image Picker Delegate
+//extension ProfilePageViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//        // Get the image from the image picker, either the edited image or the original
+//        if let editedImage = info[.editedImage] as? UIImage {
+//            profilePicture.image = editedImage
+//            self.profilePicture.image = editedImage
+//            let imageData = editedImage.pngData()
+//            self.currentUser?.setValue(imageData, forKey: "profilePicture")
+//            self.saveContext()
+//            
+//            // Call the delegate to update the Settings VC with the new image
+//            delegate?.profilePageDidUpdateProfilePicture(editedImage)
+//        } else if let originalImage = info[.originalImage] as? UIImage {
+//            profilePicture.image = originalImage
+//        }
+//        picker.dismiss(animated: true, completion: nil)
+//    }
+//
+//    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//        picker.dismiss(animated: true, completion: nil)
+//    }
+//}
