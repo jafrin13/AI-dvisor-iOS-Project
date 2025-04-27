@@ -2,7 +2,7 @@
 //  ChatbotViewController.swift
 //  AI-dvisor
 //
-//  Created by Mac Laptop on 3/3/25.
+//  Created by Lauren Leyendecker on 3/3/25.
 //
 
 import UIKit
@@ -162,7 +162,6 @@ class ChatbotViewController: MessagesViewController {
             prompt = """
                 Please use  mostly the following notes and your additional resources to create a practice \(materialType).
                 The notes are: \(notesContent).
-                If you are missing context or are not asked a question, do not confused the user and answer appropriately.
             """
         }
         
@@ -171,7 +170,6 @@ class ChatbotViewController: MessagesViewController {
             prompt = """
                 Please use  mostly the following notes and your additional resources to create flashcards.
                 The notes are: \(notesContent).
-                If you are missing context or are not asked a question, do not confused the user and answer appropriately.
             """
         }
         
@@ -435,7 +433,8 @@ extension ChatbotViewController: InputBarAccessoryViewDelegate {
         let prompt = """
             Please use  mostly the following notes and your additional resources to answer the given question. 
             The notes are: \(notesContent)
-            The question is: \(text)
+            The question is: \(text).
+            If you are missing context or are not asked a question, do not confuse the user and answer appropriately.
         """
         
         // send user's message to OpenAI to get a response
