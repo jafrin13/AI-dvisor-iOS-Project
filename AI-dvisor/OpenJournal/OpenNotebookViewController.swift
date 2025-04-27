@@ -28,13 +28,11 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      //  loadUploadedPDFs()
         pdfCollectionView.delegate = self
         pdfCollectionView.dataSource = self
 
         subjectLabel.text = journalTitle
 
-        // Do any additional setup after loading the view.
         let homeScreenGesture = UITapGestureRecognizer(target: self, action: #selector(homeBackImageTapped(_:)))
         
         homeBackButton.addGestureRecognizer(homeScreenGesture)
@@ -75,6 +73,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     // For Dark/Light Mode
     func onDarkLightMode(darkMode: Bool) {
         if (darkMode) {
+            
             // Dark mode: Set a navy blue background
             view.backgroundColor = UIColor(red: 12/255.0, green: 68/255.0, blue: 4/255.0, alpha: 1.0)
             pdfCollectionView.backgroundColor = UIColor(red: 12/255.0, green: 68/255.0, blue: 4/255.0, alpha: 1.0)
@@ -82,6 +81,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             addPDFButton.tintColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
             homeBackButton.tintColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
         } else {
+            
             // Light mode: Set the background to the original light color
             view.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
             pdfCollectionView.backgroundColor = UIColor(red: 211/255.0, green: 219/255.0, blue:  178/255.0,alpha: 1.0)
@@ -103,6 +103,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     }
 
     func loadUploadedPDFs() {
+        
         // make sure we are only loading the PDFs for the specific journal
         guard let journalTitle = self.journalTitle else { return }
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
@@ -124,6 +125,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
 
             guard let documents = snapshot?.documents else { return }
             for doc in documents {
+                
                 // Retrieve the file name (if not available, default to "Unknown.pdf")
                 let fileName = doc.data()["fileName"] as? String ?? "Unknown.pdf"
                 let pdfURL = doc.data()["pdfURL"] as? String ?? ""
@@ -147,8 +149,10 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
 
     @IBAction func onUploadButtonPressed(_ sender: Any) {
         let documentSelector = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.pdf])
+        
         // delegate should call document picker
         documentSelector.delegate = self
+        
         // user can only choose 1 file at a time
         documentSelector.allowsMultipleSelection = false
         present(documentSelector, animated: true, completion: nil)
@@ -165,6 +169,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     }
         
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        
         // make sure there is a selected file
         guard let selectedFile = urls.first else { return }
         
@@ -185,6 +190,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
             // call our method to make a thumnail
             if let thumbnail = generateThumbnail(from: tempFileURL) {
                 let fileName = selectedFile.lastPathComponent
+                
                 // I found this online, we want the visual updates to happen on the main thread
                 // so we can update the image here and now show the image, this is hard coded
                 // do a collection view to dynamically present the pdfs.
@@ -242,7 +248,6 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                 .translatedBy(x: 0, y: -pageRect.height)
             
             context.cgContext.concatenate(transform)
-            
             firstPage.draw(with: .mediaBox, to: context.cgContext)
         }
     }
@@ -299,6 +304,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     }
     
     func deletePDF(at indexPath: IndexPath) {
+        
         // get pdf item we want to delete
         let pdfItem = pdfItems[indexPath.item]
 
@@ -306,9 +312,9 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         let storageRef = Storage.storage().reference().child(pdfItem.filePath)
         storageRef.delete { error in
             if let error = error {
-                print("Error deleting file from Storage: \(error.localizedDescription)")
+                print("Error deleting file: \(error.localizedDescription)")
             } else {
-                print("Successfully deleted file from Storage")
+                print("Successfully deleted file")
             }
         }
 
@@ -322,14 +328,14 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
           .collection("journals").document(journalTitle)
           .collection("uploads")
 
-        // We assume you stored the download URL under "pdfURL"
-        uploadsRef
-          .whereField("pdfURL", isEqualTo: pdfItem.pdfURL)
-          .getDocuments { snapshot, error in
+        // Store the download URL under "pdfURL"
+        uploadsRef.whereField("pdfURL", isEqualTo: pdfItem.pdfURL).getDocuments { snapshot, error in
             if let error = error {
               print("Error finding Firestore doc to delete: \(error.localizedDescription)")
               return
             }
+            
+            // iterate upload docs and delete matching url
             snapshot?.documents.forEach { $0.reference.delete() }
             print("Successfully deleted Firestore metadata")
           }
