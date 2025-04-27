@@ -20,6 +20,7 @@ class SelectedNoteViewController: UIViewController {
     
     var delegate: UIViewController!
     var passedNoteTitle: String = "" // title of the displayed note passed from segue
+    var journalTitle: String? // name of journal user is currently in
     var noteFilePath: String = "" // path to the doc we want to display in Firebase passed from segue
     var folderFilePath: String = "" // path to the folder we want to store any generated content to passed from segue
     var localFileURL: URL? // local cached file retreived from Firebase
@@ -188,6 +189,7 @@ class SelectedNoteViewController: UIViewController {
         if segue.identifier == "toChatbotSegue", let chatbotVC = segue.destination as? ChatbotViewController {
             chatbotVC.folderFilePath = self.folderFilePath
             chatbotVC.localFileURL = self.localFileURL
+            chatbotVC.journalTitle = self.journalTitle!
             chatbotVC.delegate = delegate
             
             if let materialType = sender as? String {

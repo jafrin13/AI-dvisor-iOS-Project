@@ -21,6 +21,7 @@ class ChatbotViewController: MessagesViewController {
     var localFileURL: URL? // local cached file retreived from Firebase
     var studyMaterialType: String = "" // type of study material the user wants
     var notesContent: String = "" // stores the contents of the user's notes
+    var journalTitle: String? // name of journal user is currently in
     var messages: [Message] = [] // stores the messages in the chat
     let currentUser = Sender(senderId: "self", displayName: "User")
     let chatbot = Sender(senderId: "bot", displayName: "AI-dvisor")
@@ -175,7 +176,7 @@ class ChatbotViewController: MessagesViewController {
         
         // send user's message to OpenAI to get a response and save it as a PDF
         OpenAIConnector.shared.getResponse(prompt: prompt) { response in
-            print(response)
+            
             // save new PDF in list of PDFs displayed in the open notebook and reload the notebook view
             saveTextAsPDF(pdfContent: response, fileName: materialMade)
             
@@ -241,7 +242,7 @@ class ChatbotViewController: MessagesViewController {
             let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
             let tempFileURL = documentsPath.appendingPathComponent("\(fileName)").appendingPathExtension("pdf")
             try! data.write(to: tempFileURL)
-            
+                        
             // Generate thumbnail
             let thumbnail = generateThumbnail(from: tempFileURL) ?? UIImage(named: "defaultThumbnail")!
             // Upload PDF and once finished, upload the thumbnail
@@ -301,22 +302,18 @@ class ChatbotViewController: MessagesViewController {
         }
         
         // Uploads the PDF file and returns the URL
-        func uploadFileToFirebase(_ fileURL: URL, completion: @escaping (_ pdfURL: String, _ filePath: String) -> Void) {
-            
-            let filePath = "uploads/\(UUID().uuidString).pdf"
-           
-            // grabs the reference of the firebase storage
-            // then generates a unique name for the file under "uploads"
-            let storageRef = Storage.storage().reference().child("uploads/\(UUID().uuidString).pdf")
-            
-            let uploadPDF = storageRef.putFile(from: fileURL, metadata: nil) { metadata, error in
+        func uploadFileToFirebase(_ fileURL: URL, completion: @escaping (String, String) -> Void) {
+            guard let journalTitle = self.journalTitle else { return }
+
+            let filePath = "uploads/\(journalTitle)/\(UUID().uuidString).pdf"
+            let storageRef = Storage.storage().reference().child(filePath)
+
+            storageRef.putFile(from: fileURL, metadata: nil) { metadata, error in
                 if let error = error {
                     print("PDF upload to firebase failed: \(error.localizedDescription)")
                     return
                 }
-                
-                // for now we don't need the url of the pdf but I have the method return
-                // the file url just in case we need it for dynamically creating the multiple thumbnails
+
                 storageRef.downloadURL { url, error in
                     if let downloadURL = url {
                         print("File uploaded successfully: \(downloadURL.absoluteString)")
@@ -361,18 +358,26 @@ class ChatbotViewController: MessagesViewController {
         // searching and it said I can only control the schema through code and not the
         // firebase console)
         func saveFileMetadataToFirestore(pdfURL: String, thumbnailURL: String, fileName: String) {
+            guard let journalTitle = self.journalTitle else { return }
+
             let db = Firestore.firestore()
+            
             let data: [String: Any] = [
                 "pdfURL": pdfURL,
                 "thumbnailURL": thumbnailURL,
-                "fileName": fileName
+                "fileName": fileName,
+                "userId": Auth.auth().currentUser?.uid ?? "unknown",
+                "timestamp": FieldValue.serverTimestamp()
             ]
-            
-            db.collection("uploads").addDocument(data: data) { error in
+
+            guard let userId = Auth.auth().currentUser?.uid else { return }
+            db.collection("users").document(userId)
+              .collection("journals").document(journalTitle)
+              .collection("uploads").addDocument(data: data) { error in
                 if let error = error {
                     print("Failed to save metadata: \(error.localizedDescription)")
                 } else {
-                    print("File metadata saved successfully.")
+                    print("File metadata saved successfully for journal: \(journalTitle)")
                 }
             }
         }

@@ -51,6 +51,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadUploadedPDFs()
+        self.pdfCollectionView.reloadData()
     }
     
     // Fetch user from core and update UI
@@ -138,6 +139,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                             DispatchQueue.main.async {
                                 let pdfItem = PDFItem(thumbnail: image, fileName: fileName, pdfURL: pdfURL, filePath: filePath)
                                 self.pdfItems.append(pdfItem)
+                                self.pdfItems.sort { $0.fileName.lowercased() < $1.fileName.lowercased() }
                                 self.pdfCollectionView.reloadData()
                             }
                         }
@@ -201,6 +203,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
                     let pdfItem = PDFItem(thumbnail: thumbnail, fileName: fileName, pdfURL: pdfURL, filePath: filePath)
                     DispatchQueue.main.async {
                         self.pdfItems.append(pdfItem)
+                        self.pdfItems.sort { $0.fileName.lowercased() < $1.fileName.lowercased() }
                         self.pdfCollectionView.reloadData()
                     }
                 }
@@ -409,6 +412,7 @@ class OpenNotebookViewController: UIViewController, UIDocumentPickerDelegate,  U
         let storyboard = UIStoryboard(name: "Lauren_Storyboard", bundle: nil)
         if let selectedNoteVC = storyboard.instantiateViewController(withIdentifier: "SelectedNoteVC") as? SelectedNoteViewController {
             selectedNoteVC.delegate = self
+            selectedNoteVC.journalTitle = self.journalTitle!
             selectedNoteVC.passedNoteTitle = selectedPDF.fileName
             selectedNoteVC.noteFilePath = getPathFromURL(selectedPDF.pdfURL) // Helper below
             selectedNoteVC.folderFilePath = "generated/\(selectedPDF.fileName)" // Customize as needed
